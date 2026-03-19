@@ -1,0 +1,140 @@
+[
+  {
+    "id": "1aa96313-d00d-4683-949a-efe4d9337001",
+    "code": "OC-CAP2026-L03002",
+    "type": "OC",
+    "area": "L",
+    "userId": "user-l",
+    "userName": "Angy Marioli Ureta Ureta",
+    "workUnit": "HUANCAYO",
+    "providerId": "cce192f2-a677-4ec9-b099-20c572a94c38",
+    "providerName": "POMATAY PAQUIYAURI ANGEL MIGUEL",
+    "requester": "Angy Marioli Ureta Ureta",
+    "status": "Aprobado",
+    "currency": "PEN",
+    "totalAmount": 767,
+    "issueDate": "2026-03-19",
+    "items": [
+      {
+        "id": "53cdfc49-51c2-4b10-bff4-47c8f9ab2330",
+        "quantity": 1,
+        "description": "Item migrado",
+        "unitPrice": 650,
+        "amount": 650
+      }
+    ],
+    "subtotalAmount": 650,
+    "igvAmount": 117,
+    "retentionAmount": 23,
+    "payableAmount": 744,
+    "applyRetention": true,
+    "amountInWords": "SETECIENTOS CUARENTA Y CUATRO CON 00/100 SOLES"
+  },
+  {
+    "id": "a7f6ff89-7758-43bc-9ae0-ed3c77bef50c",
+    "code": "OC-L-2026-000002",
+    "type": "OC",
+    "area": "L",
+    "userId": "user-l",
+    "userName": "Usuario Logistica",
+    "workUnit": "",
+    "providerId": "cce192f2-a677-4ec9-b099-20c572a94c38",
+    "providerName": "POMATAY PAQUIYAURI ANGEL MIGUEL",
+    "requester": "Usuario Logistica",
+    "status": "Aprobado",
+    "currency": "PEN",
+    "items": [
+      {
+        "id": "d3840752-fcfc-46ee-b176-1e9ce2612cc1",
+        "quantity": 1,
+        "description": "CONTENEDORES DE RR.SS 1100LT COLOR NEGRO CON RUEDAS",
+        "unitPrice": 1124.58,
+        "amount": 1124.58
+      }
+    ],
+    "subtotalAmount": 1124.58,
+    "igvAmount": 202.42,
+    "retentionAmount": 40,
+    "payableAmount": 1287,
+    "applyRetention": true,
+    "amountInWords": "MIL DOSCIENTOS OCHENTA Y SIETE CON 00/100 SOLES",
+    "totalAmount": 1327,
+    "issueDate": "2026-03-19"
+  },
+  {
+    "id": "c0e5035d-a957-4607-93b1-886c299e852a",
+    "code": "OS-CAP2026-C03001",
+    "type": "OS",
+    "area": "C",
+    "userId": "user-c",
+    "userName": "Usuario Contabilidad",
+    "workUnit": "HUANCAYO",
+    "providerId": "cce192f2-a677-4ec9-b099-20c572a94c38",
+    "providerName": "POMATAY PAQUIYAURI ANGEL MIGUEL",
+    "requester": "Usuario Contabilidad",
+    "status": "Borrador",
+    "currency": "USD",
+    "items": [
+      {
+        "id": "f85100c0-c552-4e2b-9ece-85cd0f37237f",
+        "quantity": 1,
+        "description": "APLICACION MOVIL PARA CONTROL DE ASISTENCIA DE PERSONAL PACIFICO",
+        "unitPrice": 356.51,
+        "amount": 356.51
+      },
+      {
+        "id": "b08b4743-8c5e-44d1-9898-64d66d708715",
+        "quantity": 1,
+        "description": "DESPLIEGUE EN LINEA DE APLICACION MOVIL",
+        "unitPrice": 100,
+        "amount": 100
+      }
+    ],
+    "subtotalAmount": 456.51,
+    "igvAmount": 82.17,
+    "retentionAmount": 16,
+    "payableAmount": 522.68,
+    "applyRetention": true,
+    "amountInWords": "QUINIENTOS VEINTIDOS CON 68/100 DOLARES",
+    "totalAmount": 538.68,
+    "issueDate": "2026-03-19"
+  },
+  {
+    "id": "69913d8d-a00f-4f2a-b860-9b9e264ad594",
+    "code": "OC-CAP2026-L03003",
+    "type": "OC",
+    "area": "L",
+    "userId": "user-l",
+    "userName": "Angy Marioli Ureta Ureta",
+    "workUnit": "RECUPERADA",
+    "providerId": "cce192f2-a677-4ec9-b099-20c572a94c38",
+    "providerName": "POMATAY PAQUIYAURI ANGEL MIGUEL",
+    "requester": "Angy Marioli Ureta Ureta",
+    "status": "Borrador",
+    "currency": "PEN",
+    "items": [
+      {
+        "id": "cb8d87c7-2661-4698-8d9a-df56e084bb6e",
+        "quantity": 2,
+        "description": "BROCAS DE 35\"",
+        "unitPrice": 75.22,
+        "amount": 150.44
+      },
+      {
+        "id": "d5c64d38-ca6a-4f8d-ad4f-2825fd09ae68",
+        "quantity": 1,
+        "description": "BARRENO DE 4 PIES\"",
+        "unitPrice": 150.65,
+        "amount": 150.65
+      }
+    ],
+    "subtotalAmount": 301.09,
+    "igvAmount": 54.2,
+    "retentionAmount": 11,
+    "payableAmount": 344.29,
+    "applyRetention": true,
+    "amountInWords": "TRESCIENTOS CUARENTA Y CUATRO CON 29/100 SOLES",
+    "totalAmount": 355.29,
+    "issueDate": "2026-03-19"
+  }
+]

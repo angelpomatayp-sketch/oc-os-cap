@@ -1,0 +1,37 @@
+[
+  {
+    "id": "user-admin",
+    "name": "Admin Sistema",
+    "role": "ADMIN",
+    "email": "admin@pacifico.local",
+    "passwordHash": "0d40a1321a192ad59870962dfa689dba:f1a45c63b0f49de07f2a059521ef269492ea0d656580b65c411090a57cd585cfc74b494e44dab3194f266b325066336b66f69af376fefff85746fdba9e8beb60"
+  },
+  {
+    "id": "user-l",
+    "name": "Angy Marioli Ureta Ureta",
+    "role": "L",
+    "email": "logistica@pacifico.local",
+    "passwordHash": "0d40a1321a192ad59870962dfa689dba:f1a45c63b0f49de07f2a059521ef269492ea0d656580b65c411090a57cd585cfc74b494e44dab3194f266b325066336b66f69af376fefff85746fdba9e8beb60"
+  },
+  {
+    "id": "user-c",
+    "name": "Usuario Contabilidad",
+    "role": "C",
+    "email": "contabilidad@pacifico.local",
+    "passwordHash": "0d40a1321a192ad59870962dfa689dba:f1a45c63b0f49de07f2a059521ef269492ea0d656580b65c411090a57cd585cfc74b494e44dab3194f266b325066336b66f69af376fefff85746fdba9e8beb60"
+  },
+  {
+    "id": "user-e",
+    "name": "Usuario Equipos",
+    "role": "E",
+    "email": "equipos@pacifico.local",
+    "passwordHash": "0d40a1321a192ad59870962dfa689dba:f1a45c63b0f49de07f2a059521ef269492ea0d656580b65c411090a57cd585cfc74b494e44dab3194f266b325066336b66f69af376fefff85746fdba9e8beb60"
+  },
+  {
+    "id": "user-f",
+    "name": "Usuario Finanzas",
+    "role": "F",
+    "email": "finanzas@pacifico.local",
+    "passwordHash": "0d40a1321a192ad59870962dfa689dba:f1a45c63b0f49de07f2a059521ef269492ea0d656580b65c411090a57cd585cfc74b494e44dab3194f266b325066336b66f69af376fefff85746fdba9e8beb60"
+  }
+]

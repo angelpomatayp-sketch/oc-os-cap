@@ -1,0 +1,13 @@
+{
+  "companyName": "CONTRATISTAS ASOCIADOS PACIFICO SRL",
+  "companyRuc": "20487244423",
+  "companyAddress": "UVC 178 SECTOR 037 LT 5B ZONA \"O\" PROY. ESP. HUAYCAN ATE - LIMA",
+  "companyContact": "ZENAIDA SANTIAGO JAVIER",
+  "companyEmail": "zenaida.santiago@pacifico.pe",
+  "companyPhone": "064-586932",
+  "companyCell": "995834121",
+  "igvRate": 18,
+  "retentionRate": 3,
+  "retentionEnabled": true,
+  "retentionThreshold": 700
+}
