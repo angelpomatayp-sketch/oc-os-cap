@@ -310,7 +310,7 @@ export default async function OrderPdfPage({
 
         <footer className="order-print__footer">
           <p>Atentamente,</p>
-          <p>{order.requester}</p>
+          <p>{settings.companyContact}</p>
           <p>{settings.companyName}</p>
         </footer>
       </article>
