@@ -1339,7 +1339,7 @@ button {
 }
 
 .order-print__totals-table {
-  width: 32%;
+  width: 31.5%;
   margin-left: auto;
   margin-top: 0;
   border-collapse: collapse;
@@ -1351,6 +1351,7 @@ button {
   padding: 4px 6px;
   border: 1px solid #111827;
   background: #fff;
+  box-sizing: border-box;
 }
 
 .order-print__totals-label {
@@ -1370,18 +1371,20 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 6px;
   white-space: nowrap;
   width: 100%;
+  min-width: 0;
 }
 
 .order-print__money-cell span {
-  min-width: 22px;
+  min-width: 18px;
   text-align: left;
 }
 
 .order-print__money-cell strong {
-  min-width: 78px;
+  min-width: 0;
+  flex: 1;
   text-align: right;
   font-weight: 400;
 }
