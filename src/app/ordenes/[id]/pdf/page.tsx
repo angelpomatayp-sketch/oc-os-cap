@@ -194,11 +194,11 @@ export default async function OrderPdfPage({
         <section className="order-print__block">
           <table className="order-print__items">
             <colgroup>
-              <col style={{ width: "6%" }} />
+              <col style={{ width: "5%" }} />
               <col style={{ width: "7%" }} />
-              <col style={{ width: "55%" }} />
-              <col style={{ width: "16%" }} />
-              <col style={{ width: "16%" }} />
+              <col style={{ width: "59%" }} />
+              <col style={{ width: "14.5%" }} />
+              <col style={{ width: "14.5%" }} />
             </colgroup>
             <thead>
               <tr>

@@ -1344,7 +1344,7 @@ button {
 }
 
 .order-print__totals-table {
-  width: 32%;
+  width: 29%;
   margin-left: auto;
   margin-top: 0;
   border-collapse: collapse;
@@ -1364,7 +1364,7 @@ button {
   text-align: right;
   white-space: nowrap;
   padding-right: 10px !important;
-  width: 58%;
+  width: 52%;
 }
 
 .order-print__totals-value {
