@@ -1357,13 +1357,14 @@ button {
   border: 1px solid #111827;
   background: #fff;
   box-sizing: border-box;
+  font-size: 11px;
 }
 
 .order-print__totals-label {
   font-weight: 700;
   text-align: right;
   white-space: nowrap;
-  padding-right: 10px !important;
+  padding-right: 8px !important;
   width: 52%;
 }
 
@@ -1376,14 +1377,14 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
+  gap: 4px;
   white-space: nowrap;
   width: 100%;
   min-width: 0;
 }
 
 .order-print__money-cell span {
-  min-width: 22px;
+  min-width: 18px;
   text-align: left;
 }
 
