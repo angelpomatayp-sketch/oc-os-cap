@@ -1239,6 +1239,23 @@ button {
   border-collapse: collapse;
   border: 1px solid #111827;
   background: transparent;
+  table-layout: fixed;
+}
+
+.order-print__info-col--label-left {
+  width: 11%;
+}
+
+.order-print__info-col--value-left {
+  width: 60%;
+}
+
+.order-print__info-col--label-right {
+  width: 13.5%;
+}
+
+.order-print__info-col--value-right {
+  width: 15.5%;
 }
 
 .order-print__info-table td,
@@ -1247,18 +1264,6 @@ button {
   border: 1px solid #111827;
   vertical-align: top;
   background: transparent;
-}
-
-.order-print__info-table td:nth-child(1) {
-  width: 80px;
-}
-
-.order-print__info-table td:nth-child(3) {
-  width: 84px;
-}
-
-.order-print__info-table td:nth-child(4) {
-  width: 112px;
 }
 
 .order-print__notes-table td:first-child {
@@ -1283,7 +1288,7 @@ button {
 }
 
 .order-print__label--right {
-  text-align: right;
+  text-align: center;
   white-space: nowrap;
 }
 
@@ -1359,7 +1364,7 @@ button {
   text-align: right;
   white-space: nowrap;
   padding-right: 10px !important;
-  width: 62%;
+  width: 58%;
 }
 
 .order-print__totals-value {
