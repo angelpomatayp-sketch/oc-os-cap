@@ -1316,6 +1316,7 @@ button {
   width: 100%;
   border-collapse: collapse;
   border: 1px solid #111827;
+  table-layout: fixed;
 }
 
 .order-print__items th,
@@ -1365,7 +1366,7 @@ button {
   text-align: right;
   white-space: nowrap;
   padding-right: 8px !important;
-  width: 52%;
+  width: 50%;
 }
 
 .order-print__totals-value {
