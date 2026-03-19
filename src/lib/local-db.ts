@@ -205,6 +205,7 @@ function mapOrder(
     operationType: (order.operationType || "ninguna") as OrderRecord["operationType"],
     detraccionAmount: toNumber(order.detraccionAmount),
     detraccionRate: toNumber(order.detraccionRate),
+    itemsIncludeIgv: order.itemsIncludeIgv,
   } satisfies OrderRecord;
 }
 
@@ -351,6 +352,7 @@ export async function saveOrders(orders: OrderRecord[]) {
           operationType: order.operationType,
           detraccionAmount: new Prisma.Decimal(order.detraccionAmount),
           detraccionRate: new Prisma.Decimal(order.detraccionRate),
+          itemsIncludeIgv: order.itemsIncludeIgv,
         },
         create: {
           id: order.id,
@@ -374,6 +376,7 @@ export async function saveOrders(orders: OrderRecord[]) {
           operationType: order.operationType,
           detraccionAmount: new Prisma.Decimal(order.detraccionAmount),
           detraccionRate: new Prisma.Decimal(order.detraccionRate),
+          itemsIncludeIgv: order.itemsIncludeIgv,
         },
       });
 

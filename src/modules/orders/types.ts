@@ -105,6 +105,7 @@ export type OrderRecord = {
   operationType: DetraccionType;
   detraccionAmount: number;
   detraccionRate: number;
+  itemsIncludeIgv: boolean;
 };
 
 export type OrderFormValues = {
@@ -119,6 +120,7 @@ export type OrderFormValues = {
   totalAmount: number;
   issueDate: string;
   operationType: DetraccionType;
+  itemsIncludeIgv: boolean;
 };
 
 export type MetricCard = {

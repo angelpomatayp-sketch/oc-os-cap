@@ -29,6 +29,7 @@ const emptyOrder: OrderFormValues = {
   totalAmount: 0,
   issueDate: "",
   operationType: "ninguna",
+  itemsIncludeIgv: false,
 };
 
 const statusClass: Record<DocumentStatus, string> = {
@@ -128,6 +129,7 @@ function normalizeStoredOrder(order: OrderRecord): OrderRecord {
     operationType: order.operationType ?? "ninguna",
     detraccionAmount: order.detraccionAmount ?? 0,
     detraccionRate: order.detraccionRate ?? 0,
+    itemsIncludeIgv: order.itemsIncludeIgv ?? false,
   };
 }
 
@@ -227,6 +229,7 @@ export function OrdersManager({
       totalAmount: order.totalAmount,
       issueDate: order.issueDate,
       operationType: order.operationType ?? "ninguna",
+      itemsIncludeIgv: order.itemsIncludeIgv ?? false,
     });
     setItemDrafts(buildItemDrafts(order.items));
     setError("");
@@ -247,6 +250,7 @@ export function OrdersManager({
       operationType: form.operationType,
       orderType: form.type,
       isRetentionAgent: selectedProvider?.isRetentionAgent ?? false,
+      itemsIncludeIgv: form.itemsIncludeIgv,
     });
 
     setForm((current) => ({
@@ -339,6 +343,7 @@ export function OrdersManager({
     operationType: form.operationType,
     orderType: form.type,
     isRetentionAgent: selectedProvider?.isRetentionAgent ?? false,
+    itemsIncludeIgv: form.itemsIncludeIgv,
   });
   const amountInWords = amountToWords(totals.payableAmount, form.currency);
 
@@ -609,6 +614,16 @@ export function OrdersManager({
                 <option value="transporte">Servicio de transporte — 4% (umbral S/400)</option>
                 <option value="madera">Compra de madera — 4% (umbral S/700)</option>
               </select>
+            </label>
+            <label className="settings-form__checkbox modal-field--full">
+              <input
+                type="checkbox"
+                checked={form.itemsIncludeIgv}
+                onChange={(event) =>
+                  setForm((current) => ({ ...current, itemsIncludeIgv: event.target.checked }))
+                }
+              />
+              <span>Los precios de los ítems ya incluyen IGV</span>
             </label>
             <p className="tax-toggle__copy">
               IGV: {settings.igvRate}% | Retención: {settings.retentionRate}% (OC &gt; S/{settings.retentionThreshold.toFixed(0)}, solo si proveedor no es agente de retención)

@@ -100,6 +100,7 @@ model Order {
   operationType     String         @default("")
   detraccionAmount  Decimal        @db.Decimal(12, 2) @default(0)
   detraccionRate    Decimal        @db.Decimal(5, 2)  @default(0)
+  itemsIncludeIgv   Boolean        @default(false)
   userId          String
   providerId      String
   createdAt       DateTime       @default(now())

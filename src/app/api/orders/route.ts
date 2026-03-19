@@ -35,6 +35,7 @@ function normalizeFormFields(payload: OrderFormValues): OrderFormValues {
     workUnit: payload.workUnit.trim(),
     items: normalizeItems(payload.items),
     operationType: payload.operationType ?? "ninguna",
+    itemsIncludeIgv: Boolean(payload.itemsIncludeIgv),
   };
 }
 
@@ -101,6 +102,7 @@ export async function POST(request: Request) {
     operationType: payload.operationType,
     orderType: payload.type,
     isRetentionAgent: provider.isRetentionAgent,
+    itemsIncludeIgv: payload.itemsIncludeIgv,
   });
 
   const newOrder: OrderRecord = {
@@ -128,6 +130,7 @@ export async function POST(request: Request) {
     operationType: payload.operationType,
     detraccionAmount: totals.detraccionAmount,
     detraccionRate: totals.detraccionRate,
+    itemsIncludeIgv: payload.itemsIncludeIgv,
   };
 
   orders.push(newOrder);

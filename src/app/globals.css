@@ -668,10 +668,10 @@ button {
 }
 
 .modal-card {
-  width: min(1080px, 100%);
+  width: min(720px, 95vw);
   max-height: calc(100vh - 48px);
   overflow: auto;
-  border-radius: 24px;
+  border-radius: 18px;
   background: #ffffff;
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.24);
 }
@@ -680,13 +680,13 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 22px 24px 0;
+  gap: 12px;
+  padding: 16px 20px 0;
 }
 
 .modal-card__title {
   margin: 0;
-  font-size: 24px;
+  font-size: 18px;
   color: #1f2a44;
 }
 
@@ -698,32 +698,32 @@ button {
 }
 
 .modal-form {
-  padding: 20px 24px 24px;
+  padding: 14px 20px 20px;
 }
 
 .modal-grid {
   display: grid;
-  gap: 16px;
+  gap: 10px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .modal-field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
 }
 
 .modal-field span {
   color: #475569;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
 }
 
 .modal-field input,
 .modal-field select {
-  padding: 13px 14px;
+  padding: 8px 10px;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 10px;
   background: #f8fafc;
   outline: none;
 }
@@ -735,19 +735,19 @@ button {
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 24px;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 .tax-toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-top: 20px;
-  padding: 16px 18px;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 10px 14px;
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 12px;
   background: #f8fafc;
 }
 
@@ -767,9 +767,9 @@ button {
 }
 
 .order-items {
-  margin-top: 24px;
+  margin-top: 14px;
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: 14px;
   background: #fff;
 }
 
@@ -777,8 +777,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 20px 20px 16px;
+  gap: 12px;
+  padding: 12px 16px 10px;
 }
 
 .order-items__title {
@@ -810,7 +810,7 @@ button {
 
 .order-items__table th,
 .order-items__table td {
-  padding: 14px 20px;
+  padding: 8px 12px;
   border-top: 1px solid #edf2f7;
   text-align: left;
   vertical-align: middle;
@@ -826,10 +826,10 @@ button {
 
 .order-items__input {
   width: 100%;
-  min-width: 160px;
-  padding: 12px 14px;
+  min-width: 120px;
+  padding: 7px 10px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 8px;
   background: #f8fafc;
   outline: none;
 }
@@ -846,13 +846,13 @@ button {
 }
 
 .order-summary {
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 .order-summary__grid {
   display: grid;
-  gap: 16px;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 260px);
 }
 
 .order-summary__metrics,
@@ -871,8 +871,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 12px 0;
+  gap: 12px;
+  padding: 8px 0;
   border-bottom: 1px solid #e4ebf7;
 }
 
@@ -888,7 +888,7 @@ button {
 
 .order-summary__line strong {
   color: #111827;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .order-summary__line--highlight strong {
@@ -898,8 +898,8 @@ button {
 .order-summary__card {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 16px 18px;
+  gap: 6px;
+  padding: 12px 14px;
 }
 
 .order-summary__card span {
@@ -909,7 +909,7 @@ button {
 }
 
 .order-summary__card strong {
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .order-summary__card p {
@@ -1149,7 +1149,7 @@ button {
   background: #fff;
   color: #111;
   box-shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Arial Narrow", Arial, Helvetica, sans-serif;
   font-size: 12px;
 }
 

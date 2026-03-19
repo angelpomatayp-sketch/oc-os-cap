@@ -146,13 +146,28 @@ export function calculateOrderTotals(
     orderType?: "OC" | "OS";
     isRetentionAgent?: boolean;
     manualRetention?: boolean;
+    itemsIncludeIgv?: boolean;
   } = {},
 ) {
-  const subtotalAmount = Number(
+  const itemsSum = Number(
     items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0).toFixed(2),
   );
-  const igvAmount = Number((subtotalAmount * ((settings.igvRate || 0) / 100)).toFixed(2));
-  const totalAmount = Number((subtotalAmount + igvAmount).toFixed(2));
+  const igvRate = settings.igvRate || 0;
+
+  let subtotalAmount: number;
+  let igvAmount: number;
+  let totalAmount: number;
+
+  if (options.itemsIncludeIgv) {
+    // Items already include IGV → back-calculate subtotal
+    totalAmount = itemsSum;
+    subtotalAmount = Number((totalAmount / (1 + igvRate / 100)).toFixed(2));
+    igvAmount = Number((totalAmount - subtotalAmount).toFixed(2));
+  } else {
+    subtotalAmount = itemsSum;
+    igvAmount = Number((subtotalAmount * (igvRate / 100)).toFixed(2));
+    totalAmount = Number((subtotalAmount + igvAmount).toFixed(2));
+  }
 
   const {
     operationType = "ninguna",
