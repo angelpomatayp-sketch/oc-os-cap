@@ -16,6 +16,7 @@ const emptyProvider: ProviderFormValues = {
   bankAccount: "",
   bankCci: "",
   detraccionAccount: "",
+  isRetentionAgent: false,
 };
 
 export function ProvidersManager({
@@ -56,6 +57,7 @@ export function ProvidersManager({
       bankAccount: provider.bankAccount,
       bankCci: provider.bankCci,
       detraccionAccount: provider.detraccionAccount,
+      isRetentionAgent: provider.isRetentionAgent,
     });
     setError("");
     setOpen(true);
@@ -271,6 +273,19 @@ export function ProvidersManager({
                   }))
                 }
               />
+            </label>
+            <label className="settings-form__checkbox modal-field--full">
+              <input
+                type="checkbox"
+                checked={form.isRetentionAgent}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    isRetentionAgent: event.target.checked,
+                  }))
+                }
+              />
+              <span>Es agente de retención (no se le descuenta el 3%)</span>
             </label>
           </div>
 

@@ -1,4 +1,14 @@
-import type { CurrencyCode, OrderItem, SystemSettings } from "@/modules/orders/types";
+import type { CurrencyCode, DetraccionType, OrderItem, SystemSettings } from "@/modules/orders/types";
+
+export const DETRACCION_CATALOG: Record<
+  Exclude<DetraccionType, "ninguna">,
+  { label: string; rate: number; threshold: number }
+> = {
+  instalacion: { label: "Servicio de instalación", rate: 12, threshold: 700 },
+  alquiler:    { label: "Servicio de alquiler",    rate: 10, threshold: 700 },
+  transporte:  { label: "Servicio de transporte",  rate:  4, threshold: 400 },
+  madera:      { label: "Compra de madera",         rate:  4, threshold: 700 },
+};
 
 const UNITS = [
   "",
@@ -131,30 +141,69 @@ export function amountToWords(amount: number, currency: CurrencyCode) {
 export function calculateOrderTotals(
   items: OrderItem[],
   settings: Pick<SystemSettings, "igvRate" | "retentionRate" | "retentionEnabled" | "retentionThreshold">,
-  applyRetention?: boolean,
+  options: {
+    operationType?: DetraccionType;
+    orderType?: "OC" | "OS";
+    isRetentionAgent?: boolean;
+    manualRetention?: boolean;
+  } = {},
 ) {
   const subtotalAmount = Number(
     items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0).toFixed(2),
   );
   const igvAmount = Number((subtotalAmount * ((settings.igvRate || 0) / 100)).toFixed(2));
   const totalAmount = Number((subtotalAmount + igvAmount).toFixed(2));
-  const retentionAllowed =
-    settings.retentionEnabled && totalAmount >= (settings.retentionThreshold || 0);
-  const effectiveRetention = applyRetention ?? retentionAllowed;
-  const rawRetentionAmount = effectiveRetention
-    ? totalAmount * ((settings.retentionRate || 0) / 100)
-    : 0;
-  const retentionAmount = effectiveRetention
-    ? Number(Math.round(rawRetentionAmount).toFixed(2))
-    : 0;
-  const payableAmount = Number((totalAmount - retentionAmount).toFixed(2));
+
+  const {
+    operationType = "ninguna",
+    orderType = "OC",
+    isRetentionAgent = false,
+    manualRetention,
+  } = options;
+
+  // Detraccion logic
+  let detraccionRate = 0;
+  let detraccionAmount = 0;
+  let applyDetraccion = false;
+
+  if (operationType !== "ninguna") {
+    const rule = DETRACCION_CATALOG[operationType];
+    if (rule && totalAmount > rule.threshold) {
+      detraccionRate = rule.rate;
+      detraccionAmount = Number((totalAmount * (rule.rate / 100)).toFixed(2));
+      applyDetraccion = true;
+    }
+  }
+
+  // Retention logic — only when no detraction, order is OC, and provider is not retention agent
+  let retentionAmount = 0;
+  let applyRetention = false;
+
+  if (!applyDetraccion) {
+    const retentionAllowed =
+      settings.retentionEnabled &&
+      orderType === "OC" &&
+      !isRetentionAgent &&
+      totalAmount >= (settings.retentionThreshold || 0);
+    applyRetention = manualRetention ?? retentionAllowed;
+    const rawRetentionAmount = applyRetention
+      ? totalAmount * ((settings.retentionRate || 0) / 100)
+      : 0;
+    retentionAmount = applyRetention
+      ? Number(Math.round(rawRetentionAmount).toFixed(2))
+      : 0;
+  }
+
+  const payableAmount = Number((totalAmount - detraccionAmount - retentionAmount).toFixed(2));
 
   return {
     subtotalAmount,
     igvAmount,
     totalAmount,
-    retentionAllowed,
-    applyRetention: effectiveRetention,
+    applyDetraccion,
+    detraccionRate,
+    detraccionAmount,
+    applyRetention,
     retentionAmount,
     payableAmount,
   };

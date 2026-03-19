@@ -131,6 +131,7 @@ function mapProvider(provider: {
   bankAccount: string;
   bankCci: string;
   detraccionAccount: string;
+  isRetentionAgent: boolean;
 }) {
   return {
     id: provider.id,
@@ -144,6 +145,7 @@ function mapProvider(provider: {
     bankAccount: provider.bankAccount,
     bankCci: provider.bankCci,
     detraccionAccount: provider.detraccionAccount,
+    isRetentionAgent: provider.isRetentionAgent,
   } satisfies ProviderSummary;
 }
 
@@ -200,6 +202,9 @@ function mapOrder(
     amountInWords: order.amountInWords,
     totalAmount: toNumber(order.totalAmount),
     issueDate: toIsoDate(order.issueDate),
+    operationType: (order.operationType || "ninguna") as OrderRecord["operationType"],
+    detraccionAmount: toNumber(order.detraccionAmount),
+    detraccionRate: toNumber(order.detraccionRate),
   } satisfies OrderRecord;
 }
 
@@ -276,6 +281,7 @@ export async function saveProviders(providers: ProviderSummary[]) {
           bankAccount: provider.bankAccount,
           bankCci: provider.bankCci,
           detraccionAccount: provider.detraccionAccount,
+          isRetentionAgent: provider.isRetentionAgent,
         },
         create: {
           id: provider.id,
@@ -289,6 +295,7 @@ export async function saveProviders(providers: ProviderSummary[]) {
           bankAccount: provider.bankAccount,
           bankCci: provider.bankCci,
           detraccionAccount: provider.detraccionAccount,
+          isRetentionAgent: provider.isRetentionAgent,
         },
       });
     }
@@ -341,6 +348,9 @@ export async function saveOrders(orders: OrderRecord[]) {
           totalAmount: new Prisma.Decimal(order.totalAmount),
           userId: order.userId,
           providerId: order.providerId,
+          operationType: order.operationType,
+          detraccionAmount: new Prisma.Decimal(order.detraccionAmount),
+          detraccionRate: new Prisma.Decimal(order.detraccionRate),
         },
         create: {
           id: order.id,
@@ -361,6 +371,9 @@ export async function saveOrders(orders: OrderRecord[]) {
           totalAmount: new Prisma.Decimal(order.totalAmount),
           userId: order.userId,
           providerId: order.providerId,
+          operationType: order.operationType,
+          detraccionAmount: new Prisma.Decimal(order.detraccionAmount),
+          detraccionRate: new Prisma.Decimal(order.detraccionRate),
         },
       });
 

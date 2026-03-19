@@ -5,9 +5,10 @@ import { useState } from "react";
 
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { Modal } from "@/components/dashboard/modal";
-import { amountToWords, calculateOrderTotals } from "@/lib/order-calculations";
+import { amountToWords, calculateOrderTotals, DETRACCION_CATALOG } from "@/lib/order-calculations";
 import type {
   AppUser,
+  DetraccionType,
   DocumentStatus,
   OrderFormValues,
   OrderItem,
@@ -27,6 +28,7 @@ const emptyOrder: OrderFormValues = {
   applyRetention: false,
   totalAmount: 0,
   issueDate: "",
+  operationType: "ninguna",
 };
 
 const statusClass: Record<DocumentStatus, string> = {
@@ -104,7 +106,7 @@ function recalculateItem(item: OrderItem): OrderItem {
   };
 }
 
-function normalizeStoredOrder(order: OrderRecord, settings: SystemSettings): OrderRecord {
+function normalizeStoredOrder(order: OrderRecord): OrderRecord {
   const items =
     order.items && order.items.length > 0
       ? order.items.map(recalculateItem)
@@ -120,20 +122,12 @@ function normalizeStoredOrder(order: OrderRecord, settings: SystemSettings): Ord
           ]
         : [];
 
-  const totals = calculateOrderTotals(items, settings, order.applyRetention);
-
   return {
     ...order,
     items,
-    subtotalAmount: order.subtotalAmount ?? totals.subtotalAmount,
-    igvAmount: order.igvAmount ?? totals.igvAmount,
-    retentionAmount: order.retentionAmount ?? totals.retentionAmount,
-    payableAmount: order.payableAmount ?? totals.payableAmount,
-    applyRetention: order.applyRetention ?? totals.applyRetention,
-    amountInWords:
-      order.amountInWords ??
-      amountToWords(order.payableAmount ?? totals.payableAmount, order.currency),
-    totalAmount: order.totalAmount ?? totals.totalAmount,
+    operationType: order.operationType ?? "ninguna",
+    detraccionAmount: order.detraccionAmount ?? 0,
+    detraccionRate: order.detraccionRate ?? 0,
   };
 }
 
@@ -167,7 +161,7 @@ export function OrdersManager({
   settings: SystemSettings;
 }) {
   const [orders, setOrders] = useState<OrderRecord[]>(() =>
-    initialOrders.map((order) => normalizeStoredOrder(order, settings)),
+    initialOrders.map((order) => normalizeStoredOrder(order)),
   );
   const [providers, setProviders] = useState<ProviderSummary[]>(initialProviders);
   const [open, setOpen] = useState(false);
@@ -190,7 +184,7 @@ export function OrdersManager({
       providersResponse.json(),
     ])) as [OrderRecord[], ProviderSummary[]];
 
-    setOrders(ordersData.map((order) => normalizeStoredOrder(order, settings)));
+    setOrders(ordersData.map((order) => normalizeStoredOrder(order)));
     setProviders(providersData);
   }
   const visibleOrders =
@@ -210,7 +204,8 @@ export function OrdersManager({
       ...emptyOrder,
       userId: currentUser.id,
       items: [createEmptyItem()],
-      applyRetention: settings.retentionEnabled,
+      applyRetention: false,
+      operationType: "ninguna",
       issueDate: new Date().toISOString().slice(0, 10),
     });
     setItemDrafts({});
@@ -231,6 +226,7 @@ export function OrdersManager({
       applyRetention: order.applyRetention,
       totalAmount: order.totalAmount,
       issueDate: order.issueDate,
+      operationType: order.operationType ?? "ninguna",
     });
     setItemDrafts(buildItemDrafts(order.items));
     setError("");
@@ -246,11 +242,12 @@ export function OrdersManager({
 
   function setItems(nextItems: OrderItem[]) {
     const normalizedItems = nextItems.map(recalculateItem);
-    const totals = calculateOrderTotals(
-      normalizedItems,
-      settings,
-      form.applyRetention,
-    );
+    const selectedProvider = providers.find((p) => p.id === form.providerId);
+    const totals = calculateOrderTotals(normalizedItems, settings, {
+      operationType: form.operationType,
+      orderType: form.type,
+      isRetentionAgent: selectedProvider?.isRetentionAgent ?? false,
+    });
 
     setForm((current) => ({
       ...current,
@@ -337,7 +334,12 @@ export function OrdersManager({
     }));
   }
 
-  const totals = calculateOrderTotals(form.items, settings, form.applyRetention);
+  const selectedProvider = providers.find((p) => p.id === form.providerId);
+  const totals = calculateOrderTotals(form.items, settings, {
+    operationType: form.operationType,
+    orderType: form.type,
+    isRetentionAgent: selectedProvider?.isRetentionAgent ?? false,
+  });
   const amountInWords = amountToWords(totals.payableAmount, form.currency);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -590,23 +592,26 @@ export function OrdersManager({
           </div>
 
           <section className="tax-toggle">
-            <label className="tax-toggle__label">
-              <input
-                type="checkbox"
-                checked={form.applyRetention}
+            <label className="modal-field modal-field--full">
+              <span>Tipo de operación (detracción)</span>
+              <select
+                value={form.operationType}
                 onChange={(event) =>
                   setForm((current) => ({
                     ...current,
-                    applyRetention: event.target.checked,
+                    operationType: event.target.value as DetraccionType,
                   }))
                 }
-              />
-              <span>Aplicar retencion automatica</span>
+              >
+                <option value="ninguna">Ninguna</option>
+                <option value="instalacion">Servicio de instalación — 12% (umbral S/700)</option>
+                <option value="alquiler">Servicio de alquiler — 10% (umbral S/700)</option>
+                <option value="transporte">Servicio de transporte — 4% (umbral S/400)</option>
+                <option value="madera">Compra de madera — 4% (umbral S/700)</option>
+              </select>
             </label>
             <p className="tax-toggle__copy">
-              IGV: {settings.igvRate}% | Retencion: {settings.retentionRate}% | Umbral:
-              {" "}
-              {settings.retentionThreshold.toFixed(2)}
+              IGV: {settings.igvRate}% | Retención: {settings.retentionRate}% (OC &gt; S/{settings.retentionThreshold.toFixed(0)}, solo si proveedor no es agente de retención)
             </p>
           </section>
 
@@ -714,12 +719,26 @@ export function OrdersManager({
                     {form.currency === "PEN" ? "S/" : "$"} {totals.igvAmount.toFixed(2)}
                   </strong>
                 </div>
-                <div className="order-summary__line">
-                  <span>Retencion ({settings.retentionRate}%)</span>
-                  <strong>
-                    {form.currency === "PEN" ? "S/" : "$"} {totals.retentionAmount.toFixed(2)}
-                  </strong>
-                </div>
+                {totals.applyDetraccion ? (
+                  <div className="order-summary__line">
+                    <span>
+                      Detracción {totals.detraccionRate}%
+                      {form.operationType !== "ninguna" && DETRACCION_CATALOG[form.operationType as keyof typeof DETRACCION_CATALOG]
+                        ? ` — ${DETRACCION_CATALOG[form.operationType as keyof typeof DETRACCION_CATALOG].label}`
+                        : ""}
+                    </span>
+                    <strong>
+                      {form.currency === "PEN" ? "S/" : "$"} {totals.detraccionAmount.toFixed(2)}
+                    </strong>
+                  </div>
+                ) : totals.applyRetention ? (
+                  <div className="order-summary__line">
+                    <span>Retención ({settings.retentionRate}%)</span>
+                    <strong>
+                      {form.currency === "PEN" ? "S/" : "$"} {totals.retentionAmount.toFixed(2)}
+                    </strong>
+                  </div>
+                ) : null}
                 <div className="order-summary__line order-summary__line--highlight">
                   <span>Total a pagar</span>
                   <strong>

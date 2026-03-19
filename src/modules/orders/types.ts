@@ -11,6 +11,8 @@ export type DocumentStatus =
 
 export type CurrencyCode = "PEN" | "USD";
 
+export type DetraccionType = "ninguna" | "instalacion" | "alquiler" | "transporte" | "madera";
+
 export type SystemSettings = {
   companyName: string;
   companyRuc: string;
@@ -37,6 +39,7 @@ export type ProviderSummary = {
   bankAccount: string;
   bankCci: string;
   detraccionAccount: string;
+  isRetentionAgent: boolean;
 };
 
 export type DocumentSummary = {
@@ -99,6 +102,9 @@ export type OrderRecord = {
   amountInWords: string;
   totalAmount: number;
   issueDate: string;
+  operationType: DetraccionType;
+  detraccionAmount: number;
+  detraccionRate: number;
 };
 
 export type OrderFormValues = {
@@ -112,6 +118,7 @@ export type OrderFormValues = {
   applyRetention: boolean;
   totalAmount: number;
   issueDate: string;
+  operationType: DetraccionType;
 };
 
 export type MetricCard = {

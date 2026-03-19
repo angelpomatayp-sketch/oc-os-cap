@@ -29,24 +29,12 @@ function normalizeItems(items: OrderFormValues["items"] | undefined): OrderItem[
     .filter((item) => item.description && item.quantity > 0);
 }
 
-function normalizeOrder(
-  payload: OrderFormValues,
-  settings: Awaited<ReturnType<typeof getSettings>>,
-): OrderFormValues {
-  const items = normalizeItems(payload.items);
-  const totals = calculateOrderTotals(items, settings, payload.applyRetention);
-
+function normalizeFormFields(payload: OrderFormValues): OrderFormValues {
   return {
-    type: payload.type,
-    userId: payload.userId,
+    ...payload,
     workUnit: payload.workUnit.trim(),
-    providerId: payload.providerId,
-    status: payload.status,
-    currency: payload.currency,
-    items,
-    applyRetention: totals.applyRetention,
-    totalAmount: totals.totalAmount,
-    issueDate: payload.issueDate,
+    items: normalizeItems(payload.items),
+    operationType: payload.operationType ?? "ninguna",
   };
 }
 
@@ -61,14 +49,14 @@ export async function PUT(
   }
 
   const { id } = await context.params;
-  const settings = await getSettings();
-  const payload = normalizeOrder((await request.json()) as OrderFormValues, settings);
-  const [orders, providers, users] = await Promise.all([
+  const payload = normalizeFormFields((await request.json()) as OrderFormValues);
+
+  const [settings, orders, providers, users] = await Promise.all([
+    getSettings(),
     getOrders(),
     getProviders(),
     getUsers(),
   ]);
-  const totals = calculateOrderTotals(payload.items, settings, payload.applyRetention);
 
   const index = orders.findIndex((order) => order.id === id);
 
@@ -110,6 +98,12 @@ export async function PUT(
     );
   }
 
+  const totals = calculateOrderTotals(payload.items, settings, {
+    operationType: payload.operationType,
+    orderType: payload.type,
+    isRetentionAgent: provider.isRetentionAgent,
+  });
+
   const updatedOrder: OrderRecord = {
     ...currentOrder,
     code: generateOrderCode(payload.type, user.role, payload.issueDate, orders, currentOrder.id),
@@ -130,8 +124,11 @@ export async function PUT(
     payableAmount: totals.payableAmount,
     applyRetention: totals.applyRetention,
     amountInWords: amountToWords(totals.payableAmount, payload.currency),
-    totalAmount: payload.totalAmount,
+    totalAmount: totals.totalAmount,
     issueDate: payload.issueDate,
+    operationType: payload.operationType,
+    detraccionAmount: totals.detraccionAmount,
+    detraccionRate: totals.detraccionRate,
   };
 
   orders[index] = updatedOrder;

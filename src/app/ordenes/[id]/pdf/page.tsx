@@ -58,13 +58,22 @@ export default async function OrderPdfPage({
     notFound();
   }
 
-  const totals = calculateOrderTotals(order.items ?? [], settings, order.applyRetention);
+  const totals = calculateOrderTotals(order.items ?? [], settings, {
+    operationType: order.operationType ?? "ninguna",
+    orderType: order.type,
+    isRetentionAgent: provider.isRetentionAgent,
+  });
   const amountInWords = order.amountInWords || amountToWords(totals.payableAmount, order.currency);
   const subtotal = moneyParts(order.currency, totals.subtotalAmount);
   const igv = moneyParts(order.currency, totals.igvAmount);
   const total = moneyParts(order.currency, totals.totalAmount);
   const retention = moneyParts(order.currency, totals.retentionAmount);
+  const detraccion = moneyParts(order.currency, totals.detraccionAmount);
   const payable = moneyParts(order.currency, totals.payableAmount);
+
+  const detraccionLabel = totals.applyDetraccion && order.operationType && order.operationType !== "ninguna"
+    ? `DETRACCIÓN ${totals.detraccionRate}%`
+    : `RETENCIÓN ${settings.retentionRate}%`;
 
   return (
     <div className="print-page">
@@ -251,10 +260,10 @@ export default async function OrderPdfPage({
               </tr>
               <tr>
                 <td colSpan={3} className="order-print__totals-empty"></td>
-                <td className="order-print__totals-label">RETENCIÓN {settings.retentionRate}%</td>
+                <td className="order-print__totals-label">{detraccionLabel}</td>
                 <td className="order-print__money-cell">
-                  <span>{retention.symbol}</span>
-                  <strong>{retention.value}</strong>
+                  <span>{totals.applyDetraccion ? detraccion.symbol : retention.symbol}</span>
+                  <strong>{totals.applyDetraccion ? detraccion.value : retention.value}</strong>
                 </td>
               </tr>
               <tr>

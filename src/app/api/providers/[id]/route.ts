@@ -16,6 +16,7 @@ function normalizeProvider(payload: ProviderFormValues): ProviderFormValues {
     bankAccount: payload.bankAccount.trim(),
     bankCci: payload.bankCci.trim(),
     detraccionAccount: payload.detraccionAccount.trim(),
+    isRetentionAgent: Boolean(payload.isRetentionAgent),
   };
 }
 
