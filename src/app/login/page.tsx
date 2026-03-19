@@ -16,23 +16,40 @@ export default function LoginPage() {
     setSubmitting(true);
     setError("");
 
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (!response.ok) {
-      const payload = (await response.json()) as { message?: string };
-      setError(payload.message ?? "No se pudo iniciar sesion.");
+      if (!response.ok) {
+        const contentType = response.headers.get("content-type") ?? "";
+        let message = "No se pudo iniciar sesion.";
+
+        if (contentType.includes("application/json")) {
+          const payload = (await response.json()) as { message?: string };
+          message = payload.message ?? message;
+        } else {
+          const fallback = await response.text();
+          if (fallback.trim()) {
+            message = fallback;
+          }
+        }
+
+        setError(message);
+        setSubmitting(false);
+        return;
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch {
+      setError("No se pudo iniciar sesion.");
       setSubmitting(false);
-      return;
     }
-
-    router.push("/dashboard");
-    router.refresh();
   }
 
   return (
