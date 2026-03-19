@@ -1419,12 +1419,18 @@ button {
 }
 
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+
   html,
   body {
     background: #fff;
   }
 
   .print-page {
+    min-height: auto;
     padding: 0;
     background: #fff;
   }
@@ -1434,7 +1440,7 @@ button {
   }
 
   .order-print {
-    width: auto;
+    width: 194mm;
     min-height: auto;
     margin: 0;
     padding: 0;
@@ -1442,7 +1448,7 @@ button {
   }
 }
 
-@media (max-width: 1200px) {
+@media screen and (max-width: 1200px) {
   .app-shell__inner,
   .grid-two,
   .metrics-grid,
