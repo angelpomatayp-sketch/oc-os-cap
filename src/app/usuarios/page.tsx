@@ -5,6 +5,8 @@ import { UsersManager } from "@/components/dashboard/users-manager";
 import { ProtectedPanel } from "@/components/protected-panel";
 import { getCurrentUser } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export default async function UsersPage() {
   const currentUser = await getCurrentUser();
 

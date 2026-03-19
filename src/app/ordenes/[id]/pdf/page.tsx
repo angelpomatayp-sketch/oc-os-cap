@@ -7,6 +7,8 @@ import { getCurrentUser } from "@/lib/auth";
 import { amountToWords, calculateOrderTotals } from "@/lib/order-calculations";
 import { getOrders, getProviders, getSettings } from "@/lib/local-db";
 
+export const dynamic = "force-dynamic";
+
 function formatMoney(currency: "PEN" | "USD", amount: number) {
   return `${currency === "PEN" ? "S/" : "$"} ${amount.toFixed(2)}`;
 }

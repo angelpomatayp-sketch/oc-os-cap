@@ -6,6 +6,8 @@ import { ProtectedPanel } from "@/components/protected-panel";
 import { getCurrentUser } from "@/lib/auth";
 import { getSettings } from "@/lib/local-db";
 
+export const dynamic = "force-dynamic";
+
 export default async function SettingsPage() {
   const currentUser = await getCurrentUser();
   const settings = await getSettings();

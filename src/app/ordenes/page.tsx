@@ -4,6 +4,8 @@ import { ProtectedPanel } from "@/components/protected-panel";
 import { getCurrentUser } from "@/lib/auth";
 import { getOrders, getProviders, getSettings } from "@/lib/local-db";
 
+export const dynamic = "force-dynamic";
+
 export default async function OrdersPage() {
   const currentUser = await getCurrentUser();
   const [orders, providers, settings] = await Promise.all([

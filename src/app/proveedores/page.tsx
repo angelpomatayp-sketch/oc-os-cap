@@ -3,6 +3,8 @@ import { SectionHeading } from "@/components/dashboard/section-heading";
 import { ProtectedPanel } from "@/components/protected-panel";
 import { getProviders } from "@/lib/local-db";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProvidersPage() {
   const providers = await getProviders();
 

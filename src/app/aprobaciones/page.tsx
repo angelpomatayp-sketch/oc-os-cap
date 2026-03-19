@@ -5,6 +5,8 @@ import { EmptyState } from "@/components/dashboard/empty-state";
 import { ProtectedPanel } from "@/components/protected-panel";
 import { getCurrentUser } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export default async function ApprovalsPage() {
   const currentUser = await getCurrentUser();
 
