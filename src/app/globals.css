@@ -1244,7 +1244,7 @@ button {
 .order-print__info-table td,
 .order-print__notes-table td {
   padding: 4px 6px;
-  border: 1px solid #d5dbe3;
+  border: 1px solid #111827;
   vertical-align: top;
   background: transparent;
 }
@@ -1343,11 +1343,12 @@ button {
   margin-left: auto;
   margin-top: 0;
   border-collapse: collapse;
+  border: 1px solid #111827;
 }
 
 .order-print__totals-table td {
   padding: 4px 6px;
-  border: 0;
+  border: 1px solid #111827;
   background: #fff;
 }
 
