@@ -625,9 +625,6 @@ export function OrdersManager({
               />
               <span>Los precios de los ítems ya incluyen IGV</span>
             </label>
-            <p className="tax-toggle__copy">
-              IGV: {settings.igvRate}% | Retención: {settings.retentionRate}% (OC &gt; S/{settings.retentionThreshold.toFixed(0)}, solo si proveedor no es agente de retención)
-            </p>
           </section>
 
           <section className="order-items">
