@@ -13,6 +13,10 @@ function formatMoney(currency: "PEN" | "USD", amount: number) {
   return `${currency === "PEN" ? "S/" : "$"} ${amount.toFixed(2)}`;
 }
 
+function toTitleCase(str: string) {
+  return str.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 function moneyParts(currency: "PEN" | "USD", amount: number) {
   return {
     symbol: currency === "PEN" ? "S/" : "$",
@@ -310,7 +314,7 @@ export default async function OrderPdfPage({
 
         <footer className="order-print__footer">
           <p>Atentamente,</p>
-          <p>{settings.companyContact}</p>
+          <p>{toTitleCase(settings.companyContact)}</p>
           <p>{settings.companyName}</p>
         </footer>
       </article>
