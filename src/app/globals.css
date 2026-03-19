@@ -1344,21 +1344,18 @@ button {
   text-align: right;
 }
 
-.order-print__totals-table {
-  width: 29%;
-  margin-left: auto;
-  margin-top: 0;
-  border-collapse: collapse;
-  border: 1px solid #111827;
-  table-layout: fixed;
+.order-print__items tfoot td {
+  font-size: 11px;
+  padding: 4px 6px;
 }
 
-.order-print__totals-table td {
-  padding: 4px 6px;
-  border: 1px solid #111827;
-  background: #fff;
-  box-sizing: border-box;
-  font-size: 11px;
+.order-print__totals-empty {
+  border-top: 0 !important;
+  border-bottom: 1px solid white !important;
+  border-left: 1px solid white !important;
+  border-right: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
 }
 
 .order-print__totals-label {
@@ -1366,7 +1363,6 @@ button {
   text-align: right;
   white-space: nowrap;
   padding-right: 8px !important;
-  width: 50%;
 }
 
 .order-print__totals-value {
@@ -1515,10 +1511,6 @@ button {
   .order-print__title-box {
     border-right: 0;
     border-bottom: 1px solid #111827;
-  }
-
-  .order-print__totals-table {
-    width: 100%;
   }
 
   .tax-toggle,

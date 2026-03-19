@@ -220,10 +220,9 @@ export default async function OrderPdfPage({
                 </tr>
               ))}
             </tbody>
-          </table>
-          <table className="order-print__totals-table">
-            <tbody>
+            <tfoot>
               <tr>
+                <td colSpan={3} className="order-print__totals-empty"></td>
                 <td className="order-print__totals-label">SUB TOTAL</td>
                 <td className="order-print__money-cell">
                   <span>{subtotal.symbol}</span>
@@ -231,6 +230,7 @@ export default async function OrderPdfPage({
                 </td>
               </tr>
               <tr>
+                <td colSpan={3} className="order-print__totals-empty"></td>
                 <td className="order-print__totals-label">IGV {settings.igvRate}%</td>
                 <td className="order-print__money-cell">
                   <span>{igv.symbol}</span>
@@ -238,6 +238,7 @@ export default async function OrderPdfPage({
                 </td>
               </tr>
               <tr>
+                <td colSpan={3} className="order-print__totals-empty"></td>
                 <td className="order-print__totals-label order-print__totals-label--yellow">TOTAL</td>
                 <td className="order-print__totals-value order-print__totals-value--yellow order-print__money-cell">
                   <span>{total.symbol}</span>
@@ -245,6 +246,7 @@ export default async function OrderPdfPage({
                 </td>
               </tr>
               <tr>
+                <td colSpan={3} className="order-print__totals-empty"></td>
                 <td className="order-print__totals-label">RETENCIÓN {settings.retentionRate}%</td>
                 <td className="order-print__money-cell">
                   <span>{retention.symbol}</span>
@@ -252,6 +254,7 @@ export default async function OrderPdfPage({
                 </td>
               </tr>
               <tr>
+                <td colSpan={3} className="order-print__totals-empty"></td>
                 <td className="order-print__totals-label order-print__totals-label--green">
                   TOTAL A PAGAR
                 </td>
@@ -260,7 +263,7 @@ export default async function OrderPdfPage({
                   <strong>{payable.value}</strong>
                 </td>
               </tr>
-            </tbody>
+            </tfoot>
           </table>
         </section>
 
