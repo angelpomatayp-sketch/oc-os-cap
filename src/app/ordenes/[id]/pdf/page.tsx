@@ -230,13 +230,17 @@ export default async function OrderPdfPage({
                   <td>{index + 1}</td>
                   <td>{item.quantity}</td>
                   <td>{item.description}</td>
-                  <td className="order-print__money-cell">
-                    <span>{order.currency === "PEN" ? "S/" : "$"}</span>
-                    <strong>{item.unitPrice.toFixed(2)}</strong>
+                  <td>
+                    <span className="order-print__money-cell">
+                      <span>{order.currency === "PEN" ? "S/" : "$"}</span>
+                      <strong>{item.unitPrice.toFixed(2)}</strong>
+                    </span>
                   </td>
-                  <td className="order-print__money-cell">
-                    <span>{order.currency === "PEN" ? "S/" : "$"}</span>
-                    <strong>{item.amount.toFixed(2)}</strong>
+                  <td>
+                    <span className="order-print__money-cell">
+                      <span>{order.currency === "PEN" ? "S/" : "$"}</span>
+                      <strong>{item.amount.toFixed(2)}</strong>
+                    </span>
                   </td>
                 </tr>
               ))}
