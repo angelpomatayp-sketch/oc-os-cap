@@ -425,8 +425,8 @@ export function OrdersManager({
       <div className="table-card">
         {sortedVisibleOrders.length === 0 ? (
           <EmptyState
-            title="No hay ordenes registradas"
-            description="Usa el boton “Crear orden” para registrar tu primera orden."
+            title=”No hay ordenes registradas”
+            description='Usa el boton “Crear orden” para registrar tu primera orden.'
           />
         ) : (
           <table>
