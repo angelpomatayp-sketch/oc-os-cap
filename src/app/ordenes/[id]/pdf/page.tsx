@@ -17,6 +17,11 @@ function toTitleCase(str: string) {
   return str.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+function formatDate(isoDate: string) {
+  const [year, month, day] = isoDate.split("-");
+  return `${Number(day)}/${month}/${year}`;
+}
+
 function moneyParts(currency: "PEN" | "USD", amount: number) {
   return {
     symbol: currency === "PEN" ? "S/" : "$",
@@ -100,7 +105,7 @@ export default async function OrderPdfPage({
           <div className="order-print__title-box">
             <p className="order-print__title-top">FORMATO</p>
             <h1 className="order-print__title">
-              ORDEN DE {order.type === "OC" ? "COMPRA" : "SERVICIO"}
+              ORDEN DE COMPRA Y/O SERVICIO
             </h1>
           </div>
           <div className="order-print__meta-box">
@@ -114,7 +119,7 @@ export default async function OrderPdfPage({
             </div>
             <div className="order-print__meta-row">
               <span className="order-print__meta-label">Fecha:</span>
-              <strong className="order-print__meta-value">{order.issueDate}</strong>
+              <strong className="order-print__meta-value">{formatDate(order.issueDate)}</strong>
             </div>
           </div>
         </header>
@@ -158,7 +163,7 @@ export default async function OrderPdfPage({
                 <td className="order-print__label order-print__label--right order-print__highlight">
                   Fecha emitido
                 </td>
-                <td className="order-print__value-strong order-print__highlight">{order.issueDate}</td>
+                <td className="order-print__value-strong order-print__highlight">{formatDate(order.issueDate)}</td>
               </tr>
             </tbody>
           </table>
@@ -198,7 +203,7 @@ export default async function OrderPdfPage({
                 <td className="order-print__label order-print__label--right order-print__highlight">
                   Fecha recibido
                 </td>
-                <td className="order-print__value-strong order-print__highlight">{order.issueDate}</td>
+                <td className="order-print__value-strong order-print__highlight">{formatDate(order.issueDate)}</td>
               </tr>
             </tbody>
           </table>
@@ -217,7 +222,7 @@ export default async function OrderPdfPage({
               <tr>
                 <th>ITEM</th>
                 <th>CANT.</th>
-                <th>DESCRIPCION</th>
+                <th>DESCRIPCIÓN</th>
                 <th>PRECIO UNIT.</th>
                 <th>IMPORTE</th>
               </tr>
@@ -258,24 +263,28 @@ export default async function OrderPdfPage({
                   <strong>{total.value}</strong>
                 </td>
               </tr>
-              <tr>
-                <td colSpan={3} className="order-print__totals-empty"></td>
-                <td className="order-print__totals-label">{detraccionLabel}</td>
-                <td className="order-print__money-cell">
-                  <span>{totals.applyDetraccion ? detraccion.symbol : retention.symbol}</span>
-                  <strong>{totals.applyDetraccion ? detraccion.value : retention.value}</strong>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={3} className="order-print__totals-empty"></td>
-                <td className="order-print__totals-label order-print__totals-label--green">
-                  TOTAL A PAGAR
-                </td>
-                <td className="order-print__totals-value order-print__totals-value--green order-print__money-cell">
-                  <span>{payable.symbol}</span>
-                  <strong>{payable.value}</strong>
-                </td>
-              </tr>
+              {(totals.applyRetention || totals.applyDetraccion) && (
+                <>
+                  <tr>
+                    <td colSpan={3} className="order-print__totals-empty"></td>
+                    <td className="order-print__totals-label">{detraccionLabel}</td>
+                    <td className="order-print__money-cell">
+                      <span>{totals.applyDetraccion ? detraccion.symbol : retention.symbol}</span>
+                      <strong>{totals.applyDetraccion ? detraccion.value : retention.value}</strong>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={3} className="order-print__totals-empty"></td>
+                    <td className="order-print__totals-label order-print__totals-label--green">
+                      TOTAL A PAGAR
+                    </td>
+                    <td className="order-print__totals-value order-print__totals-value--green order-print__money-cell">
+                      <span>{payable.symbol}</span>
+                      <strong>{payable.value}</strong>
+                    </td>
+                  </tr>
+                </>
+              )}
             </tfoot>
           </table>
         </section>
@@ -324,7 +333,7 @@ export default async function OrderPdfPage({
         <footer className="order-print__footer">
           <p>Atentamente,</p>
           <p>{toTitleCase(settings.companyContact)}</p>
-          <p>Pacifico SRL</p>
+          <p><strong>Pacifico SRL</strong></p>
         </footer>
       </article>
     </div>
