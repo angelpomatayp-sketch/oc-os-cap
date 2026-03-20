@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { Modal } from "@/components/dashboard/modal";
+import { Pagination, usePagination } from "@/components/dashboard/pagination";
 import type { ProviderFormValues, ProviderSummary } from "@/modules/orders/types";
 
 const emptyProvider: ProviderFormValues = {
@@ -108,37 +109,55 @@ export function ProvidersManager({
     await loadProviders();
   }
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+
+  const filtered = providers.filter((p) => {
+    const q = searchQuery.toLowerCase();
+    return !q || p.businessName.toLowerCase().includes(q) || p.ruc.includes(q);
+  });
+  const { pageItems, totalPages } = usePagination(filtered, page);
+
   return (
     <>
-      <div className="section-actions">
+      <div className="orders-header">
+        <h1 className="orders-header__title">Proveedores</h1>
         <button type="button" className="button-primary" onClick={openCreateModal}>
-          Nuevo proveedor
+          + Nuevo
         </button>
       </div>
 
+      <div className="filters-bar">
+        <input
+          className="field filters-bar__search"
+          placeholder="Buscar por razón social o RUC"
+          value={searchQuery}
+          onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
+        />
+      </div>
+
       <div className="table-card">
-        {providers.length === 0 ? (
+        {filtered.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-state__icon">+</div>
             <h3 className="empty-state__title">No hay proveedores registrados</h3>
             <p className="empty-state__description">
-              Usa el boton "Nuevo proveedor" para registrar tu primer proveedor.
+              Usa el botón &quot;+ Nuevo&quot; para registrar tu primer proveedor.
             </p>
           </div>
         ) : (
           <table>
             <thead>
               <tr>
-                <th>Razon social</th>
+                <th>Razón social</th>
                 <th>RUC</th>
                 <th>Contacto</th>
                 <th>Correo</th>
-                <th>Telefono</th>
+                <th>Teléfono</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {providers.map((provider) => (
+              {pageItems.map((provider) => (
                 <tr key={provider.id}>
                   <td className="text-strong">{provider.businessName}</td>
                   <td>{provider.ruc}</td>
@@ -149,14 +168,14 @@ export function ProvidersManager({
                     <div className="table-actions">
                       <button
                         type="button"
-                        className="button-link"
+                        className="btn-action"
                         onClick={() => openEditModal(provider)}
                       >
                         Editar
                       </button>
                       <button
                         type="button"
-                        className="button-link button-link--danger"
+                        className="btn-action btn-action--danger"
                         onClick={() => handleDelete(provider.id)}
                       >
                         Eliminar
@@ -168,6 +187,7 @@ export function ProvidersManager({
             </tbody>
           </table>
         )}
+        <Pagination page={page} totalPages={totalPages} onPage={setPage} />
       </div>
 
       <Modal

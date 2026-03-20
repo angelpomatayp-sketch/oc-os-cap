@@ -3,7 +3,16 @@
 import { useEffect, useState } from "react";
 
 import { Modal } from "@/components/dashboard/modal";
+import { Pagination, usePagination } from "@/components/dashboard/pagination";
 import type { AppUser, UserFormValues } from "@/modules/orders/types";
+
+const AREA_NAMES: Record<string, string> = {
+  ADMIN: "Admin",
+  L: "Logística",
+  C: "Contabilidad",
+  E: "Equipos",
+  F: "Finanzas",
+};
 
 const emptyUser: UserFormValues = {
   name: "",
@@ -106,12 +115,31 @@ export function UsersManager() {
     await loadUsers();
   }
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+
+  const filtered = users.filter((u) => {
+    const q = searchQuery.toLowerCase();
+    return !q || u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q);
+  });
+  const { pageItems, totalPages } = usePagination(filtered, page);
+
   return (
     <>
-      <div className="section-actions">
+      <div className="orders-header">
+        <h1 className="orders-header__title">Usuarios</h1>
         <button type="button" className="button-primary" onClick={openCreateModal}>
-          Nuevo usuario
+          + Nuevo
         </button>
+      </div>
+
+      <div className="filters-bar">
+        <input
+          className="field filters-bar__search"
+          placeholder="Buscar por nombre o correo"
+          value={searchQuery}
+          onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
+        />
       </div>
 
       <div className="table-card">
@@ -119,34 +147,38 @@ export function UsersManager() {
           <div className="empty-state">
             <h3 className="empty-state__title">Cargando usuarios...</h3>
           </div>
+        ) : filtered.length === 0 ? (
+          <div className="empty-state">
+            <h3 className="empty-state__title">No hay usuarios registrados</h3>
+          </div>
         ) : (
           <table>
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>Area</th>
+                <th>Área</th>
                 <th>Correo</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {pageItems.map((user) => (
                 <tr key={user.id}>
                   <td className="text-strong">{user.name}</td>
-                  <td>{user.role}</td>
+                  <td>{AREA_NAMES[user.role] ?? user.role}</td>
                   <td>{user.email}</td>
                   <td>
                     <div className="table-actions">
                       <button
                         type="button"
-                        className="button-link"
+                        className="btn-action"
                         onClick={() => openEditModal(user)}
                       >
                         Editar
                       </button>
                       <button
                         type="button"
-                        className="button-link button-link--danger"
+                        className="btn-action btn-action--danger"
                         onClick={() => handleDelete(user.id)}
                       >
                         Eliminar
@@ -158,6 +190,7 @@ export function UsersManager() {
             </tbody>
           </table>
         )}
+        <Pagination page={page} totalPages={totalPages} onPage={setPage} />
       </div>
 
       <Modal

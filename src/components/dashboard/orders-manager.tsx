@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { Modal } from "@/components/dashboard/modal";
+import { Pagination, usePagination } from "@/components/dashboard/pagination";
 import { amountToWords, calculateOrderTotals, DETRACCION_CATALOG } from "@/lib/order-calculations";
 import type {
   AppUser,
@@ -185,6 +186,7 @@ export function OrdersManager({
   const [filterArea, setFilterArea] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
   const [filterType, setFilterType] = useState("");
+  const [page, setPage] = useState(1);
 
   async function loadData() {
     const [ordersResponse, providersResponse] = await Promise.all([
@@ -205,7 +207,7 @@ export function OrdersManager({
       ? orders
       : orders.filter((order) => order.userId === currentUser.id);
 
-  const sortedVisibleOrders = sortOrdersDescending(visibleOrders).filter((order) => {
+  const filteredOrders = sortOrdersDescending(visibleOrders).filter((order) => {
     const q = searchQuery.toLowerCase();
     if (q && !order.code.toLowerCase().includes(q) && !order.providerName.toLowerCase().includes(q)) return false;
     if (filterArea && order.area !== filterArea) return false;
@@ -213,6 +215,7 @@ export function OrdersManager({
     if (filterType && order.type !== filterType) return false;
     return true;
   });
+  const { pageItems: sortedVisibleOrders, totalPages } = usePagination(filteredOrders, page);
 
   function openCreateModal() {
     if (!currentUser || currentUser.role === "ADMIN") {
@@ -422,12 +425,12 @@ export function OrdersManager({
           className="field filters-bar__search"
           placeholder="Buscar por código o proveedor"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
         />
         <select
           className="field filters-bar__select"
           value={filterArea}
-          onChange={(e) => setFilterArea(e.target.value)}
+          onChange={(e) => { setFilterArea(e.target.value); setPage(1); }}
         >
           <option value="">Área</option>
           <option value="L">Logística</option>
@@ -438,7 +441,7 @@ export function OrdersManager({
         <select
           className="field filters-bar__select"
           value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
+          onChange={(e) => { setFilterStatus(e.target.value); setPage(1); }}
         >
           <option value="">Estado</option>
           <option value="Borrador">Borrador</option>
@@ -448,7 +451,7 @@ export function OrdersManager({
         <select
           className="field filters-bar__select"
           value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
+          onChange={(e) => { setFilterType(e.target.value); setPage(1); }}
         >
           <option value="">Tipo</option>
           <option value="OC">Orden de compra</option>
@@ -522,6 +525,7 @@ export function OrdersManager({
             </tbody>
           </table>
         )}
+        <Pagination page={page} totalPages={totalPages} onPage={setPage} />
       </div>
 
       <Modal

@@ -597,6 +597,25 @@ button {
   background: #fef2f2;
 }
 
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.pagination__info {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.pagination .btn-action:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .table-actions {
   display: flex;
   gap: 12px;
