@@ -153,7 +153,7 @@ export default async function OrderPdfPage({
               </tr>
               <tr>
                 <td className="order-print__label">Contacto</td>
-                <td>{order.requester}</td>
+                <td>{toTitleCase(settings.companyContact)}</td>
                 <td className="order-print__label order-print__label--right">Telefono</td>
                 <td>{settings.companyPhone || "-"}</td>
               </tr>
@@ -275,10 +275,10 @@ export default async function OrderPdfPage({
                   </tr>
                   <tr>
                     <td colSpan={3} className="order-print__totals-empty"></td>
-                    <td className="order-print__totals-label order-print__totals-label--green">
+                    <td className="order-print__totals-label order-print__totals-label--yellow">
                       TOTAL A PAGAR
                     </td>
-                    <td className="order-print__totals-value order-print__totals-value--green order-print__money-cell">
+                    <td className="order-print__totals-value order-print__totals-value--yellow order-print__money-cell">
                       <span>{payable.symbol}</span>
                       <strong>{payable.value}</strong>
                     </td>
@@ -290,7 +290,7 @@ export default async function OrderPdfPage({
         </section>
 
         <section className="order-print__block order-print__amount-words">
-          <span>SON:</span>
+          <strong>SON:</strong>
           <strong>{amountInWords}</strong>
         </section>
 

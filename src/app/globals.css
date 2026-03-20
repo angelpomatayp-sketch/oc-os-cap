@@ -1490,8 +1490,8 @@ button {
 .order-print__logo-box,
 .order-print__title-box,
 .order-print__meta-box {
-  min-height: 86px;
-  padding: 10px;
+  min-height: 69px;
+  padding: 8px 10px;
 }
 
 .order-print__logo-box,
@@ -1585,7 +1585,12 @@ button {
   width: 15.5%;
 }
 
-.order-print__info-table td,
+.order-print__info-table td {
+  padding: 4px 6px;
+  vertical-align: top;
+  background: transparent;
+}
+
 .order-print__notes-table td {
   padding: 4px 6px;
   border: 1px solid #111827;
@@ -1600,9 +1605,7 @@ button {
 
 .order-print__section-title {
   margin: 0;
-  padding: 4px 6px;
-  border: 1px solid #111827;
-  border-bottom: 0;
+  padding: 4px 0;
   font-size: 12px;
   font-weight: 700;
   background: transparent;
