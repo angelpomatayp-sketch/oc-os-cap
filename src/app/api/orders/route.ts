@@ -103,6 +103,7 @@ export async function POST(request: Request) {
     orderType: payload.type,
     isRetentionAgent: provider.isRetentionAgent,
     itemsIncludeIgv: payload.itemsIncludeIgv,
+    currency: payload.currency,
   });
 
   const newOrder: OrderRecord = {

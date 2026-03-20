@@ -104,6 +104,7 @@ export async function PUT(
     orderType: payload.type,
     isRetentionAgent: provider.isRetentionAgent,
     itemsIncludeIgv: payload.itemsIncludeIgv,
+    currency: payload.currency,
   });
 
   const updatedOrder: OrderRecord = {

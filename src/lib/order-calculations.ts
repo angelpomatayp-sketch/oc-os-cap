@@ -147,6 +147,7 @@ export function calculateOrderTotals(
     isRetentionAgent?: boolean;
     manualRetention?: boolean;
     itemsIncludeIgv?: boolean;
+    currency?: CurrencyCode;
   } = {},
 ) {
   const itemsSum = Number(
@@ -174,6 +175,7 @@ export function calculateOrderTotals(
     orderType = "OC",
     isRetentionAgent = false,
     manualRetention,
+    currency = "PEN",
   } = options;
 
   // Detraccion logic
@@ -185,7 +187,10 @@ export function calculateOrderTotals(
     const rule = DETRACCION_CATALOG[operationType];
     if (rule && totalAmount > rule.threshold) {
       detraccionRate = rule.rate;
-      detraccionAmount = Number((totalAmount * (rule.rate / 100)).toFixed(2));
+      const rawDetraccion = totalAmount * (rule.rate / 100);
+      detraccionAmount = currency === "PEN"
+        ? Math.round(rawDetraccion)
+        : Number(rawDetraccion.toFixed(2));
       applyDetraccion = true;
     }
   }
