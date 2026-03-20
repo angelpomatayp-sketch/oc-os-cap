@@ -1682,6 +1682,7 @@ button {
 
 .order-print__items tfoot .order-print__totals-value--yellow {
   border: 1px solid #111827 !important;
+  background: #fff36a !important;
 }
 
 .order-print__totals-empty {
