@@ -205,7 +205,7 @@ export function calculateOrderTotals(
       ? totalAmount * ((settings.retentionRate || 0) / 100)
       : 0;
     retentionAmount = applyRetention
-      ? Number(Math.round(rawRetentionAmount).toFixed(2))
+      ? Number(rawRetentionAmount.toFixed(2))
       : 0;
   }
 
