@@ -509,7 +509,7 @@ export async function getUsers() {
 }
 
 export function generateOrderCode(
-  type: OrderRecord["type"],
+  _type: OrderRecord["type"],
   area: OrderRecord["area"],
   issueDate: string,
   orders: OrderRecord[],
@@ -518,20 +518,22 @@ export function generateOrderCode(
   const baseDate = issueDate ? new Date(`${issueDate}T00:00:00`) : new Date();
   const year = baseDate.getFullYear();
   const month = String(baseDate.getMonth() + 1).padStart(2, "0");
-  const prefix = `${type}-CAP${year}-${area}${month}`;
+  const displayPrefix = `OC-CAP${year}-${area}${month}`;
+
+  // Match any area and any type to maintain a single shared sequence per year-month
+  const globalPattern = new RegExp(`^OC-CAP${year}-[A-Z]${month}(\\d+)$`);
 
   const maxSequence = orders.reduce((currentMax, order) => {
     if (currentOrderId && order.id === currentOrderId) {
       return currentMax;
     }
 
-    if (!order.code.startsWith(prefix)) {
-      return currentMax;
-    }
+    const match = order.code.match(globalPattern);
+    if (!match) return currentMax;
 
-    const sequence = Number(order.code.slice(prefix.length));
+    const sequence = Number(match[1]);
     return Number.isNaN(sequence) ? currentMax : Math.max(currentMax, sequence);
   }, 0);
 
-  return `${prefix}${String(maxSequence + 1).padStart(3, "0")}`;
+  return `${displayPrefix}${String(maxSequence + 1).padStart(3, "0")}`;
 }
