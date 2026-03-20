@@ -40,6 +40,13 @@ const statusClass: Record<DocumentStatus, string> = {
   Anulado: "status-pill status-pill--cancelled",
 };
 
+const AREA_NAMES: Record<string, string> = {
+  L: "Logística",
+  C: "Contabilidad",
+  E: "Equipos",
+  F: "Finanzas",
+};
+
 function sanitizeMoneyInput(value: string) {
   const normalized = value.replace(",", ".").replace(/[^0-9.]/g, "");
   const [integerPart = "", decimalPart = ""] = normalized.split(".");
@@ -174,6 +181,10 @@ export function OrdersManager({
   >({});
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterArea, setFilterArea] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
+  const [filterType, setFilterType] = useState("");
 
   async function loadData() {
     const [ordersResponse, providersResponse] = await Promise.all([
@@ -193,7 +204,15 @@ export function OrdersManager({
     currentUser?.role === "ADMIN" || !currentUser
       ? orders
       : orders.filter((order) => order.userId === currentUser.id);
-  const sortedVisibleOrders = sortOrdersDescending(visibleOrders);
+
+  const sortedVisibleOrders = sortOrdersDescending(visibleOrders).filter((order) => {
+    const q = searchQuery.toLowerCase();
+    if (q && !order.code.toLowerCase().includes(q) && !order.providerName.toLowerCase().includes(q)) return false;
+    if (filterArea && order.area !== filterArea) return false;
+    if (filterStatus && order.status !== filterStatus) return false;
+    if (filterType && order.type !== filterType) return false;
+    return true;
+  });
 
   function openCreateModal() {
     if (!currentUser || currentUser.role === "ADMIN") {
@@ -388,55 +407,69 @@ export function OrdersManager({
 
   return (
     <>
-      <div className="section-actions">
-        {error && !open ? <p className="form-error">{error}</p> : null}
-        <button type="button" className="button-primary" onClick={openCreateModal}>
-          Crear orden
-        </button>
+      <div className="orders-header">
+        <h1 className="orders-header__title">Órdenes</h1>
+        <div className="orders-header__actions">
+          {error && !open ? <p className="form-error">{error}</p> : null}
+          <button type="button" className="button-primary" onClick={openCreateModal}>
+            + Crear
+          </button>
+        </div>
       </div>
 
-      <section className="panel">
-        <h3 className="panel__title">Filtros</h3>
-        <div className="field-grid">
-          <input className="field" placeholder="Buscar por codigo o proveedor" />
-          <select className="field" defaultValue="Todas las areas">
-            <option>Todas las areas</option>
-            <option>Logistica</option>
-            <option>Contabilidad</option>
-            <option>Equipos</option>
-            <option>Finanzas</option>
-          </select>
-          <select className="field" defaultValue="Todos los estados">
-            <option>Todos los estados</option>
-            <option>Borrador</option>
-            <option>Pendiente de aprobacion</option>
-            <option>Aprobado</option>
-            <option>Emitido</option>
-            <option>Anulado</option>
-          </select>
-          <select className="field" defaultValue="OC y OS">
-            <option>OC y OS</option>
-            <option>Orden de compra</option>
-            <option>Orden de servicio</option>
-          </select>
-        </div>
-      </section>
+      <div className="filters-bar">
+        <input
+          className="field filters-bar__search"
+          placeholder="Buscar por código o proveedor"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <select
+          className="field filters-bar__select"
+          value={filterArea}
+          onChange={(e) => setFilterArea(e.target.value)}
+        >
+          <option value="">Área</option>
+          <option value="L">Logística</option>
+          <option value="C">Contabilidad</option>
+          <option value="E">Equipos</option>
+          <option value="F">Finanzas</option>
+        </select>
+        <select
+          className="field filters-bar__select"
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+        >
+          <option value="">Estado</option>
+          <option value="Borrador">Borrador</option>
+          <option value="Emitido">Emitido</option>
+          <option value="Anulado">Anulado</option>
+        </select>
+        <select
+          className="field filters-bar__select"
+          value={filterType}
+          onChange={(e) => setFilterType(e.target.value)}
+        >
+          <option value="">Tipo</option>
+          <option value="OC">Orden de compra</option>
+          <option value="OS">Orden de servicio</option>
+        </select>
+      </div>
 
       <div className="table-card">
         {sortedVisibleOrders.length === 0 ? (
           <EmptyState
             title="No hay ordenes registradas"
-            description='Usa el boton "Crear orden" para registrar tu primera orden.'
+            description='Usa el botón "+ Crear" para registrar tu primera orden.'
           />
         ) : (
           <table>
             <thead>
               <tr>
-                <th>Codigo</th>
+                <th>Código</th>
                 <th>Proveedor</th>
-                <th>Area</th>
+                <th>Área</th>
                 <th>Estado</th>
-                <th>Moneda</th>
                 <th>Total</th>
                 <th>Fecha</th>
                 <th>Acciones</th>
@@ -446,17 +479,11 @@ export function OrdersManager({
               {sortedVisibleOrders.map((order) => (
                 <tr key={order.id}>
                   <td className="text-strong">{order.code}</td>
-                  <td>
-                    <div>
-                      <p className="text-strong">{order.providerName}</p>
-                      <p className="text-muted">{order.userName}</p>
-                    </div>
-                  </td>
-                  <td>{order.area}</td>
+                  <td className="text-strong">{order.providerName}</td>
+                  <td>{AREA_NAMES[order.area] ?? order.area}</td>
                   <td>
                     <span className={statusClass[order.status]}>{order.status}</span>
                   </td>
-                  <td>{order.currency}</td>
                   <td className="text-strong">
                     {order.currency === "PEN" ? "S/" : "$"} {order.totalAmount.toFixed(2)}
                   </td>
@@ -465,7 +492,7 @@ export function OrdersManager({
                     <div className="table-actions">
                       <Link
                         href={`/ordenes/${order.id}/pdf`}
-                        className="button-link"
+                        className="btn-action"
                         target="_blank"
                       >
                         PDF
@@ -474,25 +501,19 @@ export function OrdersManager({
                         <>
                           <button
                             type="button"
-                            className="button-link"
+                            className="btn-action"
                             onClick={() => openEditModal(order)}
                           >
                             Editar
                           </button>
                           <button
                             type="button"
-                            className="button-link button-link--danger"
+                            className="btn-action btn-action--danger"
                             onClick={() => handleAnular(order.id)}
                           >
                             Anular
                           </button>
                         </>
-                      )}
-                      {order.status === "Emitido" && (
-                        <span style={{ color: "var(--success-text)", fontWeight: 600 }}>Emitido</span>
-                      )}
-                      {order.status === "Anulado" && (
-                        <span className="text-muted">Anulado</span>
                       )}
                     </div>
                   </td>

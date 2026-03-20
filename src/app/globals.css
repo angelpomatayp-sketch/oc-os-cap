@@ -529,6 +529,74 @@ button {
   gap: 16px;
 }
 
+.orders-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.orders-header__title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.orders-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filters-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 14px 18px;
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+.filters-bar__search {
+  flex: 1;
+  min-width: 0;
+}
+
+.filters-bar__select {
+  width: auto;
+  min-width: 130px;
+}
+
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  background: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-action:hover {
+  background: #f3f4f6;
+}
+
+.btn-action--danger {
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+.btn-action--danger:hover {
+  background: #fef2f2;
+}
+
 .table-actions {
   display: flex;
   gap: 12px;
