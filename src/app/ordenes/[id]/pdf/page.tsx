@@ -264,8 +264,8 @@ export default async function OrderPdfPage({
               </tr>
               <tr>
                 <td colSpan={3} className="order-print__totals-empty"></td>
-                <td className="order-print__totals-label">TOTAL</td>
-                <td className="order-print__totals-value order-print__money-cell">
+                <td className={`order-print__totals-label${!applyRetention && !applyDetraccion ? " order-print__totals-label--yellow" : ""}`}>TOTAL</td>
+                <td className={`order-print__totals-value order-print__money-cell${!applyRetention && !applyDetraccion ? " order-print__totals-value--yellow" : ""}`}>
                   <span>{total.symbol}</span>
                   <strong>{total.value}</strong>
                 </td>
