@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { PrintPdfButton } from "@/components/dashboard/print-pdf-button";
 import { getCurrentUser } from "@/lib/auth";
-import { amountToWords, calculateOrderTotals } from "@/lib/order-calculations";
+import { amountToWords } from "@/lib/order-calculations";
 import { getOrders, getProviders, getSettings } from "@/lib/local-db";
 
 export const dynamic = "force-dynamic";
@@ -63,21 +63,18 @@ export default async function OrderPdfPage({
     notFound();
   }
 
-  const totals = calculateOrderTotals(order.items ?? [], settings, {
-    operationType: order.operationType ?? "ninguna",
-    orderType: order.type,
-    isRetentionAgent: provider.isRetentionAgent,
-  });
-  const amountInWords = order.amountInWords || amountToWords(totals.payableAmount, order.currency);
-  const subtotal = moneyParts(order.currency, totals.subtotalAmount);
-  const igv = moneyParts(order.currency, totals.igvAmount);
-  const total = moneyParts(order.currency, totals.totalAmount);
-  const retention = moneyParts(order.currency, totals.retentionAmount);
-  const detraccion = moneyParts(order.currency, totals.detraccionAmount);
-  const payable = moneyParts(order.currency, totals.payableAmount);
+  const amountInWords = order.amountInWords || amountToWords(order.payableAmount, order.currency);
+  const subtotal = moneyParts(order.currency, order.subtotalAmount);
+  const igv = moneyParts(order.currency, order.igvAmount);
+  const total = moneyParts(order.currency, order.totalAmount);
+  const retention = moneyParts(order.currency, order.retentionAmount);
+  const detraccion = moneyParts(order.currency, order.detraccionAmount);
+  const payable = moneyParts(order.currency, order.payableAmount);
 
-  const detraccionLabel = totals.applyDetraccion && order.operationType && order.operationType !== "ninguna"
-    ? `DETRACCIÓN ${totals.detraccionRate}%`
+  const applyDetraccion = order.detraccionAmount > 0;
+  const applyRetention = order.applyRetention;
+  const detraccionLabel = applyDetraccion
+    ? `DETRACCIÓN ${order.detraccionRate}%`
     : `RETENCIÓN ${settings.retentionRate}%`;
 
   return (
@@ -263,14 +260,14 @@ export default async function OrderPdfPage({
                   <strong>{total.value}</strong>
                 </td>
               </tr>
-              {(totals.applyRetention || totals.applyDetraccion) && (
+              {(applyRetention || applyDetraccion) && (
                 <>
                   <tr>
                     <td colSpan={3} className="order-print__totals-empty"></td>
                     <td className="order-print__totals-label">{detraccionLabel}</td>
                     <td className="order-print__money-cell">
-                      <span>{totals.applyDetraccion ? detraccion.symbol : retention.symbol}</span>
-                      <strong>{totals.applyDetraccion ? detraccion.value : retention.value}</strong>
+                      <span>{applyDetraccion ? detraccion.symbol : retention.symbol}</span>
+                      <strong>{applyDetraccion ? detraccion.value : retention.value}</strong>
                     </td>
                   </tr>
                   <tr>

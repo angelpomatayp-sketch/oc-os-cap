@@ -1724,12 +1724,12 @@ button {
 
 .order-print__totals-label--yellow,
 .order-print__totals-value--yellow {
-  background: #fff36a;
+  background: #fff36a !important;
 }
 
 .order-print__totals-label--green,
 .order-print__totals-value--green {
-  background: #93e46d;
+  background: #93e46d !important;
 }
 
 .order-print__amount-words {
