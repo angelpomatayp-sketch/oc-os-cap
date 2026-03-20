@@ -479,7 +479,7 @@ export function OrdersManager({
                           Editar
                         </button>
                       ) : (
-                        <span className="text-muted">Bloqueada</span>
+                        <span style={{ color: "var(--success-text)", fontWeight: 600 }}>Emitido</span>
                       )}
                       <button
                         type="button"
@@ -592,10 +592,7 @@ export function OrdersManager({
                   }
                 >
                   <option value="Borrador">Borrador</option>
-                  <option value="Pendiente de aprobacion">Pendiente de aprobacion</option>
-                  <option value="Aprobado">Aprobado</option>
                   <option value="Emitido">Emitido</option>
-                  <option value="Anulado">Anulado</option>
                 </select>
               </label>
             </div>
