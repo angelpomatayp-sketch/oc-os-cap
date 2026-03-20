@@ -1680,6 +1680,15 @@ button {
   background: transparent !important;
 }
 
+/* Restore outer frame: right border on last column, bottom on last row */
+.order-print__items tfoot tr td:last-child {
+  border-right: 1px solid #111827 !important;
+}
+
+.order-print__items tfoot tr:last-child td {
+  border-bottom: 1px solid #111827 !important;
+}
+
 .order-print__items tfoot .order-print__totals-value--yellow {
   border: 1px solid #111827 !important;
   background: #fff36a !important;
