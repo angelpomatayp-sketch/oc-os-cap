@@ -122,7 +122,7 @@ export function ProvidersManager({
             <div className="empty-state__icon">+</div>
             <h3 className="empty-state__title">No hay proveedores registrados</h3>
             <p className="empty-state__description">
-              Usa el boton “Nuevo proveedor” para registrar tu primer proveedor.
+              Usa el boton "Nuevo proveedor" para registrar tu primer proveedor.
             </p>
           </div>
         ) : (

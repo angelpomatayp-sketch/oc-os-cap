@@ -425,8 +425,8 @@ export function OrdersManager({
       <div className="table-card">
         {sortedVisibleOrders.length === 0 ? (
           <EmptyState
-            title=”No hay ordenes registradas”
-            description='Usa el boton “Crear orden” para registrar tu primera orden.'
+            title="No hay ordenes registradas"
+            description='Usa el boton "Crear orden" para registrar tu primera orden.'
           />
         ) : (
           <table>
@@ -498,39 +498,39 @@ export function OrdersManager({
       </div>
 
       <Modal
-        title={editingOrder ? `Editar orden ${editingOrder.code}` : “Nueva orden”}
+        title={editingOrder ? `Editar orden ${editingOrder.code}` : "Nueva orden"}
         open={open}
         onClose={closeModal}
         wide
       >
-        <form className=”oform” onSubmit={handleSubmit}>
+        <form className="oform" onSubmit={handleSubmit}>
           {/* ── Main column ── */}
-          <div className=”oform__main”>
+          <div className="oform__main">
             {/* Top fields */}
-            <div className=”oform__fields”>
-              <label className=”ofield”>
+            <div className="oform__fields">
+              <label className="ofield">
                 <span>Tipo</span>
                 <select
                   value={form.type}
                   onChange={(event) =>
                     setForm((current) => ({
                       ...current,
-                      type: event.target.value as OrderFormValues[“type”],
+                      type: event.target.value as OrderFormValues["type"],
                     }))
                   }
                 >
-                  <option value=”OC”>Orden de compra</option>
-                  <option value=”OS”>Orden de servicio</option>
+                  <option value="OC">Orden de compra</option>
+                  <option value="OS">Orden de servicio</option>
                 </select>
               </label>
-              <label className=”ofield”>
+              <label className="ofield">
                 <span>Solicitante</span>
-                <input value={currentUser?.name ?? “”} disabled />
+                <input value={currentUser?.name ?? ""} disabled />
               </label>
-              <label className=”ofield”>
+              <label className="ofield">
                 <span>Fecha</span>
                 <input
-                  type=”date”
+                  type="date"
                   value={form.issueDate}
                   onChange={(event) =>
                     setForm((current) => ({ ...current, issueDate: event.target.value }))
@@ -538,7 +538,7 @@ export function OrdersManager({
                   required
                 />
               </label>
-              <label className=”ofield ofield--span2”>
+              <label className="ofield ofield--span2">
                 <span>Proveedor</span>
                 <select
                   value={form.providerId}
@@ -547,7 +547,7 @@ export function OrdersManager({
                   }
                   required
                 >
-                  <option value=””>Selecciona un proveedor</option>
+                  <option value="">Selecciona un proveedor</option>
                   {providers.map((provider) => (
                     <option key={provider.id} value={provider.id}>
                       {provider.businessName}
@@ -555,55 +555,55 @@ export function OrdersManager({
                   ))}
                 </select>
               </label>
-              <label className=”ofield”>
+              <label className="ofield">
                 <span>Moneda</span>
                 <select
                   value={form.currency}
                   onChange={(event) =>
                     setForm((current) => ({
                       ...current,
-                      currency: event.target.value as OrderFormValues[“currency”],
+                      currency: event.target.value as OrderFormValues["currency"],
                     }))
                   }
                 >
-                  <option value=”PEN”>PEN — Soles</option>
-                  <option value=”USD”>USD — Dólares</option>
+                  <option value="PEN">PEN — Soles</option>
+                  <option value="USD">USD — Dólares</option>
                 </select>
               </label>
-              <label className=”ofield ofield--span2”>
+              <label className="ofield ofield--span2">
                 <span>Unidad / Obra</span>
                 <input
                   value={form.workUnit}
                   onChange={(event) =>
                     setForm((current) => ({ ...current, workUnit: event.target.value }))
                   }
-                  placeholder=”Ej: PORACOTA”
+                  placeholder="Ej: PORACOTA"
                 />
               </label>
-              <label className=”ofield”>
+              <label className="ofield">
                 <span>Estado</span>
                 <select
                   value={form.status}
                   onChange={(event) =>
                     setForm((current) => ({
                       ...current,
-                      status: event.target.value as OrderFormValues[“status”],
+                      status: event.target.value as OrderFormValues["status"],
                     }))
                   }
                 >
-                  <option value=”Borrador”>Borrador</option>
-                  <option value=”Pendiente de aprobacion”>Pendiente de aprobacion</option>
-                  <option value=”Aprobado”>Aprobado</option>
-                  <option value=”Emitido”>Emitido</option>
-                  <option value=”Anulado”>Anulado</option>
+                  <option value="Borrador">Borrador</option>
+                  <option value="Pendiente de aprobacion">Pendiente de aprobacion</option>
+                  <option value="Aprobado">Aprobado</option>
+                  <option value="Emitido">Emitido</option>
+                  <option value="Anulado">Anulado</option>
                 </select>
               </label>
             </div>
 
             {/* IGV toggle */}
-            <label className=”oform__igv-check”>
+            <label className="oform__igv-check">
               <input
-                type=”checkbox”
+                type="checkbox"
                 checked={form.itemsIncludeIgv}
                 onChange={(event) =>
                   setForm((current) => ({ ...current, itemsIncludeIgv: event.target.checked }))
@@ -613,8 +613,8 @@ export function OrdersManager({
             </label>
 
             {/* Detraction + rule */}
-            <div className=”oform__tax”>
-              <label className=”ofield”>
+            <div className="oform__tax">
+              <label className="ofield">
                 <span>Tipo de operación (Detracción)</span>
                 <select
                   value={form.operationType}
@@ -625,14 +625,14 @@ export function OrdersManager({
                     }))
                   }
                 >
-                  <option value=”ninguna”>Ninguna</option>
-                  <option value=”instalacion”>Servicio de instalación — 12% (umbral S/700)</option>
-                  <option value=”alquiler”>Servicio de alquiler — 10% (umbral S/700)</option>
-                  <option value=”transporte”>Servicio de transporte — 4% (umbral S/400)</option>
-                  <option value=”madera”>Compra de madera — 4% (umbral S/700)</option>
+                  <option value="ninguna">Ninguna</option>
+                  <option value="instalacion">Servicio de instalación — 12% (umbral S/700)</option>
+                  <option value="alquiler">Servicio de alquiler — 10% (umbral S/700)</option>
+                  <option value="transporte">Servicio de transporte — 4% (umbral S/400)</option>
+                  <option value="madera">Compra de madera — 4% (umbral S/700)</option>
                 </select>
               </label>
-              <div className=”oform__tax-info”>
+              <div className="oform__tax-info">
                 <strong>Regla:</strong>
                 <p>
                   IGV: {settings.igvRate}% | Retención: {settings.retentionRate}%<br />
@@ -642,26 +642,26 @@ export function OrdersManager({
             </div>
 
             {/* Items */}
-            <div className=”oform__items”>
-              <div className=”oform__items-header”>
-                <h4 className=”oform__items-title”>Items de la orden</h4>
-                <button type=”button” className=”button-primary” onClick={addItem}>
+            <div className="oform__items">
+              <div className="oform__items-header">
+                <h4 className="oform__items-title">Items de la orden</h4>
+                <button type="button" className="button-primary" onClick={addItem}>
                   + Agregar
                 </button>
               </div>
               {form.items.length === 0 ? (
-                <p className=”oform__items-empty”>
-                  No hay items. Usa “+ Agregar” para continuar.
+                <p className="oform__items-empty">
+                  No hay items. Usa "+ Agregar" para continuar.
                 </p>
               ) : (
-                <table className=”oform__items-table”>
+                <table className="oform__items-table">
                   <thead>
                     <tr>
-                      <th style={{ width: “12%” }}>Cant.</th>
+                      <th style={{ width: "12%" }}>Cant.</th>
                       <th>Descripción</th>
-                      <th style={{ width: “18%” }}>Precio</th>
-                      <th style={{ width: “16%” }}>Importe</th>
-                      <th style={{ width: “8%” }}></th>
+                      <th style={{ width: "18%" }}>Precio</th>
+                      <th style={{ width: "16%" }}>Importe</th>
+                      <th style={{ width: "8%" }}></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -669,20 +669,20 @@ export function OrdersManager({
                       <tr key={item.id}>
                         <td>
                           <input
-                            className=”oform__item-input”
-                            type=”text”
-                            inputMode=”decimal”
-                            value={itemDrafts[item.id]?.quantity ?? (item.quantity ? String(item.quantity) : “”)}
+                            className="oform__item-input"
+                            type="text"
+                            inputMode="decimal"
+                            value={itemDrafts[item.id]?.quantity ?? (item.quantity ? String(item.quantity) : "")}
                             onChange={(event) =>
-                              updateItemDraft(item.id, “quantity”, event.target.value)
+                              updateItemDraft(item.id, "quantity", event.target.value)
                             }
-                            onBlur={() => normalizeItemDraft(item.id, “quantity”)}
-                            placeholder=”1”
+                            onBlur={() => normalizeItemDraft(item.id, "quantity")}
+                            placeholder="1"
                           />
                         </td>
                         <td>
                           <input
-                            className=”oform__item-input”
+                            className="oform__item-input"
                             value={item.description}
                             onChange={(event) =>
                               updateItem(item.id, { description: event.target.value })
@@ -692,24 +692,24 @@ export function OrdersManager({
                         </td>
                         <td>
                           <input
-                            className=”oform__item-input”
-                            type=”text”
-                            inputMode=”decimal”
+                            className="oform__item-input"
+                            type="text"
+                            inputMode="decimal"
                             value={itemDrafts[item.id]?.unitPrice ?? formatDecimalInput(item.unitPrice)}
                             onChange={(event) =>
-                              updateItemDraft(item.id, “unitPrice”, event.target.value)
+                              updateItemDraft(item.id, "unitPrice", event.target.value)
                             }
-                            onBlur={() => normalizeItemDraft(item.id, “unitPrice”)}
-                            placeholder=”0.00”
+                            onBlur={() => normalizeItemDraft(item.id, "unitPrice")}
+                            placeholder="0.00"
                           />
                         </td>
-                        <td className=”oform__item-amount”>
-                          {form.currency === “PEN” ? “S/” : “$”} {item.amount.toFixed(2)}
+                        <td className="oform__item-amount">
+                          {form.currency === "PEN" ? "S/" : "$"} {item.amount.toFixed(2)}
                         </td>
                         <td>
                           <button
-                            type=”button”
-                            className=”button-link button-link--danger”
+                            type="button"
+                            className="button-link button-link--danger"
                             onClick={() => removeItem(item.id)}
                           >
                             ×
@@ -724,56 +724,56 @@ export function OrdersManager({
           </div>
 
           {/* ── Sidebar ── */}
-          <aside className=”oform__sidebar”>
-            <div className=”oform__summary”>
-              <h3 className=”oform__summary-title”>Resumen</h3>
-              <div className=”oform__summary-line”>
+          <aside className="oform__sidebar">
+            <div className="oform__summary">
+              <h3 className="oform__summary-title">Resumen</h3>
+              <div className="oform__summary-line">
                 <span>Subtotal</span>
-                <span>{form.currency === “PEN” ? “S/” : “$”} {totals.subtotalAmount.toFixed(2)}</span>
+                <span>{form.currency === "PEN" ? "S/" : "$"} {totals.subtotalAmount.toFixed(2)}</span>
               </div>
-              <div className=”oform__summary-line”>
+              <div className="oform__summary-line">
                 <span>IGV ({settings.igvRate}%)</span>
-                <span>{form.currency === “PEN” ? “S/” : “$”} {totals.igvAmount.toFixed(2)}</span>
+                <span>{form.currency === "PEN" ? "S/" : "$"} {totals.igvAmount.toFixed(2)}</span>
               </div>
               {totals.applyDetraccion ? (
-                <div className=”oform__summary-line”>
+                <div className="oform__summary-line">
                   <span>Detracción {totals.detraccionRate}%</span>
-                  <span>− {form.currency === “PEN” ? “S/” : “$”} {totals.detraccionAmount.toFixed(2)}</span>
+                  <span>− {form.currency === "PEN" ? "S/" : "$"} {totals.detraccionAmount.toFixed(2)}</span>
                 </div>
               ) : totals.applyRetention ? (
-                <div className=”oform__summary-line”>
+                <div className="oform__summary-line">
                   <span>Retención {settings.retentionRate}%</span>
-                  <span>− {form.currency === “PEN” ? “S/” : “$”} {totals.retentionAmount.toFixed(2)}</span>
+                  <span>− {form.currency === "PEN" ? "S/" : "$"} {totals.retentionAmount.toFixed(2)}</span>
                 </div>
               ) : null}
-              <div className=”oform__summary-line oform__summary-line--total”>
+              <div className="oform__summary-line oform__summary-line--total">
                 <span>Total</span>
-                <span>{form.currency === “PEN” ? “S/” : “$”} {totals.payableAmount.toFixed(2)}</span>
+                <span>{form.currency === "PEN" ? "S/" : "$"} {totals.payableAmount.toFixed(2)}</span>
               </div>
-              <p className=”oform__words”>{amountInWords}</p>
+              <p className="oform__words">{amountInWords}</p>
             </div>
 
             {providers.length === 0 ? (
-              <p className=”oform__hint”>Registra un proveedor primero.</p>
+              <p className="oform__hint">Registra un proveedor primero.</p>
             ) : null}
-            {currentUser?.role === “ADMIN” ? (
-              <p className=”oform__hint”>Inicia sesion con un usuario de area.</p>
+            {currentUser?.role === "ADMIN" ? (
+              <p className="oform__hint">Inicia sesion con un usuario de area.</p>
             ) : null}
-            {error ? <p className=”oform__error”>{error}</p> : null}
+            {error ? <p className="oform__error">{error}</p> : null}
 
-            <div className=”oform__sidebar-actions”>
+            <div className="oform__sidebar-actions">
               <button
-                type=”submit”
-                className=”button-primary”
-                style={{ width: “100%” }}
-                disabled={submitting || providers.length === 0 || currentUser?.role === “ADMIN”}
+                type="submit"
+                className="button-primary"
+                style={{ width: "100%" }}
+                disabled={submitting || providers.length === 0 || currentUser?.role === "ADMIN"}
               >
-                {submitting ? “Guardando...” : “Guardar”}
+                {submitting ? "Guardando..." : "Guardar"}
               </button>
               <button
-                type=”button”
-                className=”button-secondary”
-                style={{ width: “100%” }}
+                type="button"
+                className="button-secondary"
+                style={{ width: "100%" }}
                 onClick={closeModal}
               >
                 Cancelar
