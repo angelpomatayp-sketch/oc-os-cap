@@ -210,7 +210,7 @@ export function calculateOrderTotals(
       ? totalAmount * ((settings.retentionRate || 0) / 100)
       : 0;
     retentionAmount = applyRetention
-      ? Number(rawRetentionAmount.toFixed(2))
+      ? (currency === "PEN" ? Math.round(rawRetentionAmount) : Number(rawRetentionAmount.toFixed(2)))
       : 0;
   }
 
