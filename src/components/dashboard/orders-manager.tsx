@@ -375,8 +375,8 @@ export function OrdersManager({
     closeModal();
   }
 
-  async function handleDelete(id: string) {
-    const confirmed = window.confirm("¿Deseas eliminar esta orden?");
+  async function handleAnular(id: string) {
+    const confirmed = window.confirm("¿Deseas anular esta orden? El número quedará reservado y no podrá reutilizarse.");
 
     if (!confirmed) {
       return;
@@ -470,24 +470,30 @@ export function OrdersManager({
                       >
                         PDF
                       </Link>
-                      {order.status === "Borrador" ? (
-                        <button
-                          type="button"
-                          className="button-link"
-                          onClick={() => openEditModal(order)}
-                        >
-                          Editar
-                        </button>
-                      ) : (
+                      {order.status === "Borrador" && (
+                        <>
+                          <button
+                            type="button"
+                            className="button-link"
+                            onClick={() => openEditModal(order)}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            type="button"
+                            className="button-link button-link--danger"
+                            onClick={() => handleAnular(order.id)}
+                          >
+                            Anular
+                          </button>
+                        </>
+                      )}
+                      {order.status === "Emitido" && (
                         <span style={{ color: "var(--success-text)", fontWeight: 600 }}>Emitido</span>
                       )}
-                      <button
-                        type="button"
-                        className="button-link button-link--danger"
-                        onClick={() => handleDelete(order.id)}
-                      >
-                        Eliminar
-                      </button>
+                      {order.status === "Anulado" && (
+                        <span className="text-muted">Anulado</span>
+                      )}
                     </div>
                   </td>
                 </tr>

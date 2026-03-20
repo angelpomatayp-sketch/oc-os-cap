@@ -153,18 +153,26 @@ export async function DELETE(
 
   const { id } = await context.params;
   const orders = await getOrders();
-  const targetOrder = orders.find((order) => order.id === id);
+  const index = orders.findIndex((order) => order.id === id);
 
-  if (!targetOrder) {
+  if (index === -1) {
     return NextResponse.json({ message: "Orden no encontrada." }, { status: 404 });
   }
+
+  const targetOrder = orders[index];
 
   if (currentUser.role !== "ADMIN" && targetOrder.userId !== currentUser.id) {
     return NextResponse.json({ message: "No autorizado." }, { status: 403 });
   }
 
-  const nextOrders = orders.filter((order) => order.id !== id);
+  if (targetOrder.status !== "Borrador") {
+    return NextResponse.json(
+      { message: "Solo se pueden anular ordenes en borrador." },
+      { status: 400 },
+    );
+  }
 
-  await saveOrders(nextOrders);
+  orders[index] = { ...targetOrder, status: "Anulado" };
+  await saveOrders(orders);
   return NextResponse.json({ ok: true });
 }
