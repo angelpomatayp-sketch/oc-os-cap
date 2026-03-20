@@ -1593,7 +1593,6 @@ button {
 
 .order-print__notes-table td {
   padding: 4px 6px;
-  border: 1px solid #111827;
   vertical-align: top;
   background: transparent;
 }
@@ -1618,7 +1617,7 @@ button {
 }
 
 .order-print__label--right {
-  text-align: center;
+  text-align: right;
   white-space: nowrap;
 }
 
@@ -1671,7 +1670,6 @@ button {
 .order-print__items td:nth-child(4),
 .order-print__items td:nth-child(5) {
   width: 110px;
-  text-align: right;
 }
 
 .order-print__items tfoot td {
