@@ -1670,7 +1670,6 @@ button {
 .order-print__items td:nth-child(4),
 .order-print__items td:nth-child(5) {
   width: 110px;
-  text-align: right;
 }
 
 .order-print__items tfoot td {
