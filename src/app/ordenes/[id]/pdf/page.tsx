@@ -324,7 +324,7 @@ export default async function OrderPdfPage({
         <footer className="order-print__footer">
           <p>Atentamente,</p>
           <p>{toTitleCase(settings.companyContact)}</p>
-          <p>{settings.companyName}</p>
+          <p>Pacifico SRL</p>
         </footer>
       </article>
     </div>
