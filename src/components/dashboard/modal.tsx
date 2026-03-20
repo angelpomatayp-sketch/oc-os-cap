@@ -7,9 +7,10 @@ type ModalProps = {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  wide?: boolean;
 };
 
-export function Modal({ title, open, onClose, children }: ModalProps) {
+export function Modal({ title, open, onClose, children, wide }: ModalProps) {
   useEffect(() => {
     if (!open) {
       return;
@@ -31,7 +32,7 @@ export function Modal({ title, open, onClose, children }: ModalProps) {
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-card" onClick={(event) => event.stopPropagation()}>
+      <div className={`modal-card${wide ? " modal-card--wide" : ""}`} onClick={(event) => event.stopPropagation()}>
         <div className="modal-card__header">
           <h3 className="modal-card__title">{title}</h3>
           <button type="button" className="modal-card__close" onClick={onClose}>

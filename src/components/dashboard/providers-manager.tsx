@@ -176,8 +176,8 @@ export function ProvidersManager({
         onClose={closeModal}
       >
         <form className="modal-form" onSubmit={handleSubmit}>
-          <div className="modal-grid">
-            <label className="modal-field">
+          <div className="pform__grid">
+            <label className="pfield">
               <span>Razon social</span>
               <input
                 value={form.businessName}
@@ -187,7 +187,7 @@ export function ProvidersManager({
                 required
               />
             </label>
-            <label className="modal-field">
+            <label className="pfield">
               <span>RUC</span>
               <input
                 value={form.ruc}
@@ -198,8 +198,8 @@ export function ProvidersManager({
                 required
               />
             </label>
-            <label className="modal-field modal-field--full">
-              <span>Direccion fiscal</span>
+            <label className="pfield pfield--full">
+              <span>Dirección fiscal</span>
               <input
                 value={form.fiscalAddress}
                 onChange={(event) =>
@@ -207,7 +207,7 @@ export function ProvidersManager({
                 }
               />
             </label>
-            <label className="modal-field">
+            <label className="pfield">
               <span>Contacto</span>
               <input
                 value={form.contactName}
@@ -216,7 +216,7 @@ export function ProvidersManager({
                 }
               />
             </label>
-            <label className="modal-field">
+            <label className="pfield">
               <span>Correo</span>
               <input
                 type="email"
@@ -226,8 +226,8 @@ export function ProvidersManager({
                 }
               />
             </label>
-            <label className="modal-field">
-              <span>Telefono</span>
+            <label className="pfield">
+              <span>Teléfono</span>
               <input
                 value={form.phone}
                 onChange={(event) =>
@@ -235,7 +235,7 @@ export function ProvidersManager({
                 }
               />
             </label>
-            <label className="modal-field">
+            <label className="pfield">
               <span>Banco</span>
               <input
                 value={form.bankName}
@@ -244,8 +244,8 @@ export function ProvidersManager({
                 }
               />
             </label>
-            <label className="modal-field">
-              <span>Cuenta</span>
+            <label className="pfield">
+              <span>Cuenta bancaria</span>
               <input
                 value={form.bankAccount}
                 onChange={(event) =>
@@ -253,7 +253,7 @@ export function ProvidersManager({
                 }
               />
             </label>
-            <label className="modal-field">
+            <label className="pfield">
               <span>CCI</span>
               <input
                 value={form.bankCci}
@@ -262,8 +262,8 @@ export function ProvidersManager({
                 }
               />
             </label>
-            <label className="modal-field">
-              <span>Cuenta detraccion</span>
+            <label className="pfield">
+              <span>Cuenta detracción</span>
               <input
                 value={form.detraccionAccount}
                 onChange={(event) =>
@@ -274,7 +274,7 @@ export function ProvidersManager({
                 }
               />
             </label>
-            <label className="settings-form__checkbox modal-field--full">
+            <label className="pform__check">
               <input
                 type="checkbox"
                 checked={form.isRetentionAgent}
@@ -285,13 +285,13 @@ export function ProvidersManager({
                   }))
                 }
               />
-              <span>Es agente de retención (no se le descuenta el 3%)</span>
+              <span>Es agente de retención (no se descuenta el 3%)</span>
             </label>
           </div>
 
           {error ? <p className="form-error">{error}</p> : null}
 
-          <div className="modal-actions">
+          <div className="pform__actions">
             <button type="button" className="button-secondary" onClick={closeModal}>
               Cancelar
             </button>

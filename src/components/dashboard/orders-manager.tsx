@@ -498,163 +498,170 @@ export function OrdersManager({
       </div>
 
       <Modal
-        title={editingOrder ? `Editar orden ${editingOrder.code}` : "Nueva orden"}
+        title={editingOrder ? `Editar orden ${editingOrder.code}` : “Nueva orden”}
         open={open}
         onClose={closeModal}
+        wide
       >
-        <form className="modal-form" onSubmit={handleSubmit}>
-          <div className="modal-grid">
-            <label className="modal-field">
-              <span>Tipo</span>
-              <select
-                value={form.type}
-                onChange={(event) =>
-                  setForm((current) => ({
-                    ...current,
-                    type: event.target.value as OrderFormValues["type"],
-                  }))
-                }
-              >
-                <option value="OC">Orden de compra</option>
-                <option value="OS">Orden de servicio</option>
-              </select>
-            </label>
-            <label className="modal-field">
-              <span>Solicitante</span>
-              <input value={currentUser?.name ?? ""} disabled />
-            </label>
-            <label className="modal-field">
-              <span>Unidad / Obra</span>
-              <input
-                value={form.workUnit}
-                onChange={(event) =>
-                  setForm((current) => ({ ...current, workUnit: event.target.value }))
-                }
-                placeholder="Ejemplo: PORACOTA"
-              />
-            </label>
-            <label className="modal-field modal-field--full">
-              <span>Proveedor</span>
-              <select
-                value={form.providerId}
-                onChange={(event) =>
-                  setForm((current) => ({ ...current, providerId: event.target.value }))
-                }
-                required
-              >
-                <option value="">Selecciona un proveedor</option>
-                {providers.map((provider) => (
-                  <option key={provider.id} value={provider.id}>
-                    {provider.businessName}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="modal-field">
-              <span>Estado</span>
-              <select
-                value={form.status}
-                onChange={(event) =>
-                  setForm((current) => ({
-                    ...current,
-                    status: event.target.value as OrderFormValues["status"],
-                  }))
-                }
-              >
-                <option value="Borrador">Borrador</option>
-                <option value="Pendiente de aprobacion">Pendiente de aprobacion</option>
-                <option value="Aprobado">Aprobado</option>
-                <option value="Emitido">Emitido</option>
-                <option value="Anulado">Anulado</option>
-              </select>
-            </label>
-            <label className="modal-field">
-              <span>Moneda</span>
-              <select
-                value={form.currency}
-                onChange={(event) =>
-                  setForm((current) => ({
-                    ...current,
-                    currency: event.target.value as OrderFormValues["currency"],
-                  }))
-                }
-              >
-                <option value="PEN">PEN</option>
-                <option value="USD">USD</option>
-              </select>
-            </label>
-            <label className="modal-field">
-              <span>Fecha</span>
-              <input
-                type="date"
-                value={form.issueDate}
-                onChange={(event) =>
-                  setForm((current) => ({ ...current, issueDate: event.target.value }))
-                }
-                required
-              />
-            </label>
-          </div>
+        <form className=”oform” onSubmit={handleSubmit}>
+          {/* ── Main column ── */}
+          <div className=”oform__main”>
+            {/* Top fields */}
+            <div className=”oform__fields”>
+              <label className=”ofield”>
+                <span>Tipo</span>
+                <select
+                  value={form.type}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      type: event.target.value as OrderFormValues[“type”],
+                    }))
+                  }
+                >
+                  <option value=”OC”>Orden de compra</option>
+                  <option value=”OS”>Orden de servicio</option>
+                </select>
+              </label>
+              <label className=”ofield”>
+                <span>Solicitante</span>
+                <input value={currentUser?.name ?? “”} disabled />
+              </label>
+              <label className=”ofield”>
+                <span>Fecha</span>
+                <input
+                  type=”date”
+                  value={form.issueDate}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, issueDate: event.target.value }))
+                  }
+                  required
+                />
+              </label>
+              <label className=”ofield ofield--span2”>
+                <span>Proveedor</span>
+                <select
+                  value={form.providerId}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, providerId: event.target.value }))
+                  }
+                  required
+                >
+                  <option value=””>Selecciona un proveedor</option>
+                  {providers.map((provider) => (
+                    <option key={provider.id} value={provider.id}>
+                      {provider.businessName}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className=”ofield”>
+                <span>Moneda</span>
+                <select
+                  value={form.currency}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      currency: event.target.value as OrderFormValues[“currency”],
+                    }))
+                  }
+                >
+                  <option value=”PEN”>PEN — Soles</option>
+                  <option value=”USD”>USD — Dólares</option>
+                </select>
+              </label>
+              <label className=”ofield ofield--span2”>
+                <span>Unidad / Obra</span>
+                <input
+                  value={form.workUnit}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, workUnit: event.target.value }))
+                  }
+                  placeholder=”Ej: PORACOTA”
+                />
+              </label>
+              <label className=”ofield”>
+                <span>Estado</span>
+                <select
+                  value={form.status}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      status: event.target.value as OrderFormValues[“status”],
+                    }))
+                  }
+                >
+                  <option value=”Borrador”>Borrador</option>
+                  <option value=”Pendiente de aprobacion”>Pendiente de aprobacion</option>
+                  <option value=”Aprobado”>Aprobado</option>
+                  <option value=”Emitido”>Emitido</option>
+                  <option value=”Anulado”>Anulado</option>
+                </select>
+              </label>
+            </div>
 
-          <section className="tax-toggle">
-            <label className="modal-field modal-field--full">
-              <span>Tipo de operación (detracción)</span>
-              <select
-                value={form.operationType}
-                onChange={(event) =>
-                  setForm((current) => ({
-                    ...current,
-                    operationType: event.target.value as DetraccionType,
-                  }))
-                }
-              >
-                <option value="ninguna">Ninguna</option>
-                <option value="instalacion">Servicio de instalación — 12% (umbral S/700)</option>
-                <option value="alquiler">Servicio de alquiler — 10% (umbral S/700)</option>
-                <option value="transporte">Servicio de transporte — 4% (umbral S/400)</option>
-                <option value="madera">Compra de madera — 4% (umbral S/700)</option>
-              </select>
-            </label>
-            <label className="settings-form__checkbox modal-field--full">
+            {/* IGV toggle */}
+            <label className=”oform__igv-check”>
               <input
-                type="checkbox"
+                type=”checkbox”
                 checked={form.itemsIncludeIgv}
                 onChange={(event) =>
                   setForm((current) => ({ ...current, itemsIncludeIgv: event.target.checked }))
                 }
               />
-              <span>Los precios de los ítems ya incluyen IGV</span>
+              Los precios incluyen IGV
             </label>
-          </section>
 
-          <section className="order-items">
-            <div className="order-items__header">
-              <div>
-                <h4 className="order-items__title">Items de la orden</h4>
-                <p className="order-items__copy">
-                  Registra el detalle del servicio o compra. El total se calcula
-                  automaticamente.
+            {/* Detraction + rule */}
+            <div className=”oform__tax”>
+              <label className=”ofield”>
+                <span>Tipo de operación (Detracción)</span>
+                <select
+                  value={form.operationType}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      operationType: event.target.value as DetraccionType,
+                    }))
+                  }
+                >
+                  <option value=”ninguna”>Ninguna</option>
+                  <option value=”instalacion”>Servicio de instalación — 12% (umbral S/700)</option>
+                  <option value=”alquiler”>Servicio de alquiler — 10% (umbral S/700)</option>
+                  <option value=”transporte”>Servicio de transporte — 4% (umbral S/400)</option>
+                  <option value=”madera”>Compra de madera — 4% (umbral S/700)</option>
+                </select>
+              </label>
+              <div className=”oform__tax-info”>
+                <strong>Regla:</strong>
+                <p>
+                  IGV: {settings.igvRate}% | Retención: {settings.retentionRate}%<br />
+                  Aplica si el monto supera el umbral y el proveedor no es agente de retención.
                 </p>
               </div>
-              <button type="button" className="button-secondary" onClick={addItem}>
-                Agregar item
-              </button>
             </div>
 
-            {form.items.length === 0 ? (
-              <div className="order-items__empty">
-                No hay items agregados. Usa “Agregar item” para continuar.
+            {/* Items */}
+            <div className=”oform__items”>
+              <div className=”oform__items-header”>
+                <h4 className=”oform__items-title”>Items de la orden</h4>
+                <button type=”button” className=”button-primary” onClick={addItem}>
+                  + Agregar
+                </button>
               </div>
-            ) : (
-              <div className="order-items__table">
-                <table>
+              {form.items.length === 0 ? (
+                <p className=”oform__items-empty”>
+                  No hay items. Usa “+ Agregar” para continuar.
+                </p>
+              ) : (
+                <table className=”oform__items-table”>
                   <thead>
                     <tr>
-                      <th>Cant.</th>
-                      <th>Descripcion</th>
-                      <th>Precio unit.</th>
-                      <th>Importe</th>
-                      <th>Accion</th>
+                      <th style={{ width: “12%” }}>Cant.</th>
+                      <th>Descripción</th>
+                      <th style={{ width: “18%” }}>Precio</th>
+                      <th style={{ width: “16%” }}>Importe</th>
+                      <th style={{ width: “8%” }}></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -662,138 +669,117 @@ export function OrdersManager({
                       <tr key={item.id}>
                         <td>
                           <input
-                            className="order-items__input order-items__input--qty"
-                            type="text"
-                            inputMode="decimal"
-                            value={itemDrafts[item.id]?.quantity ?? (item.quantity ? String(item.quantity) : "")}
+                            className=”oform__item-input”
+                            type=”text”
+                            inputMode=”decimal”
+                            value={itemDrafts[item.id]?.quantity ?? (item.quantity ? String(item.quantity) : “”)}
                             onChange={(event) =>
-                              updateItemDraft(item.id, "quantity", event.target.value)
+                              updateItemDraft(item.id, “quantity”, event.target.value)
                             }
-                            onBlur={() => normalizeItemDraft(item.id, "quantity")}
-                            placeholder="1"
+                            onBlur={() => normalizeItemDraft(item.id, “quantity”)}
+                            placeholder=”1”
                           />
                         </td>
                         <td>
                           <input
-                            className="order-items__input"
+                            className=”oform__item-input”
                             value={item.description}
                             onChange={(event) =>
                               updateItem(item.id, { description: event.target.value })
                             }
-                            placeholder={`Descripcion del item ${index + 1}`}
+                            placeholder={`Item ${index + 1}`}
                           />
                         </td>
                         <td>
                           <input
-                            className="order-items__input"
-                            type="text"
-                            inputMode="decimal"
+                            className=”oform__item-input”
+                            type=”text”
+                            inputMode=”decimal”
                             value={itemDrafts[item.id]?.unitPrice ?? formatDecimalInput(item.unitPrice)}
                             onChange={(event) =>
-                              updateItemDraft(item.id, "unitPrice", event.target.value)
+                              updateItemDraft(item.id, “unitPrice”, event.target.value)
                             }
-                            onBlur={() => normalizeItemDraft(item.id, "unitPrice")}
-                            placeholder="0.00"
+                            onBlur={() => normalizeItemDraft(item.id, “unitPrice”)}
+                            placeholder=”0.00”
                           />
                         </td>
-                        <td className="order-items__amount">
-                          {form.currency === "PEN" ? "S/" : "$"} {item.amount.toFixed(2)}
+                        <td className=”oform__item-amount”>
+                          {form.currency === “PEN” ? “S/” : “$”} {item.amount.toFixed(2)}
                         </td>
                         <td>
                           <button
-                            type="button"
-                            className="button-link button-link--danger"
+                            type=”button”
+                            className=”button-link button-link--danger”
                             onClick={() => removeItem(item.id)}
                           >
-                            Quitar
+                            ×
                           </button>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-              </div>
-            )}
-          </section>
-
-          <section className="order-summary">
-            <div className="order-summary__grid">
-              <div className="order-summary__metrics">
-                <div className="order-summary__line">
-                  <span>Subtotal</span>
-                  <strong>
-                    {form.currency === "PEN" ? "S/" : "$"} {totals.subtotalAmount.toFixed(2)}
-                  </strong>
-                </div>
-                <div className="order-summary__line">
-                  <span>IGV ({settings.igvRate}%)</span>
-                  <strong>
-                    {form.currency === "PEN" ? "S/" : "$"} {totals.igvAmount.toFixed(2)}
-                  </strong>
-                </div>
-                {totals.applyDetraccion ? (
-                  <div className="order-summary__line">
-                    <span>
-                      Detracción {totals.detraccionRate}%
-                      {form.operationType !== "ninguna" && DETRACCION_CATALOG[form.operationType as keyof typeof DETRACCION_CATALOG]
-                        ? ` — ${DETRACCION_CATALOG[form.operationType as keyof typeof DETRACCION_CATALOG].label}`
-                        : ""}
-                    </span>
-                    <strong>
-                      {form.currency === "PEN" ? "S/" : "$"} {totals.detraccionAmount.toFixed(2)}
-                    </strong>
-                  </div>
-                ) : totals.applyRetention ? (
-                  <div className="order-summary__line">
-                    <span>Retención ({settings.retentionRate}%)</span>
-                    <strong>
-                      {form.currency === "PEN" ? "S/" : "$"} {totals.retentionAmount.toFixed(2)}
-                    </strong>
-                  </div>
-                ) : null}
-                <div className="order-summary__line order-summary__line--highlight">
-                  <span>Total a pagar</span>
-                  <strong>
-                    {form.currency === "PEN" ? "S/" : "$"} {totals.payableAmount.toFixed(2)}
-                  </strong>
-                </div>
-              </div>
-              <div className="order-summary__card">
-                <span>Total con IGV</span>
-                <strong>
-                  {form.currency === "PEN" ? "S/" : "$"} {totals.totalAmount.toFixed(2)}
-                </strong>
-                <p>{amountInWords}</p>
-              </div>
+              )}
             </div>
-          </section>
-
-          {providers.length === 0 ? (
-            <p className="form-hint">
-              Primero debes registrar al menos un proveedor para crear ordenes.
-            </p>
-          ) : null}
-
-          {currentUser?.role === "ADMIN" ? (
-            <p className="form-hint">
-              Debes iniciar sesion con un usuario de area para registrar la orden.
-            </p>
-          ) : null}
-
-          {error ? <p className="form-error">{error}</p> : null}
-
-          <div className="modal-actions">
-            <button type="button" className="button-secondary" onClick={closeModal}>
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="button-primary"
-              disabled={submitting || providers.length === 0 || currentUser?.role === "ADMIN"}
-            >
-              {submitting ? "Guardando..." : "Guardar"}
-            </button>
           </div>
+
+          {/* ── Sidebar ── */}
+          <aside className=”oform__sidebar”>
+            <div className=”oform__summary”>
+              <h3 className=”oform__summary-title”>Resumen</h3>
+              <div className=”oform__summary-line”>
+                <span>Subtotal</span>
+                <span>{form.currency === “PEN” ? “S/” : “$”} {totals.subtotalAmount.toFixed(2)}</span>
+              </div>
+              <div className=”oform__summary-line”>
+                <span>IGV ({settings.igvRate}%)</span>
+                <span>{form.currency === “PEN” ? “S/” : “$”} {totals.igvAmount.toFixed(2)}</span>
+              </div>
+              {totals.applyDetraccion ? (
+                <div className=”oform__summary-line”>
+                  <span>Detracción {totals.detraccionRate}%</span>
+                  <span>− {form.currency === “PEN” ? “S/” : “$”} {totals.detraccionAmount.toFixed(2)}</span>
+                </div>
+              ) : totals.applyRetention ? (
+                <div className=”oform__summary-line”>
+                  <span>Retención {settings.retentionRate}%</span>
+                  <span>− {form.currency === “PEN” ? “S/” : “$”} {totals.retentionAmount.toFixed(2)}</span>
+                </div>
+              ) : null}
+              <div className=”oform__summary-line oform__summary-line--total”>
+                <span>Total</span>
+                <span>{form.currency === “PEN” ? “S/” : “$”} {totals.payableAmount.toFixed(2)}</span>
+              </div>
+              <p className=”oform__words”>{amountInWords}</p>
+            </div>
+
+            {providers.length === 0 ? (
+              <p className=”oform__hint”>Registra un proveedor primero.</p>
+            ) : null}
+            {currentUser?.role === “ADMIN” ? (
+              <p className=”oform__hint”>Inicia sesion con un usuario de area.</p>
+            ) : null}
+            {error ? <p className=”oform__error”>{error}</p> : null}
+
+            <div className=”oform__sidebar-actions”>
+              <button
+                type=”submit”
+                className=”button-primary”
+                style={{ width: “100%” }}
+                disabled={submitting || providers.length === 0 || currentUser?.role === “ADMIN”}
+              >
+                {submitting ? “Guardando...” : “Guardar”}
+              </button>
+              <button
+                type=”button”
+                className=”button-secondary”
+                style={{ width: “100%” }}
+                onClick={closeModal}
+              >
+                Cancelar
+              </button>
+            </div>
+          </aside>
         </form>
       </Modal>
     </>

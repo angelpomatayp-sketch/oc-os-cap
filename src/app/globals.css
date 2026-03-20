@@ -668,7 +668,7 @@ button {
 }
 
 .modal-card {
-  width: min(720px, 95vw);
+  width: min(560px, 95vw);
   max-height: calc(100vh - 48px);
   overflow: auto;
   border-radius: 18px;
@@ -733,6 +733,333 @@ button {
 }
 
 .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* ── Wide modal variant ─────────────────────────────────── */
+.modal-card--wide {
+  width: min(980px, 96vw);
+}
+
+/* ── Order form 2-column layout ─────────────────────────── */
+.oform {
+  display: grid;
+  grid-template-columns: 1fr 250px;
+  min-height: 0;
+  max-height: calc(100vh - 100px);
+}
+
+.oform__main {
+  padding: 18px 22px 22px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.oform__fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+/* Generic field used inside oform */
+.ofield {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ofield > span {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.03em;
+}
+
+.ofield input,
+.ofield select {
+  padding: 9px 11px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  color: #1f2a44;
+  outline: none;
+}
+
+.ofield input:focus,
+.ofield select:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+}
+
+.ofield--span2 {
+  grid-column: span 2;
+}
+
+.ofield--full {
+  grid-column: 1 / -1;
+}
+
+/* IGV checkbox */
+.oform__igv-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2a44;
+  cursor: pointer;
+}
+
+.oform__igv-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+/* Detraction card */
+.oform__tax {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+  align-items: start;
+}
+
+.oform__tax-info strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1f2a44;
+  margin-bottom: 4px;
+}
+
+.oform__tax-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* Items card */
+.oform__items {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.oform__items-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.oform__items-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2a44;
+}
+
+.oform__items-empty {
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.oform__items-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.oform__items-table th {
+  padding: 7px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.oform__items-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+  font-size: 13px;
+}
+
+.oform__items-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.oform__item-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #f8fafc;
+  font-size: 13px;
+  outline: none;
+  min-width: 60px;
+}
+
+.oform__item-input:focus {
+  border-color: #93c5fd;
+  background: #fff;
+}
+
+.oform__item-amount {
+  font-weight: 700;
+  white-space: nowrap;
+  color: #111827;
+}
+
+/* Sidebar */
+.oform__sidebar {
+  border-left: 1px solid #e2e8f0;
+  background: #f8fafc;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.oform__summary-title {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f2a44;
+}
+
+.oform__summary-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 13px;
+  color: #475569;
+}
+
+.oform__summary-line span {
+  font-weight: 600;
+  color: #1f2a44;
+}
+
+.oform__summary-line--total {
+  border-bottom: 0;
+  border-top: 2px solid #e2e8f0;
+  margin-top: 4px;
+  padding-top: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f2a44;
+}
+
+.oform__summary-line--total span {
+  font-size: 17px;
+  color: #0f766e;
+}
+
+.oform__words {
+  margin: 4px 0 8px;
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.oform__sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.oform__error {
+  margin: 0;
+  font-size: 12px;
+  color: #dc2626;
+}
+
+.oform__hint {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Provider modal — clean field style */
+.pform__grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.pfield {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pfield > span {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.03em;
+}
+
+.pfield input {
+  padding: 9px 11px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  color: #1f2a44;
+  outline: none;
+}
+
+.pfield input:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+}
+
+.pfield--full {
+  grid-column: 1 / -1;
+}
+
+.pform__check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2a44;
+  cursor: pointer;
+  grid-column: 1 / -1;
+}
+
+.pform__check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+.pform__actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
