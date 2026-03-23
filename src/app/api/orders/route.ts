@@ -33,6 +33,7 @@ function normalizeFormFields(payload: OrderFormValues): OrderFormValues {
   return {
     ...payload,
     workUnit: payload.workUnit.trim(),
+    quotation: (payload.quotation ?? "").trim(),
     items: normalizeItems(payload.items),
     operationType: payload.operationType ?? "ninguna",
     itemsIncludeIgv: Boolean(payload.itemsIncludeIgv),
@@ -114,6 +115,7 @@ export async function POST(request: Request) {
     userId: user.id,
     userName: user.name,
     workUnit: payload.workUnit,
+    quotation: payload.quotation,
     providerId: payload.providerId,
     providerName: provider.businessName,
     requester: user.name,

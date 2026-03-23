@@ -22,6 +22,7 @@ const emptyOrder: OrderFormValues = {
   type: "OC",
   userId: "",
   workUnit: "",
+  quotation: "",
   providerId: "",
   status: "Borrador",
   currency: "PEN",
@@ -230,6 +231,7 @@ export function OrdersManager({
       items: [createEmptyItem()],
       applyRetention: false,
       operationType: "ninguna",
+      quotation: "",
       issueDate: new Date().toISOString().slice(0, 10),
     });
     setItemDrafts({});
@@ -243,6 +245,7 @@ export function OrdersManager({
       type: order.type,
       userId: order.userId,
       workUnit: order.workUnit,
+      quotation: order.quotation ?? "",
       providerId: order.providerId,
       status: order.status,
       currency: order.currency,
@@ -555,8 +558,14 @@ export function OrdersManager({
                 </select>
               </label>
               <label className="ofield">
-                <span>Solicitante</span>
-                <input value={currentUser?.name ?? ""} disabled />
+                <span>N° Cotización</span>
+                <input
+                  value={form.quotation}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, quotation: event.target.value }))
+                  }
+                  placeholder="Ej: COT-2026-001"
+                />
               </label>
               <label className="ofield">
                 <span>Fecha</span>

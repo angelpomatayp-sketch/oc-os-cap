@@ -89,6 +89,7 @@ model Order {
   status          DocumentStatus
   currency        CurrencyCode
   workUnit        String         @default("")
+  quotation       String         @default("")
   issueDate       DateTime
   subtotalAmount    Decimal        @db.Decimal(12, 2)
   igvAmount         Decimal        @db.Decimal(12, 2)

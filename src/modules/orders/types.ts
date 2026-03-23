@@ -88,6 +88,7 @@ export type OrderRecord = {
   userId: string;
   userName: string;
   workUnit: string;
+  quotation: string;
   providerId: string;
   providerName: string;
   requester: string;
@@ -112,6 +113,7 @@ export type OrderFormValues = {
   type: DocumentType;
   userId: string;
   workUnit: string;
+  quotation: string;
   providerId: string;
   status: DocumentStatus;
   currency: CurrencyCode;

@@ -186,7 +186,7 @@ export default async function OrderPdfPage({
                 <td className="order-print__label">Dirección</td>
                 <td>{provider.fiscalAddress}</td>
                 <td className="order-print__label order-print__label--right">Cotización</td>
-                <td>-</td>
+                <td>{order.quotation || "-"}</td>
               </tr>
               <tr>
                 <td className="order-print__label">Contacto</td>
