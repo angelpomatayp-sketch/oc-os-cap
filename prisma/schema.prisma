@@ -128,3 +128,14 @@ model OrderItem {
 
   @@unique([orderId, position])
 }
+
+model OrderSequence {
+  id      Int      @id @default(autoincrement())
+  year    Int
+  month   Int
+  current Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([year, month], name: "year_month")
+}

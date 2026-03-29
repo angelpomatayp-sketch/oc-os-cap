@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { getCurrentUser } from "@/lib/auth";
 import { hashPassword } from "@/lib/auth-crypto";
-import { getUserRecords, getUsers, saveUserRecords } from "@/lib/local-db";
+import { createUserRecord, getUserRecords, getUsers } from "@/lib/local-db";
 import type { AppUser, UserFormValues, UserRecord } from "@/modules/orders/types";
 
 function normalizeUser(payload: UserFormValues): UserFormValues {
@@ -65,8 +65,7 @@ export async function POST(request: Request) {
     passwordHash: hashPassword(payload.password),
   };
 
-  users.push(newUser);
-  await saveUserRecords(users);
+  await createUserRecord(newUser);
 
   return NextResponse.json(
     {

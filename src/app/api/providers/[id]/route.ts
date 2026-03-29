@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { getCurrentUser } from "@/lib/auth";
-import { getProviders, saveProviders } from "@/lib/local-db";
+import { deleteProvider, getProviders, updateProvider } from "@/lib/local-db";
 import type { ProviderFormValues, ProviderSummary } from "@/modules/orders/types";
 
 function normalizeProvider(payload: ProviderFormValues): ProviderFormValues {
@@ -56,8 +56,7 @@ export async function PUT(
     ...payload,
   };
 
-  providers[index] = updatedProvider;
-  await saveProviders(providers);
+  await updateProvider(updatedProvider);
 
   return NextResponse.json(updatedProvider);
 }
@@ -74,12 +73,12 @@ export async function DELETE(
 
   const { id } = await context.params;
   const providers = await getProviders();
-  const nextProviders = providers.filter((provider) => provider.id !== id);
+  const exists = providers.some((provider) => provider.id === id);
 
-  if (nextProviders.length === providers.length) {
+  if (!exists) {
     return NextResponse.json({ message: "Proveedor no encontrado." }, { status: 404 });
   }
 
-  await saveProviders(nextProviders);
+  await deleteProvider(id);
   return NextResponse.json({ ok: true });
 }

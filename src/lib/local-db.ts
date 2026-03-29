@@ -210,6 +210,54 @@ function mapOrder(
   } satisfies OrderRecord;
 }
 
+function getSequenceDate(issueDate?: string) {
+  const baseDate = issueDate ? new Date(`${issueDate}T00:00:00`) : new Date();
+  return {
+    year: baseDate.getFullYear(),
+    month: baseDate.getMonth() + 1,
+  };
+}
+
+function buildOrderData(order: OrderRecord) {
+  return {
+    id: order.id,
+    code: order.code,
+    type: toDbType(order.type),
+    area: toDbRole(order.area),
+    requester: order.requester,
+    status: toDbStatus(order.status),
+    currency: toDbCurrency(order.currency),
+    workUnit: order.workUnit,
+    quotation: order.quotation,
+    issueDate: toDate(order.issueDate),
+    subtotalAmount: new Prisma.Decimal(order.subtotalAmount),
+    igvAmount: new Prisma.Decimal(order.igvAmount),
+    retentionAmount: new Prisma.Decimal(order.retentionAmount),
+    payableAmount: new Prisma.Decimal(order.payableAmount),
+    applyRetention: order.applyRetention,
+    amountInWords: order.amountInWords,
+    totalAmount: new Prisma.Decimal(order.totalAmount),
+    operationType: order.operationType,
+    detraccionAmount: new Prisma.Decimal(order.detraccionAmount),
+    detraccionRate: new Prisma.Decimal(order.detraccionRate),
+    itemsIncludeIgv: order.itemsIncludeIgv,
+    userId: order.userId,
+    providerId: order.providerId,
+  };
+}
+
+function buildOrderItems(order: OrderRecord) {
+  return order.items.map((item, index) => ({
+    id: item.id,
+    orderId: order.id,
+    position: index + 1,
+    quantity: new Prisma.Decimal(item.quantity),
+    description: item.description,
+    unitPrice: new Prisma.Decimal(item.unitPrice),
+    amount: new Prisma.Decimal(item.amount),
+  }));
+}
+
 async function ensureDefaults() {
   const [userCount, settingsCount] = await Promise.all([
     prisma.user.count(),
@@ -317,6 +365,20 @@ export async function getOrders() {
   return orders.map(mapOrder);
 }
 
+export async function getOrderById(id: string) {
+  await ensureDefaults();
+  const order = await prisma.order.findUnique({
+    where: { id },
+    include: {
+      user: true,
+      provider: true,
+      items: { orderBy: { position: "asc" } },
+    },
+  });
+
+  return order ? mapOrder(order) : null;
+}
+
 export async function saveOrders(orders: OrderRecord[]) {
   await ensureDefaults();
 
@@ -399,6 +461,47 @@ export async function saveOrders(orders: OrderRecord[]) {
         });
       }
     }
+  });
+}
+
+export async function createOrder(order: OrderRecord) {
+  await ensureDefaults();
+  const items = buildOrderItems(order);
+
+  await prisma.$transaction(async (tx) => {
+    await tx.order.create({
+      data: {
+        ...buildOrderData(order),
+        items: items.length > 0 ? { createMany: { data: items } } : undefined,
+      },
+    });
+  });
+}
+
+export async function updateOrder(order: OrderRecord) {
+  await ensureDefaults();
+  const items = buildOrderItems(order);
+  const { id, ...orderData } = buildOrderData(order);
+
+  await prisma.$transaction(async (tx) => {
+    await tx.order.update({
+      where: { id: order.id },
+      data: orderData,
+    });
+
+    await tx.orderItem.deleteMany({ where: { orderId: order.id } });
+
+    if (items.length > 0) {
+      await tx.orderItem.createMany({ data: items });
+    }
+  });
+}
+
+export async function cancelOrder(orderId: string) {
+  await ensureDefaults();
+  await prisma.order.update({
+    where: { id: orderId },
+    data: { status: toDbStatus("Anulado") },
   });
 }
 
@@ -501,6 +604,37 @@ export async function saveUserRecords(users: UserRecord[]) {
   });
 }
 
+export async function createUserRecord(user: UserRecord) {
+  await ensureDefaults();
+  await prisma.user.create({
+    data: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      passwordHash: user.passwordHash,
+      role: toDbRole(user.role),
+    },
+  });
+}
+
+export async function updateUserRecord(user: UserRecord) {
+  await ensureDefaults();
+  await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      name: user.name,
+      email: user.email,
+      passwordHash: user.passwordHash,
+      role: toDbRole(user.role),
+    },
+  });
+}
+
+export async function deleteUserRecord(userId: string) {
+  await ensureDefaults();
+  await prisma.user.delete({ where: { id: userId } });
+}
+
 export async function getUsers() {
   const users = await getUserRecords();
   return users.map((user) => ({
@@ -539,4 +673,63 @@ export function generateOrderCode(
   }, 0);
 
   return `${displayPrefix}${String(maxSequence + 1).padStart(3, "0")}`;
+}
+
+export async function getNextOrderCode(issueDate: string, area: OrderRecord["area"]) {
+  await ensureDefaults();
+  const { year, month } = getSequenceDate(issueDate);
+
+  const sequence = await prisma.orderSequence.upsert({
+    where: { year_month: { year, month } },
+    update: { current: { increment: 1 } },
+    create: { year, month, current: 1 },
+  });
+
+  const monthText = String(month).padStart(2, "0");
+  return `OC-CAP${year}-${area}${monthText}${String(sequence.current).padStart(3, "0")}`;
+}
+
+export async function createProvider(provider: ProviderSummary) {
+  await ensureDefaults();
+  await prisma.provider.create({
+    data: {
+      id: provider.id,
+      businessName: provider.businessName,
+      ruc: provider.ruc,
+      fiscalAddress: provider.fiscalAddress,
+      contactName: provider.contactName,
+      email: provider.email,
+      phone: provider.phone,
+      bankName: provider.bankName,
+      bankAccount: provider.bankAccount,
+      bankCci: provider.bankCci,
+      detraccionAccount: provider.detraccionAccount,
+      isRetentionAgent: provider.isRetentionAgent,
+    },
+  });
+}
+
+export async function updateProvider(provider: ProviderSummary) {
+  await ensureDefaults();
+  await prisma.provider.update({
+    where: { id: provider.id },
+    data: {
+      businessName: provider.businessName,
+      ruc: provider.ruc,
+      fiscalAddress: provider.fiscalAddress,
+      contactName: provider.contactName,
+      email: provider.email,
+      phone: provider.phone,
+      bankName: provider.bankName,
+      bankAccount: provider.bankAccount,
+      bankCci: provider.bankCci,
+      detraccionAccount: provider.detraccionAccount,
+      isRetentionAgent: provider.isRetentionAgent,
+    },
+  });
+}
+
+export async function deleteProvider(providerId: string) {
+  await ensureDefaults();
+  await prisma.provider.delete({ where: { id: providerId } });
 }

@@ -3,12 +3,11 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { amountToWords, calculateOrderTotals } from "@/lib/order-calculations";
 import {
-  generateOrderCode,
-  getOrders,
   getProviders,
   getSettings,
   getUsers,
-  saveOrders,
+  getNextOrderCode,
+  createOrder,
 } from "@/lib/local-db";
 import type { OrderFormValues, OrderItem, OrderRecord } from "@/modules/orders/types";
 
@@ -78,9 +77,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const [settings, orders, providers, users] = await Promise.all([
+  const [settings, providers, users] = await Promise.all([
     getSettings(),
-    getOrders(),
     getProviders(),
     getUsers(),
   ]);
@@ -107,9 +105,10 @@ export async function POST(request: Request) {
     currency: payload.currency,
   });
 
+  const code = await getNextOrderCode(payload.issueDate, user.role);
   const newOrder: OrderRecord = {
     id: crypto.randomUUID(),
-    code: generateOrderCode(payload.type, user.role, payload.issueDate, orders),
+    code,
     type: payload.type,
     area: user.role,
     userId: user.id,
@@ -136,8 +135,7 @@ export async function POST(request: Request) {
     itemsIncludeIgv: payload.itemsIncludeIgv,
   };
 
-  orders.push(newOrder);
-  await saveOrders(orders);
+  await createOrder(newOrder);
 
   return NextResponse.json(newOrder, { status: 201 });
 }

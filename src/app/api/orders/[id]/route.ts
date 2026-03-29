@@ -3,12 +3,13 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { amountToWords, calculateOrderTotals } from "@/lib/order-calculations";
 import {
-  generateOrderCode,
-  getOrders,
+  getOrderById,
   getProviders,
   getSettings,
   getUsers,
-  saveOrders,
+  getNextOrderCode,
+  updateOrder,
+  cancelOrder,
 } from "@/lib/local-db";
 import type { OrderFormValues, OrderItem, OrderRecord } from "@/modules/orders/types";
 
@@ -53,20 +54,30 @@ export async function PUT(
   const { id } = await context.params;
   const payload = normalizeFormFields((await request.json()) as OrderFormValues);
 
-  const [settings, orders, providers, users] = await Promise.all([
+  if (!payload.providerId || !payload.issueDate) {
+    return NextResponse.json(
+      { message: "Proveedor y fecha son obligatorios." },
+      { status: 400 },
+    );
+  }
+
+  if (payload.items.length === 0) {
+    return NextResponse.json(
+      { message: "Debes registrar al menos un item en la orden." },
+      { status: 400 },
+    );
+  }
+
+  const [settings, currentOrder, providers, users] = await Promise.all([
     getSettings(),
-    getOrders(),
+    getOrderById(id),
     getProviders(),
     getUsers(),
   ]);
 
-  const index = orders.findIndex((order) => order.id === id);
-
-  if (index === -1) {
+  if (!currentOrder) {
     return NextResponse.json({ message: "Orden no encontrada." }, { status: 404 });
   }
-
-  const currentOrder = orders[index];
 
   if (currentUser.role !== "ADMIN" && currentOrder.userId !== currentUser.id) {
     return NextResponse.json({ message: "No autorizado." }, { status: 403 });
@@ -75,13 +86,6 @@ export async function PUT(
   if (currentOrder.status !== "Borrador") {
     return NextResponse.json(
       { message: "Solo se pueden editar ordenes en borrador." },
-      { status: 400 },
-    );
-  }
-
-  if (payload.items.length === 0) {
-    return NextResponse.json(
-      { message: "Debes registrar al menos un item en la orden." },
       { status: 400 },
     );
   }
@@ -108,9 +112,15 @@ export async function PUT(
     currency: payload.currency,
   });
 
+  const shouldRegenerateCode =
+    currentOrder.issueDate !== payload.issueDate || currentOrder.area !== user.role;
+  const nextCode = shouldRegenerateCode
+    ? await getNextOrderCode(payload.issueDate, user.role)
+    : currentOrder.code;
+
   const updatedOrder: OrderRecord = {
     ...currentOrder,
-    code: generateOrderCode(payload.type, user.role, payload.issueDate, orders, currentOrder.id),
+    code: nextCode,
     type: payload.type,
     area: user.role,
     userId: user.id,
@@ -137,8 +147,7 @@ export async function PUT(
     itemsIncludeIgv: payload.itemsIncludeIgv,
   };
 
-  orders[index] = updatedOrder;
-  await saveOrders(orders);
+  await updateOrder(updatedOrder);
 
   return NextResponse.json(updatedOrder);
 }
@@ -154,14 +163,11 @@ export async function DELETE(
   }
 
   const { id } = await context.params;
-  const orders = await getOrders();
-  const index = orders.findIndex((order) => order.id === id);
+  const targetOrder = await getOrderById(id);
 
-  if (index === -1) {
+  if (!targetOrder) {
     return NextResponse.json({ message: "Orden no encontrada." }, { status: 404 });
   }
-
-  const targetOrder = orders[index];
 
   if (currentUser.role !== "ADMIN" && targetOrder.userId !== currentUser.id) {
     return NextResponse.json({ message: "No autorizado." }, { status: 403 });
@@ -174,7 +180,6 @@ export async function DELETE(
     );
   }
 
-  orders[index] = { ...targetOrder, status: "Anulado" };
-  await saveOrders(orders);
+  await cancelOrder(id);
   return NextResponse.json({ ok: true });
 }

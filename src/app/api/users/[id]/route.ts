@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { getCurrentUser } from "@/lib/auth";
 import { hashPassword } from "@/lib/auth-crypto";
-import { getOrders, getUserRecords, saveUserRecords } from "@/lib/local-db";
+import { deleteUserRecord, getOrders, getUserRecords, updateUserRecord } from "@/lib/local-db";
 import type { AppUser, UserFormValues, UserRecord } from "@/modules/orders/types";
 
 function normalizeUser(payload: UserFormValues): UserFormValues {
@@ -60,8 +60,7 @@ export async function PUT(
         : users[index].passwordHash,
   };
 
-  users[index] = updatedUser;
-  await saveUserRecords(users);
+  await updateUserRecord(updatedUser);
 
   return NextResponse.json({
     id: updatedUser.id,
@@ -91,12 +90,12 @@ export async function DELETE(
     );
   }
 
-  const nextUsers = users.filter((user) => user.id !== id);
+  const exists = users.some((user) => user.id === id);
 
-  if (nextUsers.length === users.length) {
+  if (!exists) {
     return NextResponse.json({ message: "Usuario no encontrado." }, { status: 404 });
   }
 
-  await saveUserRecords(nextUsers);
+  await deleteUserRecord(id);
   return NextResponse.json({ ok: true });
 }

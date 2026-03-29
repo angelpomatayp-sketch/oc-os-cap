@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { getCurrentUser } from "@/lib/auth";
-import { getProviders, saveProviders } from "@/lib/local-db";
+import { createProvider, getProviders } from "@/lib/local-db";
 import type { ProviderFormValues, ProviderSummary } from "@/modules/orders/types";
 
 function normalizeProvider(payload: ProviderFormValues): ProviderFormValues {
@@ -61,8 +61,7 @@ export async function POST(request: Request) {
     ...payload,
   };
 
-  providers.push(newProvider);
-  await saveProviders(providers);
+  await createProvider(newProvider);
 
   return NextResponse.json(newProvider, { status: 201 });
 }
