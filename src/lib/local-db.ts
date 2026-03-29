@@ -258,6 +258,17 @@ function buildOrderItems(order: OrderRecord) {
   }));
 }
 
+function buildOrderItemsForNestedCreate(order: OrderRecord) {
+  return order.items.map((item, index) => ({
+    id: item.id,
+    position: index + 1,
+    quantity: new Prisma.Decimal(item.quantity),
+    description: item.description,
+    unitPrice: new Prisma.Decimal(item.unitPrice),
+    amount: new Prisma.Decimal(item.amount),
+  }));
+}
+
 async function ensureDefaults() {
   const [userCount, settingsCount] = await Promise.all([
     prisma.user.count(),
@@ -466,7 +477,7 @@ export async function saveOrders(orders: OrderRecord[]) {
 
 export async function createOrder(order: OrderRecord) {
   await ensureDefaults();
-  const items = buildOrderItems(order);
+  const items = buildOrderItemsForNestedCreate(order);
 
   await prisma.$transaction(async (tx) => {
     await tx.order.create({
