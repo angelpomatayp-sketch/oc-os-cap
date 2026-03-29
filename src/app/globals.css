@@ -83,18 +83,20 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 18px 22px;
+  padding: 0 14px 22px;
 }
 
 .sidebar__logo-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 62px;
 }
 
 .sidebar__logo {
-  width: 92px;
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.14));
 }
