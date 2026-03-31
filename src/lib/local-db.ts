@@ -516,9 +516,9 @@ export async function cancelOrder(orderId: string) {
   });
 }
 
-export async function deleteAllOrders() {
+export async function deleteOrderById(orderId: string) {
   await ensureDefaults();
-  await prisma.order.deleteMany();
+  await prisma.order.delete({ where: { id: orderId } });
 }
 
 export async function getSettings() {

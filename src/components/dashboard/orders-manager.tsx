@@ -419,20 +419,18 @@ export function OrdersManager({
     await loadData();
   }
 
-  async function handleDeleteAllOrders() {
-    const confirmed = window.confirm(
-      "¿Eliminar todas las órdenes? Esta acción no se puede deshacer.",
-    );
+  async function handleDeleteOrder(id: string) {
+    const confirmed = window.confirm("¿Eliminar esta orden? Esta acción no se puede deshacer.");
 
     if (!confirmed) {
       return;
     }
 
-    const response = await fetch("/api/orders/purge", { method: "POST" });
+    const response = await fetch(`/api/orders/${id}/purge`, { method: "DELETE" });
 
     if (!response.ok) {
       const payload = (await response.json()) as { message?: string };
-      setError(payload.message ?? "No se pudo eliminar las órdenes.");
+      setError(payload.message ?? "No se pudo eliminar la orden.");
       return;
     }
 
@@ -445,15 +443,6 @@ export function OrdersManager({
         <h1 className="orders-header__title">Órdenes</h1>
         <div className="orders-header__actions">
           {error && !open ? <p className="form-error">{error}</p> : null}
-          {currentUser?.role === "ADMIN" ? (
-            <button
-              type="button"
-              className="button-secondary"
-              onClick={handleDeleteAllOrders}
-            >
-              Eliminar todo
-            </button>
-          ) : null}
           <button type="button" className="button-primary" onClick={openCreateModal}>
             + Crear
           </button>
@@ -540,6 +529,15 @@ export function OrdersManager({
                       >
                         PDF
                       </Link>
+                      {currentUser?.role === "ADMIN" && (
+                        <button
+                          type="button"
+                          className="btn-action btn-action--danger"
+                          onClick={() => handleDeleteOrder(order.id)}
+                        >
+                          Eliminar
+                        </button>
+                      )}
                       {order.status === "Borrador" && (
                         <>
                           <button
