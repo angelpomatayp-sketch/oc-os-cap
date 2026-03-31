@@ -191,6 +191,10 @@ export function OrdersManager({
   >({});
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [confirmState, setConfirmState] = useState<{
+    type: "delete" | "anular";
+    orderId: string;
+  } | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterArea, setFilterArea] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
@@ -408,33 +412,40 @@ export function OrdersManager({
     closeModal();
   }
 
-  async function handleAnular(id: string) {
-    const confirmed = window.confirm("¿Deseas anular esta orden? El número quedará reservado y no podrá reutilizarse.");
-
-    if (!confirmed) {
-      return;
-    }
-
-    await fetch(`/api/orders/${id}`, { method: "DELETE" });
-    await loadData();
+  function openConfirm(type: "delete" | "anular", orderId: string) {
+    setConfirmState({ type, orderId });
   }
 
-  async function handleDeleteOrder(id: string) {
-    const confirmed = window.confirm("¿Eliminar esta orden? Esta acción no se puede deshacer.");
+  function closeConfirm() {
+    setConfirmState(null);
+  }
 
-    if (!confirmed) {
+  async function confirmAction() {
+    if (!confirmState) {
       return;
     }
 
-    const response = await fetch(`/api/orders/${id}/purge`, { method: "DELETE" });
+    const { type, orderId } = confirmState;
+    setError("");
+
+    const response =
+      type === "delete"
+        ? await fetch(`/api/orders/${orderId}/purge`, { method: "DELETE" })
+        : await fetch(`/api/orders/${orderId}`, { method: "DELETE" });
 
     if (!response.ok) {
       const payload = (await response.json()) as { message?: string };
-      setError(payload.message ?? "No se pudo eliminar la orden.");
+      setError(
+        payload.message ??
+          (type === "delete"
+            ? "No se pudo eliminar la orden."
+            : "No se pudo anular la orden."),
+      );
       return;
     }
 
     await loadData();
+    closeConfirm();
   }
 
   return (
@@ -533,7 +544,7 @@ export function OrdersManager({
                         <button
                           type="button"
                           className="btn-action btn-action--danger"
-                          onClick={() => handleDeleteOrder(order.id)}
+                          onClick={() => openConfirm("delete", order.id)}
                         >
                           Eliminar
                         </button>
@@ -550,7 +561,7 @@ export function OrdersManager({
                           <button
                             type="button"
                             className="btn-action btn-action--danger"
-                            onClick={() => handleAnular(order.id)}
+                            onClick={() => openConfirm("anular", order.id)}
                           >
                             Anular
                           </button>
@@ -853,6 +864,28 @@ export function OrdersManager({
             </div>
           </aside>
         </form>
+      </Modal>
+
+      <Modal
+        title={confirmState?.type === "delete" ? "Eliminar orden" : "Anular orden"}
+        open={Boolean(confirmState)}
+        onClose={closeConfirm}
+      >
+        <div className="modal-form">
+          <p className="modal-confirm__copy">
+            {confirmState?.type === "delete"
+              ? "¿Eliminar esta orden? Esta acción no se puede deshacer."
+              : "¿Anular esta orden? El número quedará reservado y no podrá reutilizarse."}
+          </p>
+          <div className="modal-actions">
+            <button type="button" className="button-secondary" onClick={closeConfirm}>
+              Cancelar
+            </button>
+            <button type="button" className="button-primary" onClick={confirmAction}>
+              Confirmar
+            </button>
+          </div>
+        </div>
       </Modal>
     </>
   );

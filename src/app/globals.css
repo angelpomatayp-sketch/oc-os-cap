@@ -830,6 +830,13 @@ button {
   margin-top: 16px;
 }
 
+.modal-confirm__copy {
+  margin: 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
 /* ── Wide modal variant ─────────────────────────────────── */
 .modal-card--wide {
   width: min(980px, 96vw);
