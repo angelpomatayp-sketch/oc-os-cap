@@ -107,6 +107,9 @@ export type OrderRecord = {
   amountInWords: string;
   totalAmount: number;
   issueDate: string;
+  paymentMethod: string;
+  deliveryTime: string;
+  deliveryPlace: string;
   operationType: DetraccionType;
   detraccionAmount: number;
   detraccionRate: number;
@@ -125,6 +128,9 @@ export type OrderFormValues = {
   applyRetention: boolean;
   totalAmount: number;
   issueDate: string;
+  paymentMethod: string;
+  deliveryTime: string;
+  deliveryPlace: string;
   operationType: DetraccionType;
   itemsIncludeIgv: boolean;
 };

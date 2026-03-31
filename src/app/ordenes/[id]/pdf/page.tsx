@@ -342,7 +342,7 @@ export default async function OrderPdfPage({
             <tbody>
               <tr>
                 <td>Forma de pago</td>
-                <td>DEPOSITO</td>
+                <td>{order.paymentMethod || "-"}</td>
               </tr>
               <tr>
                 <td>Valor monetario</td>
@@ -350,11 +350,11 @@ export default async function OrderPdfPage({
               </tr>
               <tr>
                 <td>Tiempo de entrega</td>
-                <td>Inmediata</td>
+                <td>{order.deliveryTime || "-"}</td>
               </tr>
               <tr>
                 <td>Lugar de entrega</td>
-                <td>{order.workUnit || "-"}</td>
+                <td>{order.deliveryPlace || "-"}</td>
               </tr>
               <tr>
                 <td>CTA.y/o CCI- Banco</td>

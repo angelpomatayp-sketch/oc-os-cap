@@ -30,6 +30,9 @@ const emptyOrder: OrderFormValues = {
   applyRetention: false,
   totalAmount: 0,
   issueDate: "",
+  paymentMethod: "DEPOSITO",
+  deliveryTime: "",
+  deliveryPlace: "",
   operationType: "ninguna",
   itemsIncludeIgv: false,
 };
@@ -245,6 +248,9 @@ export function OrdersManager({
       operationType: "ninguna",
       quotation: "",
       issueDate: getLocalIsoDate(),
+      paymentMethod: "DEPOSITO",
+      deliveryTime: "",
+      deliveryPlace: "",
     });
     setItemDrafts({});
     setError("");
@@ -265,6 +271,9 @@ export function OrdersManager({
       applyRetention: order.applyRetention,
       totalAmount: order.totalAmount,
       issueDate: order.issueDate,
+      paymentMethod: order.paymentMethod ?? "DEPOSITO",
+      deliveryTime: order.deliveryTime ?? "",
+      deliveryPlace: order.deliveryPlace ?? "",
       operationType: order.operationType ?? "ninguna",
       itemsIncludeIgv: order.itemsIncludeIgv ?? false,
     });
@@ -624,6 +633,24 @@ export function OrdersManager({
                   required
                 />
               </label>
+              <label className="ofield">
+                <span>Forma de pago</span>
+                <select
+                  value={form.paymentMethod}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      paymentMethod: event.target.value,
+                    }))
+                  }
+                >
+                  <option value="DEPOSITO">Depósito</option>
+                  <option value="TRANSFERENCIA">Transferencia bancaria</option>
+                  <option value="CHEQUE">Cheque</option>
+                  <option value="EFECTIVO">Efectivo</option>
+                  <option value="OTRO">Otro</option>
+                </select>
+              </label>
               <label className="ofield ofield--span2">
                 <span>Proveedor</span>
                 <select
@@ -664,6 +691,26 @@ export function OrdersManager({
                     setForm((current) => ({ ...current, workUnit: event.target.value }))
                   }
                   placeholder="Ej: PORACOTA"
+                />
+              </label>
+              <label className="ofield">
+                <span>Tiempo de entrega</span>
+                <input
+                  value={form.deliveryTime}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, deliveryTime: event.target.value }))
+                  }
+                  placeholder="Ej: 3 días"
+                />
+              </label>
+              <label className="ofield ofield--span2">
+                <span>Lugar de entrega</span>
+                <input
+                  value={form.deliveryPlace}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, deliveryPlace: event.target.value }))
+                  }
+                  placeholder="Ej: HYO"
                 />
               </label>
               <label className="ofield">
