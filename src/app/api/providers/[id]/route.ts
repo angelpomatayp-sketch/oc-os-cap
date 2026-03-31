@@ -12,10 +12,14 @@ function normalizeProvider(payload: ProviderFormValues): ProviderFormValues {
     contactName: payload.contactName.trim(),
     email: payload.email.trim(),
     phone: payload.phone.trim(),
-    bankName: payload.bankName.trim(),
-    bankAccount: payload.bankAccount.trim(),
-    bankCci: payload.bankCci.trim(),
-    detraccionAccount: payload.detraccionAccount.trim(),
+    bankNamePen: payload.bankNamePen.trim(),
+    bankAccountPen: payload.bankAccountPen.trim(),
+    bankCciPen: payload.bankCciPen.trim(),
+    detraccionAccountPen: payload.detraccionAccountPen.trim(),
+    bankNameUsd: payload.bankNameUsd.trim(),
+    bankAccountUsd: payload.bankAccountUsd.trim(),
+    bankCciUsd: payload.bankCciUsd.trim(),
+    detraccionAccountUsd: payload.detraccionAccountUsd.trim(),
     isRetentionAgent: Boolean(payload.isRetentionAgent),
   };
 }

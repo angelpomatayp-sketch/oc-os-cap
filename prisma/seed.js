@@ -78,10 +78,14 @@ async function main() {
         contactName: provider.contactName || "",
         email: provider.email || "",
         phone: provider.phone || "",
-        bankName: provider.bankName || "",
-        bankAccount: provider.bankAccount || "",
-        bankCci: provider.bankCci || "",
-        detraccionAccount: provider.detraccionAccount || "",
+        bankNamePen: provider.bankNamePen || provider.bankName || "",
+        bankAccountPen: provider.bankAccountPen || provider.bankAccount || "",
+        bankCciPen: provider.bankCciPen || provider.bankCci || "",
+        detraccionAccountPen: provider.detraccionAccountPen || provider.detraccionAccount || "",
+        bankNameUsd: provider.bankNameUsd || "",
+        bankAccountUsd: provider.bankAccountUsd || "",
+        bankCciUsd: provider.bankCciUsd || "",
+        detraccionAccountUsd: provider.detraccionAccountUsd || "",
       })),
     });
   }

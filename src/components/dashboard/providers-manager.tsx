@@ -13,10 +13,14 @@ const emptyProvider: ProviderFormValues = {
   contactName: "",
   email: "",
   phone: "",
-  bankName: "",
-  bankAccount: "",
-  bankCci: "",
-  detraccionAccount: "",
+  bankNamePen: "",
+  bankAccountPen: "",
+  bankCciPen: "",
+  detraccionAccountPen: "",
+  bankNameUsd: "",
+  bankAccountUsd: "",
+  bankCciUsd: "",
+  detraccionAccountUsd: "",
   isRetentionAgent: false,
 };
 
@@ -54,10 +58,14 @@ export function ProvidersManager({
       contactName: provider.contactName,
       email: provider.email,
       phone: provider.phone,
-      bankName: provider.bankName,
-      bankAccount: provider.bankAccount,
-      bankCci: provider.bankCci,
-      detraccionAccount: provider.detraccionAccount,
+      bankNamePen: provider.bankNamePen,
+      bankAccountPen: provider.bankAccountPen,
+      bankCciPen: provider.bankCciPen,
+      detraccionAccountPen: provider.detraccionAccountPen,
+      bankNameUsd: provider.bankNameUsd,
+      bankAccountUsd: provider.bankAccountUsd,
+      bankCciUsd: provider.bankCciUsd,
+      detraccionAccountUsd: provider.detraccionAccountUsd,
       isRetentionAgent: provider.isRetentionAgent,
     });
     setError("");
@@ -255,41 +263,86 @@ export function ProvidersManager({
                 }
               />
             </label>
+            <div className="pform__section pfield--full">
+              <p className="pform__section-title">Cuenta en Soles (PEN)</p>
+            </div>
             <label className="pfield">
-              <span>Banco</span>
+              <span>Banco (PEN)</span>
               <input
-                value={form.bankName}
+                value={form.bankNamePen}
                 onChange={(event) =>
-                  setForm((current) => ({ ...current, bankName: event.target.value }))
+                  setForm((current) => ({ ...current, bankNamePen: event.target.value }))
                 }
               />
             </label>
             <label className="pfield">
-              <span>Cuenta bancaria</span>
+              <span>Cuenta bancaria (PEN)</span>
               <input
-                value={form.bankAccount}
+                value={form.bankAccountPen}
                 onChange={(event) =>
-                  setForm((current) => ({ ...current, bankAccount: event.target.value }))
+                  setForm((current) => ({ ...current, bankAccountPen: event.target.value }))
                 }
               />
             </label>
             <label className="pfield">
-              <span>CCI</span>
+              <span>CCI (PEN)</span>
               <input
-                value={form.bankCci}
+                value={form.bankCciPen}
                 onChange={(event) =>
-                  setForm((current) => ({ ...current, bankCci: event.target.value }))
+                  setForm((current) => ({ ...current, bankCciPen: event.target.value }))
                 }
               />
             </label>
             <label className="pfield">
-              <span>Cuenta detracción</span>
+              <span>Cuenta detracción (PEN)</span>
               <input
-                value={form.detraccionAccount}
+                value={form.detraccionAccountPen}
                 onChange={(event) =>
                   setForm((current) => ({
                     ...current,
-                    detraccionAccount: event.target.value,
+                    detraccionAccountPen: event.target.value,
+                  }))
+                }
+              />
+            </label>
+            <div className="pform__section pfield--full">
+              <p className="pform__section-title">Cuenta en Dólares (USD)</p>
+            </div>
+            <label className="pfield">
+              <span>Banco (USD)</span>
+              <input
+                value={form.bankNameUsd}
+                onChange={(event) =>
+                  setForm((current) => ({ ...current, bankNameUsd: event.target.value }))
+                }
+              />
+            </label>
+            <label className="pfield">
+              <span>Cuenta bancaria (USD)</span>
+              <input
+                value={form.bankAccountUsd}
+                onChange={(event) =>
+                  setForm((current) => ({ ...current, bankAccountUsd: event.target.value }))
+                }
+              />
+            </label>
+            <label className="pfield">
+              <span>CCI (USD)</span>
+              <input
+                value={form.bankCciUsd}
+                onChange={(event) =>
+                  setForm((current) => ({ ...current, bankCciUsd: event.target.value }))
+                }
+              />
+            </label>
+            <label className="pfield">
+              <span>Cuenta detracción (USD)</span>
+              <input
+                value={form.detraccionAccountUsd}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    detraccionAccountUsd: event.target.value,
                   }))
                 }
               />

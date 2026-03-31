@@ -35,10 +35,14 @@ export type ProviderSummary = {
   contactName: string;
   email: string;
   phone: string;
-  bankName: string;
-  bankAccount: string;
-  bankCci: string;
-  detraccionAccount: string;
+  bankNamePen: string;
+  bankAccountPen: string;
+  bankCciPen: string;
+  detraccionAccountPen: string;
+  bankNameUsd: string;
+  bankAccountUsd: string;
+  bankCciUsd: string;
+  detraccionAccountUsd: string;
   isRetentionAgent: boolean;
 };
 

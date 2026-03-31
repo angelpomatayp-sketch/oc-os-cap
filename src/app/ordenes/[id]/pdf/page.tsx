@@ -29,6 +29,40 @@ function moneyParts(currency: "PEN" | "USD", amount: number) {
   };
 }
 
+function selectProviderAccount(
+  provider: {
+    bankNamePen: string;
+    bankAccountPen: string;
+    bankCciPen: string;
+    detraccionAccountPen: string;
+    bankNameUsd: string;
+    bankAccountUsd: string;
+    bankCciUsd: string;
+    detraccionAccountUsd: string;
+  },
+  currency: "PEN" | "USD",
+) {
+  if (currency === "USD") {
+    const hasUsd =
+      provider.bankAccountUsd || provider.bankCciUsd || provider.bankNameUsd || provider.detraccionAccountUsd;
+    if (hasUsd) {
+      return {
+        bankName: provider.bankNameUsd,
+        bankAccount: provider.bankAccountUsd,
+        bankCci: provider.bankCciUsd,
+        detraccionAccount: provider.detraccionAccountUsd,
+      };
+    }
+  }
+
+  return {
+    bankName: provider.bankNamePen,
+    bankAccount: provider.bankAccountPen,
+    bankCci: provider.bankCciPen,
+    detraccionAccount: provider.detraccionAccountPen,
+  };
+}
+
 export default async function OrderPdfPage({
   params,
 }: {
@@ -76,6 +110,7 @@ export default async function OrderPdfPage({
   const detraccionLabel = applyDetraccion
     ? `DETRACCIÓN ${order.detraccionRate}%`
     : `RETENCIÓN ${settings.retentionRate}%`;
+  const providerAccount = selectProviderAccount(provider, order.currency);
 
   return (
     <div className="print-page">
@@ -324,14 +359,14 @@ export default async function OrderPdfPage({
               <tr>
                 <td>CTA.y/o CCI- Banco</td>
                 <td>
-                  {[provider.bankAccount, provider.bankCci, provider.bankName]
+                  {[providerAccount.bankAccount, providerAccount.bankCci, providerAccount.bankName]
                     .filter(Boolean)
                     .join(" - ") || "-"}
                 </td>
               </tr>
               <tr>
                 <td>Cta. Detracciones</td>
-                <td>{provider.detraccionAccount || "-"}</td>
+                <td>{providerAccount.detraccionAccount || "-"}</td>
               </tr>
             </tbody>
           </table>

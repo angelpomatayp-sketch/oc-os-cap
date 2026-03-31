@@ -127,10 +127,14 @@ function mapProvider(provider: {
   contactName: string;
   email: string;
   phone: string;
-  bankName: string;
-  bankAccount: string;
-  bankCci: string;
-  detraccionAccount: string;
+  bankNamePen: string;
+  bankAccountPen: string;
+  bankCciPen: string;
+  detraccionAccountPen: string;
+  bankNameUsd: string;
+  bankAccountUsd: string;
+  bankCciUsd: string;
+  detraccionAccountUsd: string;
   isRetentionAgent: boolean;
 }) {
   return {
@@ -141,10 +145,14 @@ function mapProvider(provider: {
     contactName: provider.contactName,
     email: provider.email,
     phone: provider.phone,
-    bankName: provider.bankName,
-    bankAccount: provider.bankAccount,
-    bankCci: provider.bankCci,
-    detraccionAccount: provider.detraccionAccount,
+    bankNamePen: provider.bankNamePen,
+    bankAccountPen: provider.bankAccountPen,
+    bankCciPen: provider.bankCciPen,
+    detraccionAccountPen: provider.detraccionAccountPen,
+    bankNameUsd: provider.bankNameUsd,
+    bankAccountUsd: provider.bankAccountUsd,
+    bankCciUsd: provider.bankCciUsd,
+    detraccionAccountUsd: provider.detraccionAccountUsd,
     isRetentionAgent: provider.isRetentionAgent,
   } satisfies ProviderSummary;
 }
@@ -338,10 +346,14 @@ export async function saveProviders(providers: ProviderSummary[]) {
           contactName: provider.contactName,
           email: provider.email,
           phone: provider.phone,
-          bankName: provider.bankName,
-          bankAccount: provider.bankAccount,
-          bankCci: provider.bankCci,
-          detraccionAccount: provider.detraccionAccount,
+          bankNamePen: provider.bankNamePen,
+          bankAccountPen: provider.bankAccountPen,
+          bankCciPen: provider.bankCciPen,
+          detraccionAccountPen: provider.detraccionAccountPen,
+          bankNameUsd: provider.bankNameUsd,
+          bankAccountUsd: provider.bankAccountUsd,
+          bankCciUsd: provider.bankCciUsd,
+          detraccionAccountUsd: provider.detraccionAccountUsd,
           isRetentionAgent: provider.isRetentionAgent,
         },
         create: {
@@ -352,10 +364,14 @@ export async function saveProviders(providers: ProviderSummary[]) {
           contactName: provider.contactName,
           email: provider.email,
           phone: provider.phone,
-          bankName: provider.bankName,
-          bankAccount: provider.bankAccount,
-          bankCci: provider.bankCci,
-          detraccionAccount: provider.detraccionAccount,
+          bankNamePen: provider.bankNamePen,
+          bankAccountPen: provider.bankAccountPen,
+          bankCciPen: provider.bankCciPen,
+          detraccionAccountPen: provider.detraccionAccountPen,
+          bankNameUsd: provider.bankNameUsd,
+          bankAccountUsd: provider.bankAccountUsd,
+          bankCciUsd: provider.bankCciUsd,
+          detraccionAccountUsd: provider.detraccionAccountUsd,
           isRetentionAgent: provider.isRetentionAgent,
         },
       });
@@ -716,10 +732,14 @@ export async function createProvider(provider: ProviderSummary) {
       contactName: provider.contactName,
       email: provider.email,
       phone: provider.phone,
-      bankName: provider.bankName,
-      bankAccount: provider.bankAccount,
-      bankCci: provider.bankCci,
-      detraccionAccount: provider.detraccionAccount,
+      bankNamePen: provider.bankNamePen,
+      bankAccountPen: provider.bankAccountPen,
+      bankCciPen: provider.bankCciPen,
+      detraccionAccountPen: provider.detraccionAccountPen,
+      bankNameUsd: provider.bankNameUsd,
+      bankAccountUsd: provider.bankAccountUsd,
+      bankCciUsd: provider.bankCciUsd,
+      detraccionAccountUsd: provider.detraccionAccountUsd,
       isRetentionAgent: provider.isRetentionAgent,
     },
   });
@@ -736,10 +756,14 @@ export async function updateProvider(provider: ProviderSummary) {
       contactName: provider.contactName,
       email: provider.email,
       phone: provider.phone,
-      bankName: provider.bankName,
-      bankAccount: provider.bankAccount,
-      bankCci: provider.bankCci,
-      detraccionAccount: provider.detraccionAccount,
+      bankNamePen: provider.bankNamePen,
+      bankAccountPen: provider.bankAccountPen,
+      bankCciPen: provider.bankCciPen,
+      detraccionAccountPen: provider.detraccionAccountPen,
+      bankNameUsd: provider.bankNameUsd,
+      bankAccountUsd: provider.bankAccountUsd,
+      bankCciUsd: provider.bankCciUsd,
+      detraccionAccountUsd: provider.detraccionAccountUsd,
       isRetentionAgent: provider.isRetentionAgent,
     },
   });

@@ -1107,6 +1107,20 @@ button {
   grid-template-columns: repeat(2, 1fr);
 }
 
+.pform__section {
+  display: flex;
+  align-items: center;
+}
+
+.pform__section-title {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1f2a44;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .pfield {
   display: flex;
   flex-direction: column;

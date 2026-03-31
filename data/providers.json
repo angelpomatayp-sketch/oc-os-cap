@@ -7,9 +7,13 @@
     "contactName": "ANGEL POMATAY",
     "email": "angel.pomatay@gmail.com",
     "phone": "958017157",
-    "bankName": "Interbank",
-    "bankAccount": "1234567891592",
-    "bankCci": "12345678915927895120",
-    "detraccionAccount": "1238521230215"
+    "bankNamePen": "Interbank",
+    "bankAccountPen": "1234567891592",
+    "bankCciPen": "12345678915927895120",
+    "detraccionAccountPen": "1238521230215",
+    "bankNameUsd": "",
+    "bankAccountUsd": "",
+    "bankCciUsd": "",
+    "detraccionAccountUsd": ""
   }
 ]
