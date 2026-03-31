@@ -516,6 +516,11 @@ export async function cancelOrder(orderId: string) {
   });
 }
 
+export async function deleteAllOrders() {
+  await ensureDefaults();
+  await prisma.order.deleteMany();
+}
+
 export async function getSettings() {
   await ensureDefaults();
   const settings = await prisma.systemSetting.findUnique({ where: { id: 1 } });

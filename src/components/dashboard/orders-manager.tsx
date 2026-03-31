@@ -104,6 +104,14 @@ function createEmptyItem(): OrderItem {
   };
 }
 
+function getLocalIsoDate() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function recalculateItem(item: OrderItem): OrderItem {
   const quantity = Number(item.quantity) || 0;
   const unitPrice = Number(item.unitPrice) || 0;
@@ -232,7 +240,7 @@ export function OrdersManager({
       applyRetention: false,
       operationType: "ninguna",
       quotation: "",
-      issueDate: new Date().toISOString().slice(0, 10),
+      issueDate: getLocalIsoDate(),
     });
     setItemDrafts({});
     setError("");
@@ -411,12 +419,41 @@ export function OrdersManager({
     await loadData();
   }
 
+  async function handleDeleteAllOrders() {
+    const confirmed = window.confirm(
+      "¿Eliminar todas las órdenes? Esta acción no se puede deshacer.",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const response = await fetch("/api/orders/purge", { method: "POST" });
+
+    if (!response.ok) {
+      const payload = (await response.json()) as { message?: string };
+      setError(payload.message ?? "No se pudo eliminar las órdenes.");
+      return;
+    }
+
+    await loadData();
+  }
+
   return (
     <>
       <div className="orders-header">
         <h1 className="orders-header__title">Órdenes</h1>
         <div className="orders-header__actions">
           {error && !open ? <p className="form-error">{error}</p> : null}
+          {currentUser?.role === "ADMIN" ? (
+            <button
+              type="button"
+              className="button-secondary"
+              onClick={handleDeleteAllOrders}
+            >
+              Eliminar todo
+            </button>
+          ) : null}
           <button type="button" className="button-primary" onClick={openCreateModal}>
             + Crear
           </button>
