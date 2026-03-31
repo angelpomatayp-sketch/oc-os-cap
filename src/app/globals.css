@@ -855,13 +855,35 @@ button {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+}
+
+.oform__section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.oform__section-title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.oform__section-card {
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #fff;
 }
 
 .oform__fields {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 12px;
 }
 
 /* Generic field used inside oform */
@@ -1035,6 +1057,13 @@ button {
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
+}
+
+.oform__summary {
+  padding: 16px 16px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #fff;
 }
 
 .oform__summary-title {

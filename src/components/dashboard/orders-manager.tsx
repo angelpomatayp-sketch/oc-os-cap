@@ -595,139 +595,143 @@ export function OrdersManager({
         <form className="oform" onSubmit={handleSubmit}>
           {/* ── Main column ── */}
           <div className="oform__main">
-            {/* Top fields */}
-            <div className="oform__fields">
-              <label className="ofield">
-                <span>Tipo</span>
-                <select
-                  value={form.type}
-                  onChange={(event) =>
-                    setForm((current) => ({
-                      ...current,
-                      type: event.target.value as OrderFormValues["type"],
-                    }))
-                  }
-                >
-                  <option value="OC">Orden de compra</option>
-                  <option value="OS">Orden de servicio</option>
-                </select>
-              </label>
-              <label className="ofield">
-                <span>N° Cotización</span>
-                <input
-                  value={form.quotation}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, quotation: event.target.value }))
-                  }
-                  placeholder="Ej: COT-2026-001"
-                />
-              </label>
-              <label className="ofield">
-                <span>Fecha</span>
-                <input
-                  type="date"
-                  value={form.issueDate}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, issueDate: event.target.value }))
-                  }
-                  required
-                />
-              </label>
-              <label className="ofield">
-                <span>Forma de pago</span>
-                <select
-                  value={form.paymentMethod}
-                  onChange={(event) =>
-                    setForm((current) => ({
-                      ...current,
-                      paymentMethod: event.target.value,
-                    }))
-                  }
-                >
-                  <option value="DEPOSITO">Depósito</option>
-                  <option value="TRANSFERENCIA">Transferencia bancaria</option>
-                  <option value="CHEQUE">Cheque</option>
-                  <option value="EFECTIVO">Efectivo</option>
-                  <option value="OTRO">Otro</option>
-                </select>
-              </label>
-              <label className="ofield ofield--span2">
-                <span>Proveedor</span>
-                <select
-                  value={form.providerId}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, providerId: event.target.value }))
-                  }
-                  required
-                >
-                  <option value="">Selecciona un proveedor</option>
-                  {providers.map((provider) => (
-                    <option key={provider.id} value={provider.id}>
-                      {provider.businessName}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="ofield">
-                <span>Moneda</span>
-                <select
-                  value={form.currency}
-                  onChange={(event) =>
-                    setForm((current) => ({
-                      ...current,
-                      currency: event.target.value as OrderFormValues["currency"],
-                    }))
-                  }
-                >
-                  <option value="PEN">PEN — Soles</option>
-                  <option value="USD">USD — Dólares</option>
-                </select>
-              </label>
-              <label className="ofield ofield--span2">
-                <span>Unidad / Obra</span>
-                <input
-                  value={form.workUnit}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, workUnit: event.target.value }))
-                  }
-                  placeholder="Ej: PORACOTA"
-                />
-              </label>
-              <label className="ofield">
-                <span>Tiempo de entrega</span>
-                <input
-                  value={form.deliveryTime}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, deliveryTime: event.target.value }))
-                  }
-                  placeholder="Ej: 3 días"
-                />
-              </label>
-              <label className="ofield ofield--span2">
-                <span>Lugar de entrega</span>
-                <input
-                  value={form.deliveryPlace}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, deliveryPlace: event.target.value }))
-                  }
-                  placeholder="Ej: HYO"
-                />
-              </label>
-              <label className="ofield">
-                <span>Estado</span>
-                <select
-                  value={form.status}
-                  onChange={(event) =>
-                    setForm((current) => ({
-                      ...current,
-                      status: event.target.value as OrderFormValues["status"],
-                    }))
-                  }
-                >
-                  <option value="Borrador">Borrador</option>
-                  <option value="Emitido">Emitido</option>
-                </select>
-              </label>
+            <div className="oform__section">
+              <p className="oform__section-title">Información general</p>
+              <div className="oform__section-card">
+                <div className="oform__fields">
+                  <label className="ofield">
+                    <span>Tipo</span>
+                    <select
+                      value={form.type}
+                      onChange={(event) =>
+                        setForm((current) => ({
+                          ...current,
+                          type: event.target.value as OrderFormValues["type"],
+                        }))
+                      }
+                    >
+                      <option value="OC">Orden de compra</option>
+                      <option value="OS">Orden de servicio</option>
+                    </select>
+                  </label>
+                  <label className="ofield">
+                    <span>N° Cotización</span>
+                    <input
+                      value={form.quotation}
+                      onChange={(event) =>
+                        setForm((current) => ({ ...current, quotation: event.target.value }))
+                      }
+                      placeholder="Ej: COT-2026-001"
+                    />
+                  </label>
+                  <label className="ofield">
+                    <span>Fecha</span>
+                    <input
+                      type="date"
+                      value={form.issueDate}
+                      onChange={(event) =>
+                        setForm((current) => ({ ...current, issueDate: event.target.value }))
+                      }
+                      required
+                    />
+                  </label>
+                  <label className="ofield">
+                    <span>Forma de pago</span>
+                    <select
+                      value={form.paymentMethod}
+                      onChange={(event) =>
+                        setForm((current) => ({
+                          ...current,
+                          paymentMethod: event.target.value,
+                        }))
+                      }
+                    >
+                      <option value="DEPOSITO">Depósito</option>
+                      <option value="TRANSFERENCIA">Transferencia bancaria</option>
+                      <option value="CHEQUE">Cheque</option>
+                      <option value="EFECTIVO">Efectivo</option>
+                      <option value="OTRO">Otro</option>
+                    </select>
+                  </label>
+                  <label className="ofield ofield--span2">
+                    <span>Proveedor</span>
+                    <select
+                      value={form.providerId}
+                      onChange={(event) =>
+                        setForm((current) => ({ ...current, providerId: event.target.value }))
+                      }
+                      required
+                    >
+                      <option value="">Selecciona un proveedor</option>
+                      {providers.map((provider) => (
+                        <option key={provider.id} value={provider.id}>
+                          {provider.businessName}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="ofield">
+                    <span>Moneda</span>
+                    <select
+                      value={form.currency}
+                      onChange={(event) =>
+                        setForm((current) => ({
+                          ...current,
+                          currency: event.target.value as OrderFormValues["currency"],
+                        }))
+                      }
+                    >
+                      <option value="PEN">PEN — Soles</option>
+                      <option value="USD">USD — Dólares</option>
+                    </select>
+                  </label>
+                  <label className="ofield">
+                    <span>Unidad / Obra</span>
+                    <input
+                      value={form.workUnit}
+                      onChange={(event) =>
+                        setForm((current) => ({ ...current, workUnit: event.target.value }))
+                      }
+                      placeholder="Ej: PORACOTA"
+                    />
+                  </label>
+                  <label className="ofield">
+                    <span>Estado</span>
+                    <select
+                      value={form.status}
+                      onChange={(event) =>
+                        setForm((current) => ({
+                          ...current,
+                          status: event.target.value as OrderFormValues["status"],
+                        }))
+                      }
+                    >
+                      <option value="Borrador">Borrador</option>
+                      <option value="Emitido">Emitido</option>
+                    </select>
+                  </label>
+                  <label className="ofield">
+                    <span>Tiempo de entrega</span>
+                    <input
+                      value={form.deliveryTime}
+                      onChange={(event) =>
+                        setForm((current) => ({ ...current, deliveryTime: event.target.value }))
+                      }
+                      placeholder="Ej: 3 días"
+                    />
+                  </label>
+                  <label className="ofield ofield--span2">
+                    <span>Lugar de entrega</span>
+                    <input
+                      value={form.deliveryPlace}
+                      onChange={(event) =>
+                        setForm((current) => ({ ...current, deliveryPlace: event.target.value }))
+                      }
+                      placeholder="Ej: HYO"
+                    />
+                  </label>
+                </div>
+              </div>
             </div>
 
             {/* IGV toggle */}
