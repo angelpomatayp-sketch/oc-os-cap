@@ -810,10 +810,11 @@ export function OrdersManager({
                   }
                 >
                   <option value="ninguna">Ninguna</option>
-                  <option value="instalacion">Servicio de instalación — 12% (umbral S/700)</option>
-                  <option value="alquiler">Servicio de alquiler — 10% (umbral S/700)</option>
+                  <option value="instalacion">Demás servicios gravados con IGV — 12% (umbral S/700)</option>
+                  <option value="alquiler">Arrendamiento de bienes — 10% (umbral S/700)</option>
                   <option value="transporte">Servicio de transporte — 4% (umbral S/400)</option>
                   <option value="madera">Compra de madera — 4% (umbral S/700)</option>
+                  <option value="arena_piedra">Arena y piedra — 10% (umbral S/700)</option>
                 </select>
               </label>
               <div className="oform__tax-info">

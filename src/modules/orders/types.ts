@@ -11,7 +11,13 @@ export type DocumentStatus =
 
 export type CurrencyCode = "PEN" | "USD";
 
-export type DetraccionType = "ninguna" | "instalacion" | "alquiler" | "transporte" | "madera";
+export type DetraccionType =
+  | "ninguna"
+  | "instalacion"
+  | "alquiler"
+  | "transporte"
+  | "madera"
+  | "arena_piedra";
 
 export type SystemSettings = {
   companyName: string;

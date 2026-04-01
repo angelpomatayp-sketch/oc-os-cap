@@ -4,10 +4,11 @@ export const DETRACCION_CATALOG: Record<
   Exclude<DetraccionType, "ninguna">,
   { label: string; rate: number; threshold: number }
 > = {
-  instalacion: { label: "Servicio de instalación", rate: 12, threshold: 700 },
-  alquiler:    { label: "Servicio de alquiler",    rate: 10, threshold: 700 },
-  transporte:  { label: "Servicio de transporte",  rate:  4, threshold: 400 },
-  madera:      { label: "Compra de madera",         rate:  4, threshold: 700 },
+  instalacion: { label: "Demás servicios gravados con IGV", rate: 12, threshold: 700 },
+  alquiler:    { label: "Arrendamiento de bienes",           rate: 10, threshold: 700 },
+  transporte:  { label: "Servicio de transporte",            rate:  4, threshold: 400 },
+  madera:      { label: "Compra de madera",                  rate:  4, threshold: 700 },
+  arena_piedra:{ label: "Arena y piedra",                    rate: 10, threshold: 700 },
 };
 
 const UNITS = [
