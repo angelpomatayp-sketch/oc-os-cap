@@ -404,7 +404,7 @@ export function OrdersManager({
     isRetentionAgent: selectedProvider?.isRetentionAgent ?? false,
     itemsIncludeIgv: form.itemsIncludeIgv,
   });
-  const amountInWords = amountToWords(totals.payableAmount, form.currency);
+  const amountInWords = amountToWords(totals.totalAmount, form.currency);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

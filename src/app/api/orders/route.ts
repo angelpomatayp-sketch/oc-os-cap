@@ -137,7 +137,7 @@ export async function POST(request: Request) {
     retentionAmount: totals.retentionAmount,
     payableAmount: totals.payableAmount,
     applyRetention: totals.applyRetention,
-    amountInWords: amountToWords(totals.payableAmount, payload.currency),
+    amountInWords: amountToWords(totals.totalAmount, payload.currency),
     totalAmount: totals.totalAmount,
     issueDate: payload.issueDate,
     operationType: payload.operationType,
