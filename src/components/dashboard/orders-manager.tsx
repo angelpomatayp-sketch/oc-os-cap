@@ -33,6 +33,10 @@ const emptyOrder: OrderFormValues = {
   paymentMethod: "DEPOSITO",
   deliveryTime: "",
   deliveryPlace: "",
+  attachmentName: "",
+  attachmentMime: "",
+  attachmentSize: 0,
+  attachmentUploadedAt: null,
   operationType: "ninguna",
   itemsIncludeIgv: false,
 };
