@@ -574,6 +574,27 @@ export function OrdersManager({
                       >
                         PDF
                       </Link>
+                      {order.status === "Emitido" && order.attachmentName ? (
+                        <a
+                          className="btn-action btn-action--icon"
+                          href={`/api/orders/${order.id}/attachment`}
+                          target="_blank"
+                          rel="noreferrer"
+                          title="Ver anexo"
+                          aria-label="Ver anexo"
+                        >
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                              d="M8 12.5 12.5 8a3 3 0 0 1 4.24 4.24l-6.36 6.36a5 5 0 0 1-7.07-7.07l6.01-6.01"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </a>
+                      ) : null}
                       {currentUser?.role === "ADMIN" && (
                         <button
                           type="button"

@@ -601,6 +601,23 @@ button {
   background: #fef2f2;
 }
 
+.btn-action--icon {
+  width: 36px;
+  height: 28px;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #3566de;
+  border-color: #cfd8ee;
+}
+
+.btn-action--icon svg {
+  width: 16px;
+  height: 16px;
+}
+
 .pagination {
   display: flex;
   align-items: center;
