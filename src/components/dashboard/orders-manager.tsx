@@ -30,7 +30,7 @@ const emptyOrder: OrderFormValues = {
   applyRetention: false,
   totalAmount: 0,
   issueDate: "",
-  paymentMethod: "DEPOSITO",
+  paymentMethod: "CONTADO",
   deliveryTime: "",
   deliveryPlace: "",
   attachmentName: "",
@@ -118,6 +118,10 @@ function getLocalIsoDate() {
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+function normalizePaymentMethod(value: string | undefined) {
+  return value === "CREDITO" || value === "CONTADO" ? value : "CONTADO";
 }
 
 function recalculateItem(item: OrderItem): OrderItem {
@@ -254,7 +258,7 @@ export function OrdersManager({
       operationType: "ninguna",
       quotation: "",
       issueDate: getLocalIsoDate(),
-      paymentMethod: "DEPOSITO",
+      paymentMethod: "CONTADO",
       deliveryTime: "",
       deliveryPlace: "",
     });
@@ -278,7 +282,7 @@ export function OrdersManager({
       applyRetention: order.applyRetention,
       totalAmount: order.totalAmount,
       issueDate: order.issueDate,
-      paymentMethod: order.paymentMethod ?? "DEPOSITO",
+      paymentMethod: normalizePaymentMethod(order.paymentMethod),
       deliveryTime: order.deliveryTime ?? "",
       deliveryPlace: order.deliveryPlace ?? "",
       attachmentName: order.attachmentName ?? "",
@@ -685,24 +689,21 @@ export function OrdersManager({
                       required
                     />
                   </label>
-                  <label className="ofield">
-                    <span>Forma de pago</span>
-                    <select
-                      value={form.paymentMethod}
-                      onChange={(event) =>
-                        setForm((current) => ({
-                          ...current,
-                          paymentMethod: event.target.value,
-                        }))
-                      }
-                    >
-                      <option value="DEPOSITO">Depósito</option>
-                      <option value="TRANSFERENCIA">Transferencia bancaria</option>
-                      <option value="CHEQUE">Cheque</option>
-                      <option value="EFECTIVO">Efectivo</option>
-                      <option value="OTRO">Otro</option>
-                    </select>
-                  </label>
+              <label className="ofield">
+                <span>Forma de pago</span>
+                <select
+                  value={form.paymentMethod}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      paymentMethod: event.target.value,
+                    }))
+                  }
+                >
+                  <option value="CONTADO">Contado</option>
+                  <option value="CREDITO">Crédito</option>
+                </select>
+              </label>
                   <label className="ofield ofield--span2">
                     <span>Proveedor</span>
                     <select
