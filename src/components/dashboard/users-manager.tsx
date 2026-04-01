@@ -157,7 +157,6 @@ export function UsersManager() {
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>Área</th>
                 <th>Correo</th>
                 <th>Acciones</th>
               </tr>
@@ -166,7 +165,6 @@ export function UsersManager() {
               {pageItems.map((user) => (
                 <tr key={user.id}>
                   <td className="text-strong">{user.name}</td>
-                  <td>{AREA_NAMES[user.role] ?? user.role}</td>
                   <td>{user.email}</td>
                   <td>
                     <div className="table-actions">

@@ -500,18 +500,20 @@ export function OrdersManager({
           value={searchQuery}
           onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
         />
-        <select
-          className="field filters-bar__select"
-          value={filterArea}
-          onChange={(e) => { setFilterArea(e.target.value); setPage(1); }}
-        >
-          <option value="">Área</option>
-          <option value="L">Logística</option>
-          <option value="C">Contabilidad</option>
-          <option value="E">Equipos</option>
-          <option value="F">Finanzas</option>
-          <option value="P">Recursos Humanos</option>
-        </select>
+        {currentUser?.role === "ADMIN" ? (
+          <select
+            className="field filters-bar__select"
+            value={filterArea}
+            onChange={(e) => { setFilterArea(e.target.value); setPage(1); }}
+          >
+            <option value="">Área</option>
+            <option value="L">Logística</option>
+            <option value="C">Contabilidad</option>
+            <option value="E">Equipos</option>
+            <option value="F">Finanzas</option>
+            <option value="P">Recursos Humanos</option>
+          </select>
+        ) : null}
         <select
           className="field filters-bar__select"
           value={filterStatus}
@@ -545,7 +547,7 @@ export function OrdersManager({
               <tr>
                 <th>Código</th>
                 <th>Proveedor</th>
-                <th>Área</th>
+                {currentUser?.role === "ADMIN" ? <th>Área</th> : null}
                 <th>Estado</th>
                 <th>Total</th>
                 <th>Fecha</th>
@@ -557,7 +559,9 @@ export function OrdersManager({
                 <tr key={order.id}>
                   <td className="text-strong">{order.code}</td>
                   <td className="text-strong">{order.providerName}</td>
-                  <td>{AREA_NAMES[order.area] ?? order.area}</td>
+                  {currentUser?.role === "ADMIN" ? (
+                    <td>{AREA_NAMES[order.area] ?? order.area}</td>
+                  ) : null}
                   <td>
                     <span className={statusClass[order.status]}>{order.status}</span>
                   </td>
