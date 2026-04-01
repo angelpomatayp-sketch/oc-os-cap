@@ -52,29 +52,33 @@ export default async function DashboardPage() {
   return (
     <ProtectedPanel>
       <div className="stack">
-        <SectionHeading
-          eyebrow="Dashboard"
-          title="Dashboard"
-          description="Resumen general del sistema."
-        />
-
         {currentUser?.role === "ADMIN" ? (
           <ReportsPanel orders={orders} />
-        ) : null}
+        ) : (
+          <SectionHeading
+            eyebrow="Dashboard"
+            title="Dashboard"
+            description="Resumen general del sistema."
+          />
+        )}
 
-        <section className="metrics-grid">
-          {metrics.map((metric) => (
-            <MetricCard key={metric.label} {...metric} />
-          ))}
-        </section>
+        {currentUser?.role === "ADMIN" ? null : (
+          <>
+            <section className="metrics-grid">
+              {metrics.map((metric) => (
+                <MetricCard key={metric.label} {...metric} />
+              ))}
+            </section>
 
-        <section className="stack">
-          <div>
-            <h3 className="subheading">Ordenes recientes</h3>
-            <p className="subcopy">Listado de ordenes registradas.</p>
-          </div>
-          <DocumentsTable documents={visibleOrders.slice().reverse().slice(0, 8)} />
-        </section>
+            <section className="stack">
+              <div>
+                <h3 className="subheading">Ordenes recientes</h3>
+                <p className="subcopy">Listado de ordenes registradas.</p>
+              </div>
+              <DocumentsTable documents={visibleOrders.slice().reverse().slice(0, 8)} />
+            </section>
+          </>
+        )}
       </div>
     </ProtectedPanel>
   );

@@ -27,7 +27,7 @@ function sumTotals(totals: Totals) {
 }
 
 function formatTotals(pen: number, usd: number) {
-  return `S/ ${pen.toFixed(2)} | $ ${usd.toFixed(2)}`;
+  return { pen: pen.toFixed(2), usd: usd.toFixed(2) };
 }
 
 export function ReportsPanel({ orders }: { orders: OrderRecord[] }) {
@@ -138,7 +138,10 @@ export function ReportsPanel({ orders }: { orders: OrderRecord[] }) {
             <div className="metric-card__icon">OC</div>
             <div>
               <p className="metric-card__label">Total OC</p>
-              <p className="metric-card__value">{formatTotals(totalSummary.ocPen, totalSummary.ocUsd)}</p>
+              <div className="metric-card__value metric-card__value--split">
+                <span>S/ {formatTotals(totalSummary.ocPen, totalSummary.ocUsd).pen}</span>
+                <span>$ {formatTotals(totalSummary.ocPen, totalSummary.ocUsd).usd}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -147,7 +150,10 @@ export function ReportsPanel({ orders }: { orders: OrderRecord[] }) {
             <div className="metric-card__icon">OS</div>
             <div>
               <p className="metric-card__label">Total OS</p>
-              <p className="metric-card__value">{formatTotals(totalSummary.osPen, totalSummary.osUsd)}</p>
+              <div className="metric-card__value metric-card__value--split">
+                <span>S/ {formatTotals(totalSummary.osPen, totalSummary.osUsd).pen}</span>
+                <span>$ {formatTotals(totalSummary.osPen, totalSummary.osUsd).usd}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -181,8 +187,8 @@ export function ReportsPanel({ orders }: { orders: OrderRecord[] }) {
         </div>
       </section>
 
-      <div className="table-card">
-        {filteredOrders.length === 0 ? (
+        <div className="table-card">
+          {filteredOrders.length === 0 ? (
           <div className="empty-state">
             <h3 className="empty-state__title">No hay órdenes emitidas</h3>
             <p className="empty-state__description">Ajusta el rango de fechas.</p>
@@ -200,12 +206,30 @@ export function ReportsPanel({ orders }: { orders: OrderRecord[] }) {
             <tbody>
               {[...areaTotals.entries()].map(([area, totals]) => {
                 const total = sumTotals(totals);
+                const oc = formatTotals(totals.ocPen, totals.ocUsd);
+                const os = formatTotals(totals.osPen, totals.osUsd);
+                const sum = formatTotals(total.pen, total.usd);
                 return (
                   <tr key={area}>
                     <td className="text-strong">{AREA_NAMES[area] ?? area}</td>
-                    <td>{formatTotals(totals.ocPen, totals.ocUsd)}</td>
-                    <td>{formatTotals(totals.osPen, totals.osUsd)}</td>
-                    <td className="text-strong">{formatTotals(total.pen, total.usd)}</td>
+                    <td>
+                      <div className="table-currency">
+                        <span>S/ {oc.pen}</span>
+                        <span>$ {oc.usd}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="table-currency">
+                        <span>S/ {os.pen}</span>
+                        <span>$ {os.usd}</span>
+                      </div>
+                    </td>
+                    <td className="text-strong">
+                      <div className="table-currency">
+                        <span>S/ {sum.pen}</span>
+                        <span>$ {sum.usd}</span>
+                      </div>
+                    </td>
                   </tr>
                 );
               })}

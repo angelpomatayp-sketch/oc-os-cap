@@ -402,6 +402,20 @@ button {
   line-height: 1;
 }
 
+.metric-card__value--split {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+.metric-card__value--split span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
 .metric-card__helper {
   margin: 14px 0 0 68px;
   color: var(--muted);
@@ -641,6 +655,14 @@ button {
   display: flex;
   gap: 12px;
   align-items: center;
+}
+
+.table-currency {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  font-weight: 600;
+  color: #111827;
 }
 
 .button-link {

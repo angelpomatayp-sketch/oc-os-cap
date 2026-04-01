@@ -169,13 +169,22 @@ export function UsersManager() {
                     <td className="text-strong">{user.name}</td>
                     <td>{user.email}</td>
                     <td>
-                      S/ {ocPen.toFixed(2)} | $ {ocUsd.toFixed(2)}
+                      <div className="table-currency">
+                        <span>S/ {ocPen.toFixed(2)}</span>
+                        <span>$ {ocUsd.toFixed(2)}</span>
+                      </div>
                     </td>
                     <td>
-                      S/ {osPen.toFixed(2)} | $ {osUsd.toFixed(2)}
+                      <div className="table-currency">
+                        <span>S/ {osPen.toFixed(2)}</span>
+                        <span>$ {osUsd.toFixed(2)}</span>
+                      </div>
                     </td>
                     <td>
-                      S/ {totalPen.toFixed(2)} | $ {totalUsd.toFixed(2)}
+                      <div className="table-currency">
+                        <span>S/ {totalPen.toFixed(2)}</span>
+                        <span>$ {totalUsd.toFixed(2)}</span>
+                      </div>
                     </td>
                     <td>
                       <div className="table-actions">
