@@ -206,6 +206,7 @@ function mapOrder(
     paymentMethod: order.paymentMethod,
     deliveryTime: order.deliveryTime,
     deliveryPlace: order.deliveryPlace,
+    attachmentPath: order.attachmentPath,
     attachmentName: order.attachmentName || "",
     attachmentMime: order.attachmentMime || "",
     attachmentSize: toNumber(order.attachmentSize),

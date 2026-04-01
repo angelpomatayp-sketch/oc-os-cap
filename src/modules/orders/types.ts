@@ -110,6 +110,7 @@ export type OrderRecord = {
   paymentMethod: string;
   deliveryTime: string;
   deliveryPlace: string;
+  attachmentPath?: string;
   attachmentName: string;
   attachmentMime: string;
   attachmentSize: number;
