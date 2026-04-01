@@ -74,6 +74,17 @@ export type AppUser = {
   email: string;
 };
 
+export type UserOrderTotals = {
+  ocPen: number;
+  osPen: number;
+  ocUsd: number;
+  osUsd: number;
+};
+
+export type UserSummary = AppUser & {
+  totals: UserOrderTotals;
+};
+
 export type UserRecord = AppUser & {
   passwordHash: string;
 };

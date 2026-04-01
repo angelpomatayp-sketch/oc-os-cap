@@ -1,5 +1,6 @@
 import { DocumentsTable } from "@/components/dashboard/documents-table";
 import { MetricCard } from "@/components/dashboard/metric-card";
+import { ReportsPanel } from "@/components/dashboard/reports-panel";
 import { SectionHeading } from "@/components/dashboard/section-heading";
 import { ProtectedPanel } from "@/components/protected-panel";
 import { getCurrentUser } from "@/lib/auth";
@@ -56,6 +57,10 @@ export default async function DashboardPage() {
           title="Dashboard"
           description="Resumen general del sistema."
         />
+
+        {currentUser?.role === "ADMIN" ? (
+          <ReportsPanel orders={orders} />
+        ) : null}
 
         <section className="metrics-grid">
           {metrics.map((metric) => (

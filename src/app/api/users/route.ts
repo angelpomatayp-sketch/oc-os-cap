@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 
 import { getCurrentUser } from "@/lib/auth";
 import { hashPassword } from "@/lib/auth-crypto";
-import { createUserRecord, getUserRecords, getUsers } from "@/lib/local-db";
-import type { AppUser, UserFormValues, UserRecord } from "@/modules/orders/types";
+import { createUserRecord, getOrders, getUserRecords, getUsers } from "@/lib/local-db";
+import type { AppUser, UserFormValues, UserRecord, UserSummary } from "@/modules/orders/types";
 
 function normalizeUser(payload: UserFormValues): UserFormValues {
   return {
@@ -22,7 +22,34 @@ export async function GET() {
   }
 
   const users = await getUsers();
-  return NextResponse.json(users);
+  const orders = await getOrders();
+  const emitted = orders.filter((order) => order.status === "Emitido");
+
+  const totalsByUser = new Map<string, UserSummary["totals"]>();
+  for (const order of emitted) {
+    const current =
+      totalsByUser.get(order.userId) ?? {
+        ocPen: 0,
+        osPen: 0,
+        ocUsd: 0,
+        osUsd: 0,
+      };
+    const isOc = order.type === "OC";
+    const isPen = order.currency === "PEN";
+    if (isOc && isPen) current.ocPen += order.payableAmount;
+    if (isOc && !isPen) current.ocUsd += order.payableAmount;
+    if (!isOc && isPen) current.osPen += order.payableAmount;
+    if (!isOc && !isPen) current.osUsd += order.payableAmount;
+    totalsByUser.set(order.userId, current);
+  }
+
+  const response: UserSummary[] = users.map((user) => ({
+    ...user,
+    totals:
+      totalsByUser.get(user.id) ?? { ocPen: 0, osPen: 0, ocUsd: 0, osUsd: 0 },
+  }));
+
+  return NextResponse.json(response);
 }
 
 export async function POST(request: Request) {

@@ -4,16 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Modal } from "@/components/dashboard/modal";
 import { Pagination, usePagination } from "@/components/dashboard/pagination";
-import type { AppUser, UserFormValues } from "@/modules/orders/types";
-
-const AREA_NAMES: Record<string, string> = {
-  ADMIN: "Admin",
-  L: "Logística",
-  C: "Contabilidad",
-  E: "Equipos",
-  F: "Finanzas",
-  P: "Recursos Humanos",
-};
+import type { AppUser, UserFormValues, UserSummary } from "@/modules/orders/types";
 
 const emptyUser: UserFormValues = {
   name: "",
@@ -23,7 +14,7 @@ const emptyUser: UserFormValues = {
 };
 
 export function UsersManager() {
-  const [users, setUsers] = useState<AppUser[]>([]);
+  const [users, setUsers] = useState<UserSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<AppUser | null>(null);
@@ -34,7 +25,7 @@ export function UsersManager() {
   async function loadUsers() {
     setLoading(true);
     const response = await fetch("/api/users", { cache: "no-store" });
-    const data = (await response.json()) as AppUser[];
+    const data = (await response.json()) as UserSummary[];
     setUsers(data);
     setLoading(false);
   }
@@ -158,34 +149,55 @@ export function UsersManager() {
               <tr>
                 <th>Nombre</th>
                 <th>Correo</th>
+                <th>OC</th>
+                <th>OS</th>
+                <th>Total</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {pageItems.map((user) => (
-                <tr key={user.id}>
-                  <td className="text-strong">{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <div className="table-actions">
-                      <button
-                        type="button"
-                        className="btn-action"
-                        onClick={() => openEditModal(user)}
-                      >
-                        Editar
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-action btn-action--danger"
-                        onClick={() => handleDelete(user.id)}
-                      >
-                        Eliminar
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {pageItems.map((user) => {
+                const ocPen = user.totals.ocPen;
+                const osPen = user.totals.osPen;
+                const ocUsd = user.totals.ocUsd;
+                const osUsd = user.totals.osUsd;
+                const totalPen = ocPen + osPen;
+                const totalUsd = ocUsd + osUsd;
+
+                return (
+                  <tr key={user.id}>
+                    <td className="text-strong">{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>
+                      S/ {ocPen.toFixed(2)} | $ {ocUsd.toFixed(2)}
+                    </td>
+                    <td>
+                      S/ {osPen.toFixed(2)} | $ {osUsd.toFixed(2)}
+                    </td>
+                    <td>
+                      S/ {totalPen.toFixed(2)} | $ {totalUsd.toFixed(2)}
+                    </td>
+                    <td>
+                      <div className="table-actions">
+                        <button
+                          type="button"
+                          className="btn-action"
+                          onClick={() => openEditModal(user)}
+                        >
+                          Editar
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-action btn-action--danger"
+                          onClick={() => handleDelete(user.id)}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}
