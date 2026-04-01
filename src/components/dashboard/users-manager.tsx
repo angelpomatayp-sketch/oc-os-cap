@@ -12,6 +12,7 @@ const AREA_NAMES: Record<string, string> = {
   C: "Contabilidad",
   E: "Equipos",
   F: "Finanzas",
+  P: "Recursos Humanos",
 };
 
 const emptyUser: UserFormValues = {
@@ -226,6 +227,7 @@ export function UsersManager() {
                 <option value="C">C - Contabilidad</option>
                 <option value="E">E - Equipos</option>
                 <option value="F">F - Finanzas</option>
+                <option value="P">P - Recursos Humanos</option>
               </select>
             </label>
             <label className="modal-field modal-field--full">

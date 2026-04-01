@@ -1,0 +1,2 @@
+ALTER TABLE `User` MODIFY COLUMN `role` ENUM('ADMIN','L','C','E','F','P') NOT NULL;
+ALTER TABLE `Order` MODIFY COLUMN `area` ENUM('ADMIN','L','C','E','F','P') NOT NULL;

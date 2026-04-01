@@ -69,6 +69,13 @@ const defaultUsers: UserRecord[] = [
     email: "finanzas@pacifico.local",
     passwordHash: defaultPasswordHash,
   },
+  {
+    id: "user-p",
+    name: "Usuario Recursos Humanos",
+    role: "P",
+    email: "personal@pacifico.local",
+    passwordHash: defaultPasswordHash,
+  },
 ];
 
 function toDate(value: string) {

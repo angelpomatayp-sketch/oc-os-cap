@@ -50,6 +50,7 @@ const AREA_NAMES: Record<string, string> = {
   C: "Contabilidad",
   E: "Equipos",
   F: "Finanzas",
+  P: "Recursos Humanos",
 };
 
 function sanitizeMoneyInput(value: string) {
@@ -486,6 +487,7 @@ export function OrdersManager({
           <option value="C">Contabilidad</option>
           <option value="E">Equipos</option>
           <option value="F">Finanzas</option>
+          <option value="P">Recursos Humanos</option>
         </select>
         <select
           className="field filters-bar__select"

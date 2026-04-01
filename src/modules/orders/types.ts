@@ -1,4 +1,4 @@
-export type RoleCode = "ADMIN" | "L" | "C" | "E" | "F";
+export type RoleCode = "ADMIN" | "L" | "C" | "E" | "F" | "P";
 
 export type DocumentType = "OC" | "OS";
 

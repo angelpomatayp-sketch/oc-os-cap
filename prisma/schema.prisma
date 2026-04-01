@@ -13,6 +13,7 @@ enum Role {
   C
   E
   F
+  P
 }
 
 enum DocumentType {
