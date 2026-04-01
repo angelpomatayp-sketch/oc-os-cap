@@ -110,6 +110,10 @@ export type OrderRecord = {
   paymentMethod: string;
   deliveryTime: string;
   deliveryPlace: string;
+  attachmentName: string;
+  attachmentMime: string;
+  attachmentSize: number;
+  attachmentUploadedAt?: string | null;
   operationType: DetraccionType;
   detraccionAmount: number;
   detraccionRate: number;
@@ -131,6 +135,10 @@ export type OrderFormValues = {
   paymentMethod: string;
   deliveryTime: string;
   deliveryPlace: string;
+  attachmentName: string;
+  attachmentMime: string;
+  attachmentSize: number;
+  attachmentUploadedAt?: string | null;
   operationType: DetraccionType;
   itemsIncludeIgv: boolean;
 };

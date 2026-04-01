@@ -206,6 +206,12 @@ function mapOrder(
     paymentMethod: order.paymentMethod,
     deliveryTime: order.deliveryTime,
     deliveryPlace: order.deliveryPlace,
+    attachmentName: order.attachmentName || "",
+    attachmentMime: order.attachmentMime || "",
+    attachmentSize: toNumber(order.attachmentSize),
+    attachmentUploadedAt: order.attachmentUploadedAt
+      ? order.attachmentUploadedAt.toISOString()
+      : null,
     items: order.items.map((item) => ({
       id: item.id,
       quantity: toNumber(item.quantity),
@@ -251,6 +257,13 @@ function buildOrderData(order: OrderRecord) {
     paymentMethod: order.paymentMethod,
     deliveryTime: order.deliveryTime,
     deliveryPlace: order.deliveryPlace,
+    attachmentPath: order.attachmentPath,
+    attachmentName: order.attachmentName,
+    attachmentMime: order.attachmentMime,
+    attachmentSize: order.attachmentSize,
+    attachmentUploadedAt: order.attachmentUploadedAt
+      ? new Date(order.attachmentUploadedAt)
+      : null,
     subtotalAmount: new Prisma.Decimal(order.subtotalAmount),
     igvAmount: new Prisma.Decimal(order.igvAmount),
     retentionAmount: new Prisma.Decimal(order.retentionAmount),
@@ -548,6 +561,42 @@ export async function cancelOrder(orderId: string) {
 export async function deleteOrderById(orderId: string) {
   await ensureDefaults();
   await prisma.order.delete({ where: { id: orderId } });
+}
+
+export async function updateOrderAttachment(
+  orderId: string,
+  attachment: {
+    path: string;
+    name: string;
+    mime: string;
+    size: number;
+  },
+) {
+  await ensureDefaults();
+  await prisma.order.update({
+    where: { id: orderId },
+    data: {
+      attachmentPath: attachment.path,
+      attachmentName: attachment.name,
+      attachmentMime: attachment.mime,
+      attachmentSize: attachment.size,
+      attachmentUploadedAt: new Date(),
+    },
+  });
+}
+
+export async function clearOrderAttachment(orderId: string) {
+  await ensureDefaults();
+  await prisma.order.update({
+    where: { id: orderId },
+    data: {
+      attachmentPath: "",
+      attachmentName: "",
+      attachmentMime: "",
+      attachmentSize: 0,
+      attachmentUploadedAt: null,
+    },
+  });
 }
 
 export async function getSettings() {

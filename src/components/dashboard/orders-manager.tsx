@@ -190,6 +190,7 @@ export function OrdersManager({
   const [open, setOpen] = useState(false);
   const [editingOrder, setEditingOrder] = useState<OrderRecord | null>(null);
   const [form, setForm] = useState<OrderFormValues>(emptyOrder);
+  const [attachmentFile, setAttachmentFile] = useState<File | null>(null);
   const [itemDrafts, setItemDrafts] = useState<
     Record<string, { quantity: string; unitPrice: string }>
   >({});
@@ -255,6 +256,7 @@ export function OrdersManager({
     });
     setItemDrafts({});
     setError("");
+    setAttachmentFile(null);
     setOpen(true);
   }
 
@@ -275,11 +277,16 @@ export function OrdersManager({
       paymentMethod: order.paymentMethod ?? "DEPOSITO",
       deliveryTime: order.deliveryTime ?? "",
       deliveryPlace: order.deliveryPlace ?? "",
+      attachmentName: order.attachmentName ?? "",
+      attachmentMime: order.attachmentMime ?? "",
+      attachmentSize: order.attachmentSize ?? 0,
+      attachmentUploadedAt: order.attachmentUploadedAt ?? null,
       operationType: order.operationType ?? "ninguna",
       itemsIncludeIgv: order.itemsIncludeIgv ?? false,
     });
     setItemDrafts(buildItemDrafts(order.items));
     setError("");
+    setAttachmentFile(null);
     setOpen(true);
   }
 
@@ -288,6 +295,7 @@ export function OrdersManager({
     setEditingOrder(null);
     setItemDrafts({});
     setError("");
+    setAttachmentFile(null);
   }
 
   function setItems(nextItems: OrderItem[]) {
@@ -415,6 +423,17 @@ export function OrdersManager({
       setError(payload.message ?? "No se pudo guardar la orden.");
       setSubmitting(false);
       return;
+    }
+
+    const savedOrder = (await response.json()) as OrderRecord;
+
+    if (attachmentFile) {
+      const formData = new FormData();
+      formData.append("file", attachmentFile);
+      await fetch(`/api/orders/${savedOrder.id}/attachment`, {
+        method: "POST",
+        body: formData,
+      });
     }
 
     await loadData();
@@ -887,6 +906,35 @@ export function OrdersManager({
                 <span>{form.currency === "PEN" ? "S/" : "$"} {totals.payableAmount.toFixed(2)}</span>
               </div>
               <p className="oform__words">{amountInWords}</p>
+            </div>
+
+            <div className="oform__summary">
+              <h3 className="oform__summary-title">Archivo adjunto (PDF)</h3>
+              {editingOrder?.attachmentName ? (
+                <div className="oform__attachment">
+                  <span className="oform__attachment-name">{editingOrder.attachmentName}</span>
+                  <a
+                    className="button-link"
+                    href={`/api/orders/${editingOrder.id}/attachment`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Ver PDF
+                  </a>
+                </div>
+              ) : (
+                <p className="oform__hint">No hay archivo adjunto.</p>
+              )}
+              <label className="oform__attachment-upload">
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={(event) =>
+                    setAttachmentFile(event.target.files?.[0] ?? null)
+                  }
+                />
+                <span>{attachmentFile ? attachmentFile.name : "Seleccionar PDF"}</span>
+              </label>
             </div>
 
             {providers.length === 0 ? (

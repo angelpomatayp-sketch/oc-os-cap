@@ -1,0 +1,6 @@
+ALTER TABLE `Order`
+  ADD COLUMN `attachmentPath` VARCHAR(191) NOT NULL DEFAULT "",
+  ADD COLUMN `attachmentName` VARCHAR(191) NOT NULL DEFAULT "",
+  ADD COLUMN `attachmentMime` VARCHAR(191) NOT NULL DEFAULT "",
+  ADD COLUMN `attachmentSize` INT NOT NULL DEFAULT 0,
+  ADD COLUMN `attachmentUploadedAt` DATETIME(3) NULL;

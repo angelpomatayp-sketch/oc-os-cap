@@ -1066,6 +1066,38 @@ button {
   background: #fff;
 }
 
+.oform__attachment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.oform__attachment-name {
+  font-size: 13px;
+  color: #1f2a44;
+  font-weight: 600;
+}
+
+.oform__attachment-upload {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px dashed #cbd5f5;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.oform__attachment-upload input {
+  display: none;
+}
+
 .oform__summary-title {
   margin: 0 0 10px;
   font-size: 15px;

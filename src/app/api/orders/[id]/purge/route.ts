@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { getCurrentUser } from "@/lib/auth";
-import { deleteOrderById, getOrderById } from "@/lib/local-db";
+import { deleteOrderById, getOrderById, clearOrderAttachment } from "@/lib/local-db";
+import { removeAttachment } from "@/lib/attachments";
 
 export async function DELETE(
   _request: Request,
@@ -20,6 +21,11 @@ export async function DELETE(
     return NextResponse.json({ message: "Orden no encontrada." }, { status: 404 });
   }
 
+  if (order.attachmentPath) {
+    await removeAttachment(order.attachmentPath);
+  }
+
+  await clearOrderAttachment(id);
   await deleteOrderById(id);
   return NextResponse.json({ ok: true });
 }
