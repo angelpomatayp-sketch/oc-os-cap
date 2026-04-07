@@ -1978,45 +1978,44 @@ button {
 .order-print__stamp {
   display: inline-block;
   text-align: center;
-  padding: 10px 24px 8px;
+  padding: 10px 0 8px;
   line-height: 1.4;
 }
 
 .order-print__stamp-company {
-  margin: 0 0 2px;
-  font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
-  font-size: 9.5pt;
-  font-weight: 900;
-  letter-spacing: 0.12em;
+  margin: 0;
+  font-family: 'Trebuchet MS', 'Century Gothic', 'Arial Black', Arial, sans-serif;
+  font-size: 10.5pt;
+  font-weight: 700;
+  letter-spacing: 0;
+  word-spacing: 0.4em;
   text-transform: uppercase;
   color: #1a1a1a;
 }
 
-.order-print__stamp-dots {
-  margin: 4px 0 2px;
-  font-size: 8pt;
-  letter-spacing: 0.05em;
-  color: #333;
-  line-height: 1;
+.order-print__stamp-line {
+  width: 100%;
+  margin: 20px 0 0;
+  border-bottom: 1.5px dotted #1a1a1a;
 }
 
 .order-print__stamp-name {
-  margin: 0 0 1px;
+  margin: 3px 0 1px;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
-  font-size: 13pt;
+  font-size: 15pt;
   font-style: italic;
   font-weight: 400;
   color: #1a1a1a;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
 
 .order-print__stamp-title {
   margin: 0;
-  font-family: Arial, sans-serif;
-  font-size: 8.5pt;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  font-size: 9pt;
   font-weight: 400;
   color: #1a1a1a;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 
 @media print {
