@@ -1975,6 +1975,13 @@ button {
   margin: 0;
 }
 
+.order-print__stamp-regards {
+  margin: 0 0 8px;
+  font-family: Arial, sans-serif;
+  font-size: 8.5pt;
+  color: #1a1a1a;
+}
+
 .order-print__stamp {
   display: inline-block;
   text-align: center;
