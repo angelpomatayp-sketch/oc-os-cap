@@ -1995,7 +1995,7 @@ button {
 
 .order-print__stamp-line {
   width: 100%;
-  margin: 90px 0 0;
+  margin: 0;
   border-bottom: none;
   font-size: 6pt;
   letter-spacing: 0;

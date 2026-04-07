@@ -375,6 +375,7 @@ export default async function OrderPdfPage({
         <footer className="order-print__footer">
           <div className="order-print__stamp">
             <p className="order-print__stamp-company">CONTRATISTAS ASOCIADOS PACIFICO SRL</p>
+            <div style={{ height: "70px" }}></div>
             <p className="order-print__stamp-line">.....................................................................................................................................</p>
             <p className="order-print__stamp-name">{toTitleCase(settings.companyContact)}</p>
             <p className="order-print__stamp-title">Gerente Administrativo</p>
