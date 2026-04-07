@@ -576,15 +576,17 @@ export function OrdersManager({
                   <td>{order.issueDate}</td>
                   <td>
                     <div className="table-actions">
-                      <Link
-                        href={`/ordenes/${order.id}/pdf`}
-                        className="btn-icon"
-                        target="_blank"
-                        title="Ver PDF"
-                        aria-label="Ver PDF"
-                      >
-                        <FileText size={16} />
-                      </Link>
+                      {order.attachmentName ? (
+                        <Link
+                          href={`/ordenes/${order.id}/pdf`}
+                          className="btn-icon"
+                          target="_blank"
+                          title="Ver PDF"
+                          aria-label="Ver PDF"
+                        >
+                          <FileText size={16} />
+                        </Link>
+                      ) : null}
                       {order.status === "Emitido" && order.attachmentName ? (
                         <a
                           className="btn-icon"
