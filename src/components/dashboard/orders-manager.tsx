@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FileText, Trash2, Pencil, Ban, Paperclip } from "lucide-react";
 import { useState } from "react";
 
 import { EmptyState } from "@/components/dashboard/empty-state";
@@ -577,58 +578,57 @@ export function OrdersManager({
                     <div className="table-actions">
                       <Link
                         href={`/ordenes/${order.id}/pdf`}
-                        className="btn-action"
+                        className="btn-icon"
                         target="_blank"
+                        title="Ver PDF"
+                        aria-label="Ver PDF"
                       >
-                        PDF
+                        <FileText size={16} />
                       </Link>
                       {order.status === "Emitido" && order.attachmentName ? (
                         <a
-                          className="btn-action btn-action--icon"
+                          className="btn-icon"
                           href={`/api/orders/${order.id}/attachment`}
                           target="_blank"
                           rel="noreferrer"
                           title="Ver anexo"
                           aria-label="Ver anexo"
                         >
-                          <svg viewBox="0 0 24 24" aria-hidden="true">
-                            <path
-                              d="M8 12.5 12.5 8a3 3 0 0 1 4.24 4.24l-6.36 6.36a5 5 0 0 1-7.07-7.07l6.01-6.01"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
+                          <Paperclip size={16} />
                         </a>
                       ) : null}
-                      {currentUser?.role === "ADMIN" && (
+                      {order.status === "Borrador" && (
                         <button
                           type="button"
-                          className="btn-action btn-action--danger"
-                          onClick={() => openConfirm("delete", order.id)}
+                          className="btn-icon"
+                          title="Editar"
+                          aria-label="Editar"
+                          onClick={() => openEditModal(order)}
                         >
-                          Eliminar
+                          <Pencil size={16} />
                         </button>
                       )}
                       {order.status === "Borrador" && (
-                        <>
-                          <button
-                            type="button"
-                            className="btn-action"
-                            onClick={() => openEditModal(order)}
-                          >
-                            Editar
-                          </button>
-                          <button
-                            type="button"
-                            className="btn-action btn-action--danger"
-                            onClick={() => openConfirm("anular", order.id)}
-                          >
-                            Anular
-                          </button>
-                        </>
+                        <button
+                          type="button"
+                          className="btn-icon btn-icon--danger"
+                          title="Anular"
+                          aria-label="Anular"
+                          onClick={() => openConfirm("anular", order.id)}
+                        >
+                          <Ban size={16} />
+                        </button>
+                      )}
+                      {currentUser?.role === "ADMIN" && (
+                        <button
+                          type="button"
+                          className="btn-icon btn-icon--danger"
+                          title="Eliminar"
+                          aria-label="Eliminar"
+                          onClick={() => openConfirm("delete", order.id)}
+                        >
+                          <Trash2 size={16} />
+                        </button>
                       )}
                     </div>
                   </td>

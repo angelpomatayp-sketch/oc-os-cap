@@ -632,6 +632,37 @@ button {
   height: 16px;
 }
 
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: transparent;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  text-decoration: none;
+}
+
+.btn-icon:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.btn-icon--danger {
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+.btn-icon--danger:hover {
+  background: #fef2f2;
+  border-color: #f87171;
+}
+
 .pagination {
   display: flex;
   align-items: center;
