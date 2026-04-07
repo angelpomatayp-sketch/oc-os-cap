@@ -1988,15 +1988,19 @@ button {
   font-size: 10.5pt;
   font-weight: 700;
   letter-spacing: 0;
-  word-spacing: 0.4em;
+  word-spacing: 0.15em;
   text-transform: uppercase;
   color: #1a1a1a;
 }
 
 .order-print__stamp-line {
   width: 100%;
-  margin: 20px 0 0;
-  border-bottom: 1.5px dotted #1a1a1a;
+  margin: 24px 0 0;
+  border-bottom: none;
+  font-size: 7pt;
+  letter-spacing: 0;
+  color: #1a1a1a;
+  line-height: 1;
 }
 
 .order-print__stamp-name {
