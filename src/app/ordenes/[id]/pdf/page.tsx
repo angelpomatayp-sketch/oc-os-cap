@@ -374,6 +374,7 @@ export default async function OrderPdfPage({
 
         <footer className="order-print__footer">
           <p className="order-print__stamp-regards">Atentamente,</p>
+          <div style={{ height: "18px" }}></div>
           <div className="order-print__stamp">
             <p className="order-print__stamp-company">CONTRATISTAS ASOCIADOS PACIFICO SRL</p>
             <div style={{ height: "32px", width: "100%", borderBottom: "1px dotted #1a1a1a" }}></div>
