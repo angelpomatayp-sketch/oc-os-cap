@@ -1967,13 +1967,56 @@ button {
 }
 
 .order-print__footer {
-  margin-top: 26px;
+  margin-top: 32px;
   text-align: center;
-  line-height: 1.8;
 }
 
 .order-print__footer p {
   margin: 0;
+}
+
+.order-print__stamp {
+  display: inline-block;
+  text-align: center;
+  padding: 10px 24px 8px;
+  line-height: 1.4;
+}
+
+.order-print__stamp-company {
+  margin: 0 0 2px;
+  font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
+  font-size: 9.5pt;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+}
+
+.order-print__stamp-dots {
+  margin: 4px 0 2px;
+  font-size: 8pt;
+  letter-spacing: 0.05em;
+  color: #333;
+  line-height: 1;
+}
+
+.order-print__stamp-name {
+  margin: 0 0 1px;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  font-size: 13pt;
+  font-style: italic;
+  font-weight: 400;
+  color: #1a1a1a;
+  letter-spacing: 0.04em;
+}
+
+.order-print__stamp-title {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 8.5pt;
+  font-weight: 400;
+  color: #1a1a1a;
+  letter-spacing: 0.02em;
 }
 
 @media print {

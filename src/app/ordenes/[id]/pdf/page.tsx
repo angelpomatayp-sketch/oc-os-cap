@@ -373,9 +373,12 @@ export default async function OrderPdfPage({
         </section>
 
         <footer className="order-print__footer">
-          <p>Atentamente,</p>
-          <p>{toTitleCase(settings.companyContact)}</p>
-          <p><strong>Pacifico SRL</strong></p>
+          <div className="order-print__stamp">
+            <p className="order-print__stamp-company">CONTRATISTAS ASOCIADOS PACIFICO SRL</p>
+            <p className="order-print__stamp-dots">· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·</p>
+            <p className="order-print__stamp-name">{toTitleCase(settings.companyContact)}</p>
+            <p className="order-print__stamp-title">Gerente Administrativo</p>
+          </div>
         </footer>
       </article>
     </div>
