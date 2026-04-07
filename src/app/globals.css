@@ -2027,12 +2027,13 @@ button {
 .order-print__stamp-company {
   margin: 0;
   font-family: 'Trebuchet MS', 'Century Gothic', 'Arial Black', Arial, sans-serif;
-  font-size: 8.5pt;
+  font-size: 6pt;
   font-weight: 700;
   letter-spacing: 0;
-  word-spacing: 0.15em;
+  word-spacing: 0.1em;
   text-transform: uppercase;
   color: #1a1a1a;
+  white-space: nowrap;
 }
 
 .order-print__stamp-line {
@@ -2048,20 +2049,22 @@ button {
 .order-print__stamp-name {
   margin: 2px 0 1px;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
-  font-size: 12pt;
+  font-size: 9pt;
   font-style: italic;
   font-weight: 400;
   color: #1a1a1a;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 .order-print__stamp-title {
   margin: 0;
   font-family: 'Trebuchet MS', Arial, sans-serif;
-  font-size: 7pt;
+  font-size: 5.5pt;
   font-weight: 400;
   color: #1a1a1a;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 @media print {
