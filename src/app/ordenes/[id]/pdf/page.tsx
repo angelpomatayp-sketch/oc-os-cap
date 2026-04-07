@@ -22,10 +22,15 @@ function formatDate(isoDate: string) {
   return `${Number(day)}/${month}/${year}`;
 }
 
+function formatAmount(amount: number): string {
+  const [integer, decimal] = amount.toFixed(2).split(".");
+  return `${integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}.${decimal}`;
+}
+
 function moneyParts(currency: "PEN" | "USD", amount: number) {
   return {
     symbol: currency === "PEN" ? "S/" : "$",
-    value: amount.toFixed(2),
+    value: formatAmount(amount),
   };
 }
 
@@ -268,13 +273,13 @@ export default async function OrderPdfPage({
                   <td>
                     <span className="order-print__money-cell">
                       <span>{order.currency === "PEN" ? "S/" : "$"}</span>
-                      <strong>{item.unitPrice.toFixed(2)}</strong>
+                      <strong>{formatAmount(item.unitPrice)}</strong>
                     </span>
                   </td>
                   <td>
                     <span className="order-print__money-cell">
                       <span>{order.currency === "PEN" ? "S/" : "$"}</span>
-                      <strong>{item.amount.toFixed(2)}</strong>
+                      <strong>{formatAmount(item.amount)}</strong>
                     </span>
                   </td>
                 </tr>

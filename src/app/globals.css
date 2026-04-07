@@ -2014,9 +2014,13 @@ button {
 }
 
 .order-print__stamp {
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 3.8cm;
+  height: 1.8cm;
   text-align: center;
-  padding: 10px 0 8px;
+  overflow: hidden;
   line-height: 1.4;
 }
 
