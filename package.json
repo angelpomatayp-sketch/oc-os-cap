@@ -11,7 +11,8 @@
     "prisma:migrate": "node node_modules/prisma/build/index.js migrate dev",
     "prisma:push": "node node_modules/prisma/build/index.js db push",
     "prisma:studio": "node node_modules/prisma/build/index.js studio",
-    "db:seed": "node prisma/seed.js"
+    "db:seed": "node prisma/seed.js",
+    "db:reset-orders": "node prisma/reset-orders.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
