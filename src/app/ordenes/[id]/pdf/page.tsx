@@ -140,7 +140,6 @@ export default async function OrderPdfPage({
             />
           </div>
           <div className="order-print__title-box">
-            <p className="order-print__title-top">FORMATO</p>
             <h1 className="order-print__title">
               ORDEN DE COMPRA Y/O SERVICIO
             </h1>

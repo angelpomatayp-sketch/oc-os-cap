@@ -1742,6 +1742,12 @@ button {
   border-right: 1px solid #111827;
 }
 
+.order-print__title-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .order-print__logo-box {
   display: flex;
   align-items: center;
