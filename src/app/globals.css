@@ -1768,7 +1768,7 @@ button {
 }
 
 .order-print__title {
-  margin: 12px 0 0;
+  margin: 0;
   text-align: center;
   font-size: 16px;
   font-weight: 700;
