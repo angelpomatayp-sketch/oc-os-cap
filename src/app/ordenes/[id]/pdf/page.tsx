@@ -162,6 +162,7 @@ export default async function OrderPdfPage({
         </header>
 
         <section className="order-print__block order-print__block--items">
+          <h2 className="order-print__section-title">DATOS DE LA EMPRESA</h2>
           <table className="order-print__info-table">
             <colgroup>
               <col className="order-print__info-col order-print__info-col--label-left" />
@@ -173,32 +174,32 @@ export default async function OrderPdfPage({
               <tr>
                 <td className="order-print__label">N° orden:</td>
                 <td>{order.code}</td>
-                <td className="order-print__label order-print__label--right">Unidad/Obra</td>
+                <td className="order-print__label order-print__label--right">Unidad/Obra:</td>
                 <td className="order-print__value-strong">{order.workUnit || "-"}</td>
               </tr>
               <tr>
-                <td className="order-print__label">Empresa</td>
+                <td className="order-print__label">Empresa:</td>
                 <td>{settings.companyName}</td>
-                <td className="order-print__label order-print__label--right">N° RUC</td>
+                <td className="order-print__label order-print__label--right">N° RUC:</td>
                 <td className="order-print__value-strong">{settings.companyRuc}</td>
               </tr>
               <tr>
-                <td className="order-print__label">Dirección</td>
+                <td className="order-print__label">Dirección:</td>
                 <td>{settings.companyAddress}</td>
-                <td className="order-print__label order-print__label--right">Cel./Rpm</td>
+                <td className="order-print__label order-print__label--right">Cel./Rpm:</td>
                 <td>{settings.companyCell || "-"}</td>
               </tr>
               <tr>
-                <td className="order-print__label">Contacto</td>
+                <td className="order-print__label">Contacto:</td>
                 <td>{toTitleCase(settings.companyContact)}</td>
-                <td className="order-print__label order-print__label--right">Telefono</td>
+                <td className="order-print__label order-print__label--right">Telefono:</td>
                 <td>{settings.companyPhone || "-"}</td>
               </tr>
               <tr>
-                <td className="order-print__label">E - mail</td>
+                <td className="order-print__label">E - mail:</td>
                 <td className="order-print__linkish">{settings.companyEmail}</td>
                 <td className="order-print__label order-print__label--right order-print__highlight">
-                  Fecha emitido
+                  Fecha emitido:
                 </td>
                 <td className="order-print__value-strong order-print__highlight">{formatDate(order.issueDate)}</td>
               </tr>
@@ -217,28 +218,28 @@ export default async function OrderPdfPage({
             </colgroup>
             <tbody>
               <tr>
-                <td className="order-print__label">Empresa</td>
+                <td className="order-print__label">Empresa:</td>
                 <td>{provider.businessName}</td>
-                <td className="order-print__label order-print__label--right">N° RUC</td>
+                <td className="order-print__label order-print__label--right">N° RUC:</td>
                 <td className="order-print__value-strong">{provider.ruc}</td>
               </tr>
               <tr>
-                <td className="order-print__label">Dirección</td>
+                <td className="order-print__label">Dirección:</td>
                 <td>{provider.fiscalAddress}</td>
-                <td className="order-print__label order-print__label--right">Cotización</td>
+                <td className="order-print__label order-print__label--right">Cotización:</td>
                 <td>{order.quotation || "-"}</td>
               </tr>
               <tr>
-                <td className="order-print__label">Contacto</td>
+                <td className="order-print__label">Contacto:</td>
                 <td>{provider.contactName || "-"}</td>
-                <td className="order-print__label order-print__label--right">Telf./Cel.</td>
+                <td className="order-print__label order-print__label--right">Telf./Cel.:</td>
                 <td>{provider.phone || "-"}</td>
               </tr>
               <tr>
-                <td className="order-print__label">E - mail</td>
+                <td className="order-print__label">E - mail:</td>
                 <td className="order-print__linkish">{provider.email || "-"}</td>
                 <td className="order-print__label order-print__label--right order-print__highlight">
-                  Fecha recibido
+                  Fecha recibido:
                 </td>
                 <td className="order-print__value-strong order-print__highlight">{formatDate(order.issueDate)}</td>
               </tr>
@@ -267,8 +268,8 @@ export default async function OrderPdfPage({
             <tbody>
               {order.items.map((item, index) => (
                 <tr key={item.id}>
-                  <td>{index + 1}</td>
-                  <td>{item.quantity}</td>
+                  <td>{String(index + 1).padStart(2, "0")}</td>
+                  <td>{String(Math.round(item.quantity)).padStart(2, "0")}</td>
                   <td>{item.description}</td>
                   <td>
                     <span className="order-print__money-cell">
