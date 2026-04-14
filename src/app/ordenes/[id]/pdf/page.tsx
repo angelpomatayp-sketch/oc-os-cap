@@ -15,10 +15,6 @@ function formatMoney(currency: "PEN" | "USD", amount: number) {
   return `${currency === "PEN" ? "S/" : "$"} ${amount.toFixed(2)}`;
 }
 
-function toTitleCase(str: string) {
-  return str.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
 function formatDate(isoDate: string) {
   const [year, month, day] = isoDate.split("-");
   return `${Number(day)}/${month}/${year}`;
@@ -192,7 +188,7 @@ export default async function OrderPdfPage({
               </tr>
               <tr>
                 <td className="order-print__label">Contacto:</td>
-                <td>{toTitleCase(settings.companyContact)}</td>
+                <td>{settings.companyContact.toUpperCase()}</td>
                 <td className="order-print__label order-print__label--right">Telefono:</td>
                 <td>{settings.companyPhone || "-"}</td>
               </tr>
@@ -385,7 +381,7 @@ export default async function OrderPdfPage({
           <div className="order-print__stamp">
             <p className="order-print__stamp-company">CONTRATISTAS ASOCIADOS PACIFICO SRL</p>
             <div style={{ height: "20px", width: "100%", borderBottom: "1px dotted #1a1a1a" }}></div>
-            <p className="order-print__stamp-name">{toTitleCase(settings.companyContact)}</p>
+            <p className="order-print__stamp-name">{settings.companyContact.toUpperCase()}</p>
             <p className="order-print__stamp-title">Gerente Administrativo</p>
           </div>
         </footer>
