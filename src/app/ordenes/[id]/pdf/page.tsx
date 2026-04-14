@@ -195,7 +195,7 @@ export default async function OrderPdfPage({
               <tr>
                 <td className="order-print__label">E - mail:</td>
                 <td className="order-print__linkish">{settings.companyEmail}</td>
-                <td className="order-print__label order-print__label--right order-print__highlight">
+                <td className="order-print__label order-print__label--right">
                   Fecha emitido:
                 </td>
                 <td className="order-print__value-strong order-print__highlight">{formatDate(order.issueDate)}</td>
@@ -235,7 +235,7 @@ export default async function OrderPdfPage({
               <tr>
                 <td className="order-print__label">E - mail:</td>
                 <td className="order-print__linkish">{provider.email || "-"}</td>
-                <td className="order-print__label order-print__label--right order-print__highlight">
+                <td className="order-print__label order-print__label--right">
                   Fecha recibido:
                 </td>
                 <td className="order-print__value-strong order-print__highlight">{formatDate(order.issueDate)}</td>
