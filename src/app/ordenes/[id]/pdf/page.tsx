@@ -8,6 +8,7 @@ import { amountToWords } from "@/lib/order-calculations";
 import { getOrders, getProviders, getSettings } from "@/lib/local-db";
 
 export const dynamic = "force-dynamic";
+const FORMAT_FIXED_DATE = "01/04/2022";
 
 function formatMoney(currency: "PEN" | "USD", amount: number) {
   return `${currency === "PEN" ? "S/" : "$"} ${amount.toFixed(2)}`;
@@ -155,7 +156,7 @@ export default async function OrderPdfPage({
             </div>
             <div className="order-print__meta-row">
               <span className="order-print__meta-label">Fecha:</span>
-              <strong className="order-print__meta-value">{formatDate(order.issueDate)}</strong>
+              <strong className="order-print__meta-value">{FORMAT_FIXED_DATE}</strong>
             </div>
           </div>
         </header>
