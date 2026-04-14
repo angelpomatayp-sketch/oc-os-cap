@@ -12,6 +12,17 @@ import {
 } from "@/lib/local-db";
 import type { OrderFormValues, OrderItem, OrderRecord } from "@/modules/orders/types";
 
+function getLimaIsoDate() {
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Lima",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  return formatter.format(new Date());
+}
+
 function normalizeItems(items: OrderFormValues["items"] | undefined): OrderItem[] {
   return (items ?? [])
     .map((item) => {
@@ -109,7 +120,7 @@ export async function POST(request: Request) {
     currency: payload.currency,
   });
 
-  const code = await getNextOrderCode(payload.issueDate, user.role);
+  const code = await getNextOrderCode(getLimaIsoDate(), user.role);
   const newOrder: OrderRecord = {
     id: crypto.randomUUID(),
     code,

@@ -7,7 +7,6 @@ import {
   getProviders,
   getSettings,
   getUsers,
-  getNextOrderCode,
   updateOrder,
   cancelOrder,
 } from "@/lib/local-db";
@@ -115,15 +114,9 @@ export async function PUT(
     currency: payload.currency,
   });
 
-  const shouldRegenerateCode =
-    currentOrder.issueDate !== payload.issueDate || currentOrder.area !== user.role;
-  const nextCode = shouldRegenerateCode
-    ? await getNextOrderCode(payload.issueDate, user.role)
-    : currentOrder.code;
-
   const updatedOrder: OrderRecord = {
     ...currentOrder,
-    code: nextCode,
+    code: currentOrder.code,
     type: payload.type,
     area: user.role,
     userId: user.id,
