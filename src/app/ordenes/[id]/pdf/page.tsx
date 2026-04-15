@@ -251,6 +251,9 @@ export default async function OrderPdfPage({
               </tr>
             </tbody>
           </table>
+          {provider.isRetentionAgent ? (
+            <p className="order-print__retention-note">Es agente de retencion</p>
+          ) : null}
         </section>
 
         <section className="order-print__block">
@@ -382,9 +385,6 @@ export default async function OrderPdfPage({
               </tr>
             </tbody>
           </table>
-          {provider.isRetentionAgent ? (
-            <p className="order-print__retention-note">Proveedor agente de retencion.</p>
-          ) : null}
         </section>
 
         <footer className="order-print__footer">
