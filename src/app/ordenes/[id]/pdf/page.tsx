@@ -168,7 +168,7 @@ export default async function OrderPdfPage({
         </header>
 
         <section className="order-print__block order-print__block--items">
-          <h2 className="order-print__section-title">DATOS DE LA EMPRESA</h2>
+          <h2 className="order-print__section-title">DATOS DE EMPRESA</h2>
           <table className="order-print__info-table">
             <colgroup>
               <col className="order-print__info-col order-print__info-col--label-left" />
@@ -214,7 +214,7 @@ export default async function OrderPdfPage({
         </section>
 
         <section className="order-print__block">
-          <h2 className="order-print__section-title">PROVEEDOR</h2>
+          <h2 className="order-print__section-title">DATOS DE PROVEEDOR</h2>
           <table className="order-print__info-table">
             <colgroup>
               <col className="order-print__info-col order-print__info-col--label-left" />
