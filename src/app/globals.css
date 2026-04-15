@@ -2009,6 +2009,13 @@ button {
   background: #fff;
 }
 
+.order-print__retention-note {
+  margin: 4px 2px 0;
+  font-size: 10px;
+  font-style: italic;
+  font-weight: 400;
+}
+
 .order-print__footer {
   margin-top: 32px;
   text-align: center;
