@@ -315,6 +315,7 @@ export function OrdersManager({
       orderType: form.type,
       isRetentionAgent: selectedProvider?.isRetentionAgent ?? false,
       itemsIncludeIgv: form.itemsIncludeIgv,
+      currency: form.currency,
     });
 
     setForm((current) => ({
@@ -408,6 +409,7 @@ export function OrdersManager({
     orderType: form.type,
     isRetentionAgent: selectedProvider?.isRetentionAgent ?? false,
     itemsIncludeIgv: form.itemsIncludeIgv,
+    currency: form.currency,
   });
   const amountInWords = amountToWords(totals.totalAmount, form.currency);
 
