@@ -251,9 +251,6 @@ export default async function OrderPdfPage({
               </tr>
             </tbody>
           </table>
-          {provider.isRetentionAgent ? (
-            <p className="order-print__retention-note">Es agente de retencion</p>
-          ) : null}
         </section>
 
         <section className="order-print__block">
@@ -278,7 +275,7 @@ export default async function OrderPdfPage({
               {order.items.map((item, index) => (
                 <tr key={item.id}>
                   <td>{String(index + 1).padStart(2, "0")}</td>
-                  <td>{String(Math.round(item.quantity)).padStart(2, "0")}</td>
+                  <td>{Math.round(item.quantity)}</td>
                   <td>{item.description}</td>
                   <td>
                     <span className="order-print__money-cell">
@@ -385,6 +382,9 @@ export default async function OrderPdfPage({
               </tr>
             </tbody>
           </table>
+          {provider.isRetentionAgent ? (
+            <p className="order-print__retention-note">*Es agente de retencion</p>
+          ) : null}
         </section>
 
         <footer className="order-print__footer">
