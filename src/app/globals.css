@@ -1998,7 +1998,7 @@ button {
 .order-print__amount-words {
   display: flex;
   gap: 8px;
-  padding: 4px 6px;
+  padding: 4px 0;
   font-size: 12px;
   background: #fff;
 }
