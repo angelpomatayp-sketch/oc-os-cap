@@ -127,6 +127,7 @@ export type OrderRecord = {
   paymentMethod: string;
   deliveryTime: string;
   deliveryPlace: string;
+  exchangeRate: number;
   attachmentPath?: string;
   attachmentName: string;
   attachmentMime: string;
@@ -153,6 +154,7 @@ export type OrderFormValues = {
   paymentMethod: string;
   deliveryTime: string;
   deliveryPlace: string;
+  exchangeRate: number;
   attachmentName: string;
   attachmentMime: string;
   attachmentSize: number;

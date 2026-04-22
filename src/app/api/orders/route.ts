@@ -41,6 +41,9 @@ function normalizeItems(items: OrderFormValues["items"] | undefined): OrderItem[
 }
 
 function normalizeFormFields(payload: OrderFormValues): OrderFormValues {
+  const exchangeRate =
+    payload.currency === "USD" ? Number(payload.exchangeRate) || 0 : 0;
+
   return {
     ...payload,
     workUnit: payload.workUnit.trim(),
@@ -51,6 +54,7 @@ function normalizeFormFields(payload: OrderFormValues): OrderFormValues {
     items: normalizeItems(payload.items),
     operationType: payload.operationType ?? "ninguna",
     itemsIncludeIgv: Boolean(payload.itemsIncludeIgv),
+    exchangeRate,
   };
 }
 
@@ -92,6 +96,13 @@ export async function POST(request: Request) {
     );
   }
 
+  if (payload.currency === "USD" && payload.exchangeRate <= 0) {
+    return NextResponse.json(
+      { message: "Debes ingresar un tipo de cambio válido para dólares." },
+      { status: 400 },
+    );
+  }
+
   const [settings, providers, users] = await Promise.all([
     getSettings(),
     getProviders(),
@@ -118,6 +129,7 @@ export async function POST(request: Request) {
     isRetentionAgent: provider.isRetentionAgent,
     itemsIncludeIgv: payload.itemsIncludeIgv,
     currency: payload.currency,
+    exchangeRate: payload.exchangeRate,
   });
 
   const code = await getNextOrderCode(getLimaIsoDate(), user.role);
@@ -138,6 +150,7 @@ export async function POST(request: Request) {
     paymentMethod: payload.paymentMethod,
     deliveryTime: payload.deliveryTime,
     deliveryPlace: payload.deliveryPlace,
+    exchangeRate: payload.exchangeRate,
     attachmentName: "",
     attachmentMime: "",
     attachmentSize: 0,

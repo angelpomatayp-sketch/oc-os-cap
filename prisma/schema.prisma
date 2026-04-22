@@ -99,6 +99,7 @@ model Order {
   paymentMethod   String         @default("")
   deliveryTime    String         @default("")
   deliveryPlace   String         @default("")
+  exchangeRate    Decimal        @db.Decimal(10, 4) @default(0)
   attachmentPath  String         @default("")
   attachmentName  String         @default("")
   attachmentMime  String         @default("")

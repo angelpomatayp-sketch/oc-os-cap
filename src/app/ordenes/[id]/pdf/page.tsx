@@ -360,6 +360,12 @@ export default async function OrderPdfPage({
                 <td>Valor monetario</td>
                 <td>{order.currency === "PEN" ? "SOLES" : "DOLARES"}</td>
               </tr>
+              {order.currency === "USD" ? (
+                <tr>
+                  <td>Tipo de cambio</td>
+                  <td>{order.exchangeRate > 0 ? order.exchangeRate.toFixed(4) : "-"}</td>
+                </tr>
+              ) : null}
               <tr>
                 <td>Tiempo de entrega</td>
                 <td>{order.deliveryTime || "-"}</td>

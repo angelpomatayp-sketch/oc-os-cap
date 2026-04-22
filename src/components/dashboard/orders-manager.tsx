@@ -34,6 +34,7 @@ const emptyOrder: OrderFormValues = {
   paymentMethod: "CONTADO",
   deliveryTime: "",
   deliveryPlace: "",
+  exchangeRate: 0,
   attachmentName: "",
   attachmentMime: "",
   attachmentSize: 0,
@@ -160,6 +161,7 @@ function normalizeStoredOrder(order: OrderRecord): OrderRecord {
     detraccionAmount: order.detraccionAmount ?? 0,
     detraccionRate: order.detraccionRate ?? 0,
     itemsIncludeIgv: order.itemsIncludeIgv ?? false,
+    exchangeRate: order.exchangeRate ?? 0,
   };
 }
 
@@ -262,6 +264,7 @@ export function OrdersManager({
       paymentMethod: "CONTADO",
       deliveryTime: "",
       deliveryPlace: "",
+      exchangeRate: 0,
     });
     setItemDrafts({});
     setError("");
@@ -286,6 +289,7 @@ export function OrdersManager({
       paymentMethod: normalizePaymentMethod(order.paymentMethod),
       deliveryTime: order.deliveryTime ?? "",
       deliveryPlace: order.deliveryPlace ?? "",
+      exchangeRate: order.exchangeRate ?? 0,
       attachmentName: order.attachmentName ?? "",
       attachmentMime: order.attachmentMime ?? "",
       attachmentSize: order.attachmentSize ?? 0,
@@ -316,6 +320,7 @@ export function OrdersManager({
       isRetentionAgent: selectedProvider?.isRetentionAgent ?? false,
       itemsIncludeIgv: form.itemsIncludeIgv,
       currency: form.currency,
+      exchangeRate: form.exchangeRate,
     });
 
     setForm((current) => ({
@@ -410,6 +415,7 @@ export function OrdersManager({
     isRetentionAgent: selectedProvider?.isRetentionAgent ?? false,
     itemsIncludeIgv: form.itemsIncludeIgv,
     currency: form.currency,
+    exchangeRate: form.exchangeRate,
   });
   const amountInWords = amountToWords(totals.totalAmount, form.currency);
 
@@ -417,6 +423,12 @@ export function OrdersManager({
     event.preventDefault();
     setSubmitting(true);
     setError("");
+
+    if (form.currency === "USD" && form.exchangeRate <= 0) {
+      setError("Debes ingresar un tipo de cambio válido para órdenes en dólares.");
+      setSubmitting(false);
+      return;
+    }
 
     const url = editingOrder ? `/api/orders/${editingOrder.id}` : "/api/orders";
     const method = editingOrder ? "PUT" : "POST";
@@ -731,6 +743,8 @@ export function OrdersManager({
                         setForm((current) => ({
                           ...current,
                           currency: event.target.value as OrderFormValues["currency"],
+                          exchangeRate:
+                            event.target.value === "USD" ? current.exchangeRate : 0,
                         }))
                       }
                     >
@@ -738,6 +752,25 @@ export function OrdersManager({
                       <option value="USD">USD — Dólares</option>
                     </select>
                   </label>
+                  {form.currency === "USD" ? (
+                    <label className="ofield">
+                      <span>Tipo de cambio</span>
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.0001"
+                        value={form.exchangeRate || ""}
+                        onChange={(event) =>
+                          setForm((current) => ({
+                            ...current,
+                            exchangeRate: Math.max(0, Number(event.target.value) || 0),
+                          }))
+                        }
+                        placeholder="Ej: 3.7500"
+                        required
+                      />
+                    </label>
+                  ) : null}
                   <label className="ofield">
                     <span>Unidad / Obra</span>
                     <input

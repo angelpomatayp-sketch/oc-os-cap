@@ -149,6 +149,7 @@ export function calculateOrderTotals(
     manualRetention?: boolean;
     itemsIncludeIgv?: boolean;
     currency?: CurrencyCode;
+    exchangeRate?: number;
   } = {},
 ) {
   const itemsSum = Number(
@@ -177,6 +178,7 @@ export function calculateOrderTotals(
     isRetentionAgent = false,
     manualRetention,
     currency = "PEN",
+    exchangeRate = 0,
   } = options;
 
   // Detraccion logic
@@ -186,12 +188,23 @@ export function calculateOrderTotals(
 
   if (operationType !== "ninguna") {
     const rule = DETRACCION_CATALOG[operationType];
-    if (rule && totalAmount > rule.threshold) {
+    const exchangeRateValue = Number(exchangeRate) || 0;
+    const totalAmountPen =
+      currency === "USD" && exchangeRateValue > 0
+        ? totalAmount * exchangeRateValue
+        : totalAmount;
+
+    if (rule && totalAmountPen > rule.threshold) {
       detraccionRate = rule.rate;
-      const rawDetraccion = totalAmount * (rule.rate / 100);
-      detraccionAmount = currency === "PEN"
-        ? Math.round(rawDetraccion)
-        : Number(rawDetraccion.toFixed(2));
+      if (currency === "USD" && exchangeRateValue > 0) {
+        const rawDetraccionPen = totalAmountPen * (rule.rate / 100);
+        const rawDetraccionUsd = rawDetraccionPen / exchangeRateValue;
+        detraccionAmount = Number(rawDetraccionUsd.toFixed(2));
+      } else {
+        const rawDetraccion = totalAmount * (rule.rate / 100);
+        detraccionAmount =
+          currency === "PEN" ? Math.round(rawDetraccion) : Number(rawDetraccion.toFixed(2));
+      }
       applyDetraccion = true;
     }
   }

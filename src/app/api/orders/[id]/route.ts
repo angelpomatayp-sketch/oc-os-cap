@@ -30,6 +30,9 @@ function normalizeItems(items: OrderFormValues["items"] | undefined): OrderItem[
 }
 
 function normalizeFormFields(payload: OrderFormValues): OrderFormValues {
+  const exchangeRate =
+    payload.currency === "USD" ? Number(payload.exchangeRate) || 0 : 0;
+
   return {
     ...payload,
     workUnit: payload.workUnit.trim(),
@@ -40,6 +43,7 @@ function normalizeFormFields(payload: OrderFormValues): OrderFormValues {
     items: normalizeItems(payload.items),
     operationType: payload.operationType ?? "ninguna",
     itemsIncludeIgv: Boolean(payload.itemsIncludeIgv),
+    exchangeRate,
   };
 }
 
@@ -66,6 +70,13 @@ export async function PUT(
   if (payload.items.length === 0) {
     return NextResponse.json(
       { message: "Debes registrar al menos un item en la orden." },
+      { status: 400 },
+    );
+  }
+
+  if (payload.currency === "USD" && payload.exchangeRate <= 0) {
+    return NextResponse.json(
+      { message: "Debes ingresar un tipo de cambio válido para dólares." },
       { status: 400 },
     );
   }
@@ -112,6 +123,7 @@ export async function PUT(
     isRetentionAgent: provider.isRetentionAgent,
     itemsIncludeIgv: payload.itemsIncludeIgv,
     currency: payload.currency,
+    exchangeRate: payload.exchangeRate,
   });
 
   const updatedOrder: OrderRecord = {
@@ -131,6 +143,7 @@ export async function PUT(
     paymentMethod: payload.paymentMethod,
     deliveryTime: payload.deliveryTime,
     deliveryPlace: payload.deliveryPlace,
+    exchangeRate: payload.exchangeRate,
     attachmentName: currentOrder.attachmentName,
     attachmentMime: currentOrder.attachmentMime,
     attachmentSize: currentOrder.attachmentSize,
