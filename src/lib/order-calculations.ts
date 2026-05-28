@@ -153,7 +153,13 @@ export function calculateOrderTotals(
   } = {},
 ) {
   const itemsSum = Number(
-    items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0).toFixed(2),
+    items
+      .reduce(
+        (sum, item) =>
+          sum + (Number(item.quantity) || 0) * (Number(item.unitPrice) || 0),
+        0,
+      )
+      .toFixed(2),
   );
   const igvRate = settings.igvRate || 0;
 

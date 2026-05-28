@@ -29,8 +29,8 @@ function formatDate(isoDate: string) {
   return `${Number(day)}/${month}/${year}`;
 }
 
-function formatAmount(amount: number): string {
-  const [integer, decimal] = amount.toFixed(2).split(".");
+function formatAmount(amount: number, decimals = 2): string {
+  const [integer, decimal] = amount.toFixed(decimals).split(".");
   return `${integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}.${decimal}`;
 }
 
@@ -280,7 +280,7 @@ export default async function OrderPdfPage({
                   <td>
                     <span className="order-print__money-cell">
                       <span>{order.currency === "PEN" ? "S/" : "$"}</span>
-                      <strong>{formatAmount(item.unitPrice)}</strong>
+                      <strong>{formatAmount(item.unitPrice, 4)}</strong>
                     </span>
                   </td>
                   <td>

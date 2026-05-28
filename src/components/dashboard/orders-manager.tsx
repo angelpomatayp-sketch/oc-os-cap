@@ -59,7 +59,7 @@ const AREA_NAMES: Record<string, string> = {
   P: "Recursos Humanos",
 };
 
-function sanitizeMoneyInput(value: string) {
+function sanitizeMoneyInput(value: string, decimals = 2) {
   const normalized = value.replace(",", ".").replace(/[^0-9.]/g, "");
   const [integerPart = "", decimalPart = ""] = normalized.split(".");
   const safeInteger = integerPart.replace(/^0+(?=\d)/, "");
@@ -69,7 +69,7 @@ function sanitizeMoneyInput(value: string) {
   }
 
   if (normalized.includes(".")) {
-    return `${safeInteger || "0"}.${decimalPart.slice(0, 2)}`;
+    return `${safeInteger || "0"}.${decimalPart.slice(0, decimals)}`;
   }
 
   return safeInteger || "0";
@@ -98,7 +98,7 @@ function buildItemDrafts(items: OrderItem[]) {
       item.id,
       {
         quantity: item.quantity ? String(item.quantity) : "",
-        unitPrice: formatDecimalInput(item.unitPrice),
+        unitPrice: formatDecimalInput(item.unitPrice, 4),
       },
     ]),
   );
@@ -365,7 +365,7 @@ export function OrdersManager({
     field: "quantity" | "unitPrice",
     value: string,
   ) {
-    const sanitized = sanitizeMoneyInput(value);
+    const sanitized = sanitizeMoneyInput(value, field === "unitPrice" ? 4 : 2);
 
     setItemDrafts((current) => ({
       ...current,
@@ -402,7 +402,7 @@ export function OrdersManager({
             : current[itemId]?.quantity ?? "",
         unitPrice:
           field === "unitPrice"
-            ? formatDecimalInput(item.unitPrice)
+            ? formatDecimalInput(item.unitPrice, 4)
             : current[itemId]?.unitPrice ?? "",
       },
     }));
@@ -872,7 +872,7 @@ export function OrdersManager({
               </div>
               {form.items.length === 0 ? (
                 <p className="oform__items-empty">
-                  No hay items. Usa "+ Agregar" para continuar.
+                  No hay items. Usa &quot;+ Agregar&quot; para continuar.
                 </p>
               ) : (
                 <table className="oform__items-table">
@@ -916,12 +916,12 @@ export function OrdersManager({
                             className="oform__item-input"
                             type="text"
                             inputMode="decimal"
-                            value={itemDrafts[item.id]?.unitPrice ?? formatDecimalInput(item.unitPrice)}
+                            value={itemDrafts[item.id]?.unitPrice ?? formatDecimalInput(item.unitPrice, 4)}
                             onChange={(event) =>
                               updateItemDraft(item.id, "unitPrice", event.target.value)
                             }
                             onBlur={() => normalizeItemDraft(item.id, "unitPrice")}
-                            placeholder="0.00"
+                            placeholder="0.0000"
                           />
                         </td>
                         <td className="oform__item-amount">
