@@ -84,12 +84,19 @@ function parseMoneyInput(value: string) {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
-function formatDecimalInput(value: number, decimals = 2) {
+function formatUnitPriceInput(value: number) {
   if (!value) {
     return "";
   }
 
-  return value.toFixed(decimals);
+  const trimmed = value.toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
+  const [, decimalPart = ""] = trimmed.split(".");
+
+  if (!trimmed.includes(".")) {
+    return `${trimmed}.00`;
+  }
+
+  return decimalPart.length >= 2 ? trimmed : `${trimmed}${"0".repeat(2 - decimalPart.length)}`;
 }
 
 function buildItemDrafts(items: OrderItem[]) {
@@ -98,7 +105,7 @@ function buildItemDrafts(items: OrderItem[]) {
       item.id,
       {
         quantity: item.quantity ? String(item.quantity) : "",
-        unitPrice: formatDecimalInput(item.unitPrice, 4),
+        unitPrice: formatUnitPriceInput(item.unitPrice),
       },
     ]),
   );
@@ -402,7 +409,7 @@ export function OrdersManager({
             : current[itemId]?.quantity ?? "",
         unitPrice:
           field === "unitPrice"
-            ? formatDecimalInput(item.unitPrice, 4)
+            ? formatUnitPriceInput(item.unitPrice)
             : current[itemId]?.unitPrice ?? "",
       },
     }));
@@ -916,7 +923,7 @@ export function OrdersManager({
                             className="oform__item-input"
                             type="text"
                             inputMode="decimal"
-                            value={itemDrafts[item.id]?.unitPrice ?? formatDecimalInput(item.unitPrice, 4)}
+                            value={itemDrafts[item.id]?.unitPrice ?? formatUnitPriceInput(item.unitPrice)}
                             onChange={(event) =>
                               updateItemDraft(item.id, "unitPrice", event.target.value)
                             }

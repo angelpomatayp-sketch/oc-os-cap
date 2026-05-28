@@ -34,6 +34,17 @@ function formatAmount(amount: number, decimals = 2): string {
   return `${integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}.${decimal}`;
 }
 
+function formatUnitPrice(amount: number): string {
+  const trimmed = formatAmount(amount, 4).replace(/0+$/, "").replace(/\.$/, "");
+  const [, decimalPart = ""] = trimmed.split(".");
+
+  if (!trimmed.includes(".")) {
+    return `${trimmed}.00`;
+  }
+
+  return decimalPart.length >= 2 ? trimmed : `${trimmed}${"0".repeat(2 - decimalPart.length)}`;
+}
+
 function moneyParts(currency: "PEN" | "USD", amount: number) {
   return {
     symbol: currency === "PEN" ? "S/" : "$",
@@ -280,7 +291,7 @@ export default async function OrderPdfPage({
                   <td>
                     <span className="order-print__money-cell">
                       <span>{order.currency === "PEN" ? "S/" : "$"}</span>
-                      <strong>{formatAmount(item.unitPrice, 4)}</strong>
+                      <strong>{formatUnitPrice(item.unitPrice)}</strong>
                     </span>
                   </td>
                   <td>
