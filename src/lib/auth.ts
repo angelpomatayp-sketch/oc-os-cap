@@ -2,9 +2,10 @@ import "server-only";
 
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import { cache } from "react";
 
 import { verifyPassword } from "@/lib/auth-crypto";
-import { getUserRecords } from "@/lib/local-db";
+import { getUserRecordById, getUserRecords } from "@/lib/local-db";
 import type { AppUser, UserRecord } from "@/modules/orders/types";
 
 const SESSION_COOKIE = "coti_cap_session";
@@ -51,7 +52,8 @@ function decodeSession(value: string | undefined) {
   return userId;
 }
 
-export async function getCurrentUser() {
+// React deduplicates this lookup only within a Server Component request.
+export const getCurrentUser = cache(async function getCurrentUser() {
   const cookieStore = await cookies();
   const sessionValue = cookieStore.get(SESSION_COOKIE)?.value;
   const userId = decodeSession(sessionValue);
@@ -60,11 +62,10 @@ export async function getCurrentUser() {
     return null;
   }
 
-  const users = await getUserRecords();
-  const user = users.find((item) => item.id === userId);
+  const user = await getUserRecordById(userId);
 
   return user ? publicUser(user) : null;
-}
+});
 
 export async function authenticateUser(email: string, password: string) {
   const users = await getUserRecords();

@@ -65,12 +65,10 @@ export async function GET() {
     return NextResponse.json({ message: "No autenticado." }, { status: 401 });
   }
 
-  const orders = await getOrders();
-  return NextResponse.json(
-    currentUser.role === "ADMIN"
-      ? orders
-      : orders.filter((order) => order.userId === currentUser.id),
+  const orders = await getOrders(
+    currentUser.role === "ADMIN" ? undefined : currentUser.id,
   );
+  return NextResponse.json(orders);
 }
 
 export async function POST(request: Request) {

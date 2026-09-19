@@ -4,14 +4,17 @@ import { ReportsPanel } from "@/components/dashboard/reports-panel";
 import { SectionHeading } from "@/components/dashboard/section-heading";
 import { ProtectedPanel } from "@/components/protected-panel";
 import { getCurrentUser } from "@/lib/auth";
-import { getOrders, getProviders } from "@/lib/local-db";
+import { getOrders, getProviderCount } from "@/lib/local-db";
 import type { MetricCard as MetricCardType } from "@/modules/orders/types";
 
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const currentUser = await getCurrentUser();
-  const [orders, providers] = await Promise.all([getOrders(), getProviders()]);
+  const [orders, providerCount] = await Promise.all([
+    getOrders(currentUser && currentUser.role !== "ADMIN" ? currentUser.id : undefined),
+    getProviderCount(),
+  ]);
   const visibleOrders =
     !currentUser || currentUser.role === "ADMIN"
       ? orders
@@ -19,8 +22,8 @@ export default async function DashboardPage() {
   const metrics: MetricCardType[] = [
     {
       label: "Proveedores activos",
-      value: String(providers.length),
-      helper: providers.length === 0 ? "Sin registros" : "Registros cargados",
+      value: String(providerCount),
+      helper: providerCount === 0 ? "Sin registros" : "Registros cargados",
       accent: "blue",
       icon: "PR",
     },

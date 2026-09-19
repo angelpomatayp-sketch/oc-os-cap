@@ -5,7 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import { PrintPdfButton } from "@/components/dashboard/print-pdf-button";
 import { getCurrentUser } from "@/lib/auth";
 import { amountToWords } from "@/lib/order-calculations";
-import { getOrders, getProviders, getSettings } from "@/lib/local-db";
+import { getOrderById, getProviderById, getSettings } from "@/lib/local-db";
 
 export const dynamic = "force-dynamic";
 const FORMAT_FIXED_DATE = "01/04/2026";
@@ -98,13 +98,10 @@ export default async function OrderPdfPage({
   }
 
   const { id } = await params;
-  const [orders, providers, settings] = await Promise.all([
-    getOrders(),
-    getProviders(),
+  const [order, settings] = await Promise.all([
+    getOrderById(id),
     getSettings(),
   ]);
-
-  const order = orders.find((entry) => entry.id === id);
 
   if (!order) {
     notFound();
@@ -114,7 +111,7 @@ export default async function OrderPdfPage({
     notFound();
   }
 
-  const provider = providers.find((entry) => entry.id === order.providerId);
+  const provider = await getProviderById(order.providerId);
 
   if (!provider) {
     notFound();

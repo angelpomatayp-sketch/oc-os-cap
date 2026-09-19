@@ -183,8 +183,8 @@ function mapUser(user: {
 function mapOrder(
   order: Prisma.OrderGetPayload<{
     include: {
-      user: true;
-      provider: true;
+      user: { select: { name: true } };
+      provider: { select: { businessName: true } };
       items: { orderBy: { position: "asc" } };
     };
   }>,
@@ -306,7 +306,21 @@ function buildOrderItemsForNestedCreate(order: OrderRecord) {
   }));
 }
 
-async function ensureDefaults() {
+// Share initialization across concurrent requests in this server process.
+// Only initialization is remembered; business data is always read from MySQL.
+let defaultsPromise: Promise<void> | undefined;
+
+function ensureDefaults() {
+  if (!defaultsPromise) {
+    defaultsPromise = initializeDefaults().catch((error) => {
+      defaultsPromise = undefined;
+      throw error;
+    });
+  }
+  return defaultsPromise;
+}
+
+async function initializeDefaults() {
   const [userCount, settingsCount] = await Promise.all([
     prisma.user.count(),
     prisma.systemSetting.count(),
@@ -351,6 +365,17 @@ export async function getProviders() {
   });
 
   return providers.map(mapProvider);
+}
+
+export async function getProviderById(id: string) {
+  await ensureDefaults();
+  const provider = await prisma.provider.findUnique({ where: { id } });
+  return provider ? mapProvider(provider) : null;
+}
+
+export async function getProviderCount() {
+  await ensureDefaults();
+  return prisma.provider.count();
 }
 
 export async function saveProviders(providers: ProviderSummary[]) {
@@ -408,12 +433,13 @@ export async function saveProviders(providers: ProviderSummary[]) {
   });
 }
 
-export async function getOrders() {
+export async function getOrders(userId?: string) {
   await ensureDefaults();
   const orders = await prisma.order.findMany({
+    where: userId === undefined ? undefined : { userId },
     include: {
-      user: true,
-      provider: true,
+      user: { select: { name: true } },
+      provider: { select: { businessName: true } },
       items: { orderBy: { position: "asc" } },
     },
   });
@@ -426,8 +452,8 @@ export async function getOrderById(id: string) {
   const order = await prisma.order.findUnique({
     where: { id },
     include: {
-      user: true,
-      provider: true,
+      user: { select: { name: true } },
+      provider: { select: { businessName: true } },
       items: { orderBy: { position: "asc" } },
     },
   });
@@ -668,6 +694,12 @@ export async function getUserRecords() {
   });
 
   return users.map(mapUser);
+}
+
+export async function getUserRecordById(id: string) {
+  await ensureDefaults();
+  const user = await prisma.user.findUnique({ where: { id } });
+  return user ? mapUser(user) : null;
 }
 
 export async function saveUserRecords(users: UserRecord[]) {

@@ -7,15 +7,15 @@ export const dynamic = "force-dynamic";
 
 export default async function OrdersPage() {
   const currentUser = await getCurrentUser();
-  const [orders, providers, settings] = await Promise.all([
-    getOrders(),
-    getProviders(),
-    getSettings(),
-  ]);
-
   if (!currentUser) {
     return null;
   }
+
+  const [orders, providers, settings] = await Promise.all([
+    getOrders(currentUser.role === "ADMIN" ? undefined : currentUser.id),
+    getProviders(),
+    getSettings(),
+  ]);
 
   return (
     <ProtectedPanel>
