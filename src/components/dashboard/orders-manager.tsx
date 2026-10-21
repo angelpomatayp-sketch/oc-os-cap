@@ -245,7 +245,7 @@ export function OrdersManager({
 
   const filteredOrders = sortOrdersDescending(visibleOrders).filter((order) => {
     const q = searchQuery.toLowerCase();
-    if (q && !order.code.toLowerCase().includes(q) && !order.providerName.toLowerCase().includes(q)) return false;
+    if (q && !order.code.toLowerCase().includes(q) && !order.workUnit.toLowerCase().includes(q)) return false;
     if (filterArea && order.area !== filterArea) return false;
     if (filterStatus && order.status !== filterStatus) return false;
     if (filterType && order.type !== filterType) return false;
@@ -522,7 +522,7 @@ export function OrdersManager({
       <div className="filters-bar">
         <input
           className="field filters-bar__search"
-          placeholder="Buscar por código o proveedor"
+          placeholder="Buscar por código o proyecto"
           value={searchQuery}
           onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
         />
